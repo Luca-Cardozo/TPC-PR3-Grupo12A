@@ -7,3 +7,16 @@ CREATE TABLE Disciplinas (
     Activa BIT NOT NULL DEFAULT 1
 	CONSTRAINT PK_Disciplinas PRIMARY KEY (IdDisciplina)
 );
+
+INSERT INTO Disciplinas (Nombre)
+VALUES 
+('Pilates'),
+('Yoga'),
+('Funcional'),
+('Stretching'),
+('Spinning'),
+('Zumba'),
+('Bachata'),
+('Salsa');
+
+SELECT IdDisciplina, Nombre, Activa FROM Disciplinas
