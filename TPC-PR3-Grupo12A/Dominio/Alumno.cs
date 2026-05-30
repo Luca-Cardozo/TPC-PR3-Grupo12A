@@ -10,5 +10,9 @@ namespace Dominio
     {
         // Observaciones que el usuario crea pertinente dejar asentadas (lesión, condición física, etc.)
         public string Observaciones { get; set; }
+        public Alumno()
+        {
+            this.Rol = Rol.Alumno;
+        }
     }
 }

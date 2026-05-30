@@ -13,6 +13,7 @@ namespace Dominio
         public Instructor()
         {
             Disciplinas = new List<Disciplina>();
+            this.Rol = Rol.Instructor;
         }
     }
 }
