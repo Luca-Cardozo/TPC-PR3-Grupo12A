@@ -10,6 +10,7 @@ namespace Dominio
     {
         public int IdDisciplina { get; set; }
         public string Nombre { get; set; }
+        public string Imagen { get; set; }
         public bool Activa { get; set; }
     }
 }

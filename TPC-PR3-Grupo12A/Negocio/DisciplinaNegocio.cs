@@ -19,13 +19,14 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT IdDisciplina, Nombre, Activa FROM Disciplinas");
+                datos.setearConsulta("SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Disciplina aux = new Disciplina();
                     aux.IdDisciplina = (int)datos.Lector["IdDisciplina"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Imagen = (string)datos.Lector["Imagen"];
                     aux.Activa = (bool)datos.Lector["Activa"];
                     lista.Add(aux);
                 }
