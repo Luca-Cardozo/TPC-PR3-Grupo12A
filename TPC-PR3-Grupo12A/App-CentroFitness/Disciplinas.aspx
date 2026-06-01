@@ -13,6 +13,11 @@
       <ItemTemplate>
        <div class="col-md-3 mb-3">
            <div class="card">
+               <img src='<%# "Images/disciplina-" + Eval("IdDisciplina") + ".jpg" %>' 
+                   class="card-img-top" 
+                   alt="Disciplina" 
+                   onerror="this.src='Images/placeholder.jpg';"
+                   style="height: 220px; object-fit: cover;">
                <div class="card-body">
                    <h5 class="card-title"><%# Eval("Nombre") %></h5>
 
