@@ -69,6 +69,8 @@
   <ItemGroup>
     <Content Include="Clases.aspx" />
     <Content Include="Disciplinas.aspx" />
+    <Content Include="EditarDisciplinas.aspx" />
+    <Content Include="FormularioDisciplina.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Home.aspx" />
     <Content Include="Alumnos.aspx" />
@@ -90,6 +92,20 @@
     </Compile>
     <Compile Include="Disciplinas.aspx.designer.cs">
       <DependentUpon>Disciplinas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditarDisciplinas.aspx.cs">
+      <DependentUpon>EditarDisciplinas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarDisciplinas.aspx.designer.cs">
+      <DependentUpon>EditarDisciplinas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioDisciplina.aspx.cs">
+      <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioDisciplina.aspx.designer.cs">
+      <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
