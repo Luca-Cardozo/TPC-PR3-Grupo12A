@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Clases.aspx" />
     <Content Include="Disciplinas.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Home.aspx" />
@@ -76,6 +77,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clases.aspx.cs">
+      <DependentUpon>Clases.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Clases.aspx.designer.cs">
+      <DependentUpon>Clases.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Disciplinas.aspx.cs">
       <DependentUpon>Disciplinas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
