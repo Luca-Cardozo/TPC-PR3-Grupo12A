@@ -24,6 +24,7 @@ namespace Dominio
         public string DNI { get; set; }
         public string Telefono { get; set; }
         public DateTime FechaNacimiento { get; set; }
+        public string Imagen { get; set; }
         public Rol Rol { get; set; }
         public bool Activo { get; set; }
     }
