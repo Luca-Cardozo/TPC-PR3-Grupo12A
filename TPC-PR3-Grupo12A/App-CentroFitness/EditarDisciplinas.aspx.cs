@@ -21,5 +21,11 @@ namespace App_CentroFitness
                 dgvDisciplinas.DataBind();
             }
         }
+
+        protected void dgvDisciplinas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string id = dgvDisciplinas.SelectedDataKey.Value.ToString();
+            Response.Redirect("FormularioDisciplina.aspx?id=" + id);
+        }
     }
 }
