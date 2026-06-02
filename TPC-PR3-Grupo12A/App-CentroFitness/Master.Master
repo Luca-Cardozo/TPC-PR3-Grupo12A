@@ -13,42 +13,98 @@
 <body>
     <form id="form1" runat="server">
 
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
+
                 <a class="navbar-brand" href="Home.aspx">Centro Fitness</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
+
+                    <ul class="navbar-nav ms-auto">
+
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Home.aspx">Home</a>
+                            <a class="nav-link" href="Home.aspx">Inicio</a>
                         </li>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Clases
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="Disciplinas.aspx">Disciplinas</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="Instructores.aspx">Instructores</a>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="MisClases.aspx">Mis Clases</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="MisReservas.aspx">Mis Reservas</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                                href="#"
+                                role="button"
+                                data-bs-toggle="dropdown">Administración</a>
+
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="EditarDisciplinas.aspx">Disciplinas</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="EditarInstructores.aspx">Instructores</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="EditarAlumnos.aspx">Alumnos</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="EditarRecepcionistas.aspx">Recepcionistas</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="EditarClases.aspx">Clases</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="EditarReservas.aspx">Reservas</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="EditarEstados.aspx">Estados</a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="Login.aspx">Login</a>
+                            <a class="nav-link" href="Login.aspx">Login
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Instructores.aspx">Instructores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Disciplinas.aspx">Disciplinas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="EditarDisciplinas.aspx">Editar Disciplinas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="EditarInstructores.aspx">Editar Instructores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="EditarAlumnos.aspx">Editar Alumnos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="EditarRecepcionistas.aspx">Editar Recepcionistas</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
+
 
 
         <div>

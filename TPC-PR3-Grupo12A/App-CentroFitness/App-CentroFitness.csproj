@@ -69,11 +69,16 @@
   <ItemGroup>
     <Content Include="Clases.aspx" />
     <Content Include="Disciplinas.aspx" />
+    <Content Include="EditarClases.aspx" />
     <Content Include="EditarDisciplinas.aspx" />
+    <Content Include="EditarEstados.aspx" />
     <Content Include="EditarInstructores.aspx" />
     <Content Include="EditarRecepcionistas.aspx" />
+    <Content Include="EditarReservas.aspx" />
     <Content Include="FormularioAlumno.aspx" />
+    <Content Include="FormularioClase.aspx" />
     <Content Include="FormularioDisciplina.aspx" />
+    <Content Include="FormularioEstado.aspx" />
     <Content Include="FormularioInstructor.aspx" />
     <Content Include="FormularioRecepcionista.aspx" />
     <Content Include="Global.asax" />
@@ -81,6 +86,8 @@
     <Content Include="EditarAlumnos.aspx" />
     <Content Include="Instructores.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="MisClases.aspx" />
+    <Content Include="MisReservas.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -98,12 +105,26 @@
     <Compile Include="Disciplinas.aspx.designer.cs">
       <DependentUpon>Disciplinas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EditarClases.aspx.cs">
+      <DependentUpon>EditarClases.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarClases.aspx.designer.cs">
+      <DependentUpon>EditarClases.aspx</DependentUpon>
+    </Compile>
     <Compile Include="EditarDisciplinas.aspx.cs">
       <DependentUpon>EditarDisciplinas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EditarDisciplinas.aspx.designer.cs">
       <DependentUpon>EditarDisciplinas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditarEstados.aspx.cs">
+      <DependentUpon>EditarEstados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarEstados.aspx.designer.cs">
+      <DependentUpon>EditarEstados.aspx</DependentUpon>
     </Compile>
     <Compile Include="EditarInstructores.aspx.cs">
       <DependentUpon>EditarInstructores.aspx</DependentUpon>
@@ -119,6 +140,13 @@
     <Compile Include="EditarRecepcionistas.aspx.designer.cs">
       <DependentUpon>EditarRecepcionistas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EditarReservas.aspx.cs">
+      <DependentUpon>EditarReservas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarReservas.aspx.designer.cs">
+      <DependentUpon>EditarReservas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormularioAlumno.aspx.cs">
       <DependentUpon>FormularioAlumno.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -126,12 +154,26 @@
     <Compile Include="FormularioAlumno.aspx.designer.cs">
       <DependentUpon>FormularioAlumno.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FormularioClase.aspx.cs">
+      <DependentUpon>FormularioClase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioClase.aspx.designer.cs">
+      <DependentUpon>FormularioClase.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormularioDisciplina.aspx.cs">
       <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FormularioDisciplina.aspx.designer.cs">
       <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioEstado.aspx.cs">
+      <DependentUpon>FormularioEstado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioEstado.aspx.designer.cs">
+      <DependentUpon>FormularioEstado.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormularioInstructor.aspx.cs">
       <DependentUpon>FormularioInstructor.aspx</DependentUpon>
@@ -184,6 +226,20 @@
     </Compile>
     <Compile Include="Master.Master.designer.cs">
       <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MisClases.aspx.cs">
+      <DependentUpon>MisClases.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisClases.aspx.designer.cs">
+      <DependentUpon>MisClases.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisReservas.aspx.cs">
+      <DependentUpon>MisReservas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisReservas.aspx.designer.cs">
+      <DependentUpon>MisReservas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
