@@ -70,10 +70,15 @@
     <Content Include="Clases.aspx" />
     <Content Include="Disciplinas.aspx" />
     <Content Include="EditarDisciplinas.aspx" />
+    <Content Include="EditarInstructores.aspx" />
+    <Content Include="EditarRecepcionistas.aspx" />
+    <Content Include="FormularioAlumno.aspx" />
     <Content Include="FormularioDisciplina.aspx" />
+    <Content Include="FormularioInstructor.aspx" />
+    <Content Include="FormularioRecepcionista.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Home.aspx" />
-    <Content Include="Alumnos.aspx" />
+    <Content Include="EditarAlumnos.aspx" />
     <Content Include="Instructores.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Web.config" />
@@ -100,12 +105,47 @@
     <Compile Include="EditarDisciplinas.aspx.designer.cs">
       <DependentUpon>EditarDisciplinas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EditarInstructores.aspx.cs">
+      <DependentUpon>EditarInstructores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarInstructores.aspx.designer.cs">
+      <DependentUpon>EditarInstructores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditarRecepcionistas.aspx.cs">
+      <DependentUpon>EditarRecepcionistas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarRecepcionistas.aspx.designer.cs">
+      <DependentUpon>EditarRecepcionistas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioAlumno.aspx.cs">
+      <DependentUpon>FormularioAlumno.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioAlumno.aspx.designer.cs">
+      <DependentUpon>FormularioAlumno.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormularioDisciplina.aspx.cs">
       <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FormularioDisciplina.aspx.designer.cs">
       <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioInstructor.aspx.cs">
+      <DependentUpon>FormularioInstructor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioInstructor.aspx.designer.cs">
+      <DependentUpon>FormularioInstructor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioRecepcionista.aspx.cs">
+      <DependentUpon>FormularioRecepcionista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioRecepcionista.aspx.designer.cs">
+      <DependentUpon>FormularioRecepcionista.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -117,12 +157,12 @@
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Alumnos.aspx.cs">
-      <DependentUpon>Alumnos.aspx</DependentUpon>
+    <Compile Include="EditarAlumnos.aspx.cs">
+      <DependentUpon>EditarAlumnos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Alumnos.aspx.designer.cs">
-      <DependentUpon>Alumnos.aspx</DependentUpon>
+    <Compile Include="EditarAlumnos.aspx.designer.cs">
+      <DependentUpon>EditarAlumnos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Instructores.aspx.cs">
       <DependentUpon>Instructores.aspx</DependentUpon>

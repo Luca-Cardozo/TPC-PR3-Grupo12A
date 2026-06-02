@@ -28,9 +28,6 @@
                             <a class="nav-link" href="Login.aspx">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Alumnos.aspx">Alumnos</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="Instructores.aspx">Instructores</a>
                         </li>
                         <li class="nav-item">
@@ -38,6 +35,15 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="EditarDisciplinas.aspx">Editar Disciplinas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="EditarInstructores.aspx">Editar Instructores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="EditarAlumnos.aspx">Editar Alumnos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="EditarRecepcionistas.aspx">Editar Recepcionistas</a>
                         </li>
                     </ul>
                 </div>
