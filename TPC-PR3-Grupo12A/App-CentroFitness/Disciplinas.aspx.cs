@@ -12,11 +12,11 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            DisciplinaNegocio negocio = new DisciplinaNegocio();
+          
             if (!IsPostBack)
             {
 
-
+                DisciplinaNegocio negocio = new DisciplinaNegocio();
                 repDisciplinas.DataSource = negocio.listar();
                 repDisciplinas.DataBind();
             }
@@ -30,7 +30,11 @@ namespace App_CentroFitness
 
         protected void btnVerClases_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Clases.aspx", false);
+            string idDisciplina = ((Button)sender).CommandArgument;
+
+            Response.Redirect("Clases.aspx?id=" + idDisciplina, false);
         }
+
+
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +15,28 @@ namespace App_CentroFitness
         protected void Page_Load(object sender, EventArgs e)
         {
 
+            if (!IsPostBack)
+            {
+                ClaseNegocio negocio = new ClaseNegocio();
+
+                int id = int.Parse(Request.QueryString["id"]);
+                List<Clase> lista = negocio.listarPorDisciplina(id);
+                if (lista.Count == 0)
+                {
+                    lblSinClases.Visible = true;
+                }
+                else
+                {
+                    repClases.DataSource = lista;
+                    repClases.DataBind();
+                }
+
+            }
+        }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Disciplinas.aspx", false);
         }
     }
 }
