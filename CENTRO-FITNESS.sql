@@ -185,3 +185,63 @@ SELECT IdUsuario, 8 FROM Usuarios WHERE DNI = '26111015';
 SELECT IdDisciplina, Nombre, Imagen, Activa FROM Disciplinas
 SELECT * FROM Usuarios
 SELECT * FROM DisciplinasXInstructores
+
+USE CENTRO_FITNESS;
+GO
+-- =============================================
+-- Tabla: Clases
+-- =============================================
+
+CREATE TABLE Clases(
+    IdClase INT IDENTITY(1,1) NOT NULL,
+    IdDisciplina INT NOT NULL,
+    IdInstructor INT NOT NULL,
+    Fecha DATE NOT NULL,
+    HoraInicio INT NOT NULL,
+    CupoMaximo INT NOT NULL,
+    Estado INT NOT NULL DEFAULT 1,
+
+    CONSTRAINT PK_Clases PRIMARY KEY(IdClase),
+
+    CONSTRAINT FK_Clases_Disciplina
+        FOREIGN KEY(IdDisciplina)
+        REFERENCES Disciplinas(IdDisciplina),
+
+    CONSTRAINT FK_Clases_Instructor
+        FOREIGN KEY(IdInstructor)
+        REFERENCES Usuarios(IdUsuario),
+
+    CONSTRAINT CK_Clases_Hora
+        CHECK(HoraInicio BETWEEN 0 AND 22),
+
+    CONSTRAINT CK_Clases_Cupo
+        CHECK(CupoMaximo > 0)
+);
+GO
+-- =============================================
+-- Insert Manuales, de prueba
+-- =============================================
+INSERT INTO Clases
+(IdDisciplina, IdInstructor, Fecha, HoraInicio, CupoMaximo)
+VALUES
+(1,2,'2026-06-15',18,10), 
+(1,3,'2026-06-16',19,12), 
+(2,4,'2026-06-17',17,15); 
+
+GO
+SELECT * FROM Clases;
+-- =============================================
+-- Consulta para ver las clases disponibles
+-- =============================================
+SELECT 
+    C.IdClase,
+    D.Nombre AS Disciplina,
+    U.Nombre + ' ' + U.Apellido AS Instructor,
+    C.Fecha,
+    C.HoraInicio,
+    C.HoraInicio + 1 AS HoraFin,
+    C.CupoMaximo,
+    C.Estado
+FROM Clases C
+INNER JOIN Disciplinas D ON D.IdDisciplina = C.IdDisciplina
+INNER JOIN Usuarios U ON U.IdUsuario = C.IdInstructor;
