@@ -48,7 +48,7 @@ namespace App_CentroFitness
 
                             if (!string.IsNullOrEmpty(seleccionada.Imagen))
                             {
-                                imgDisciplina.ImageUrl = seleccionada.Imagen;
+                                imgDisciplina.ImageUrl = "~/Images/" + seleccionada.Imagen + ".jpg";
                             }
                         }
                     }
