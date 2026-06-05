@@ -31,7 +31,7 @@
 
                             <div class="mb-3">
                                 <label for="txtImagen" class="form-label">Imagen</label>
-                                <asp:TextBox runat="server" ID="txtImagen" CssClass="form-control" />
+                                <asp:TextBox type="file" runat="server" ID="txtImagen" CssClass="form-control" />
                             </div>
 
                             <div class="text-center mb-4">
