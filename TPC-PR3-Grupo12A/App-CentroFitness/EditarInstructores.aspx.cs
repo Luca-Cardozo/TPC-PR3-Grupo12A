@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,25 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                try
+                {
 
+                    InstructorNegocio negocio = new InstructorNegocio();
+
+                    Session.Add("listaInstructores", negocio.listar());
+
+
+                    dgvInstructores.DataSource = Session["listaInstructores"];
+                    dgvInstructores.DataBind();
+                }
+                catch (Exception ex)
+                {
+
+                    Response.Write("<script>alert('Error al listar instructores: " + ex.Message + "');</script>");
+                }
+            }
         }
 
         protected void btnVolverHome_Click(object sender, EventArgs e)
@@ -19,10 +38,10 @@ namespace App_CentroFitness
             Response.Redirect("Home.aspx", false);
         }
 
-        //protected void dgvInstructores_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    string id = dgvInstructores.SelectedDataKey.Value.ToString();
-        //    Response.Redirect("FormularioInstructor.aspx?id=" + id);
-        //}
+        protected void dgvInstructores_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string id = dgvInstructores.SelectedDataKey.Value.ToString();
+            Response.Redirect("FormularioInstructor.aspx?id=" + id);
+        }
     }
 }
