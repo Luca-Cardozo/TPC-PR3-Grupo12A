@@ -4,19 +4,25 @@
 
     <%--Funcion en JS para previsualizar las imágenes del formulario--%>
     <script>
-    function previewImagen(input) {
+        function previewImagen(input) {
 
-        if (input.files && input.files[0]) {
+            if (input.files && input.files[0]) {
 
-            const reader = new FileReader();
+                const reader = new FileReader();
 
-            reader.onload = function (e) {
-                document.getElementById('<%= imgDisciplina.ClientID %>').src = e.target.result;
-            };
+                reader.onload = function (e) {
+                    document.getElementById('<%= imgDisciplina.ClientID %>').src = e.target.result;
+                };
 
-            reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(input.files[0]);
+            }
         }
-    }
+        function confirmarEliminacion() {
+
+            return confirm(
+                '¿Estás seguro de eliminar esta disciplina?'
+            );
+        }
     </script>
 
 </asp:Content>
@@ -63,7 +69,7 @@
 
                         <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                         <a href="EditarDisciplinas.aspx" class="btn btn-secondary">Cancelar</a>
-                        <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" Visible="false" OnClick="btnEliminar_Click" />
+                        <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" Visible="false" OnClick="btnEliminar_Click" OnClientClick="return confirmarEliminacion();" />
 
                     </div>
 

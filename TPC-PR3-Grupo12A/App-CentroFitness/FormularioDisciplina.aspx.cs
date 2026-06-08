@@ -58,11 +58,13 @@ namespace App_CentroFitness
                             {
                                 btnEliminar.Text = "Eliminar";
                                 btnEliminar.CssClass = "btn btn-danger";
+                                btnEliminar.OnClientClick = "return confirm('¿Está seguro de eliminar esta disciplina?');";
                             }
                             else
                             {
                                 btnEliminar.Text = "Reactivar";
                                 btnEliminar.CssClass = "btn btn-success";
+                                btnEliminar.OnClientClick = "return confirm('¿Está seguro de reactivar esta disciplina?');";
                             }
                         }
                     }
