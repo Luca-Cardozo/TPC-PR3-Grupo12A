@@ -2,6 +2,7 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -58,6 +59,56 @@ namespace App_CentroFitness
                         Response.Write("<script>alert('Error al cargar la disciplina: " + ex.Message + "');</script>");
                     }
                 }
+            }
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisciplinaNegocio negocio = new DisciplinaNegocio();
+
+                string nombre = txtNombre.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(nombre))
+                {
+                    lblError.Text = "El nombre es obligatorio.";
+                    lblError.Visible = true;
+                    return;
+                }
+
+                if (negocio.existeDisciplina(nombre))
+                {
+                    lblError.Text = "Ya existe una disciplina con ese nombre.";
+                    lblError.Visible = true;
+                    return;
+                }
+
+                if (txtImagen.PostedFile.FileName == "")
+                {
+                    lblError.Text = "Debe cargar una imagen para la disciplina.";
+                    lblError.Visible = true;
+                    return; ;
+                }
+
+                Disciplina nueva = new Disciplina();
+
+                nueva.Nombre = nombre;
+
+                negocio.agregar(nueva);
+
+                string ruta = Server.MapPath("~/Images/");
+                string nombreArchivo = "disciplina-" + nueva.IdDisciplina + ".jpg";
+                txtImagen.PostedFile.SaveAs(Path.Combine(ruta, nombreArchivo));
+                nueva.Imagen = nombreArchivo;
+
+                Response.Redirect("Disciplinas.aspx", false);
+
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = ex.Message;
+                lblError.Visible = true;
             }
         }
     }

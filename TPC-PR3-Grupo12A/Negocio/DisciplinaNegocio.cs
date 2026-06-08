@@ -54,12 +54,37 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("INSERT INTO Disciplinas (Nombre, Imagen) " +
-                     "VALUES (@Nombre, @Imagen)");
+                    "OUTPUT INSERTED.IdDisciplina " +
+                     "VALUES (@Nombre, '')");
 
                 datos.setearParametro("@Nombre", disciplinaNueva.Nombre);
-                datos.setearParametro("@Imagen", disciplinaNueva.Imagen);
 
                 datos.ejecutarAccion();
+
+                int idDisciplina;
+
+                if (datos.Lector.Read())
+                    idDisciplina = (int)datos.Lector["IdDisciplina"];
+                else
+                    throw new Exception("No se pudo generar la disciplina.");
+
+                datos.cerrarConexion();
+
+                string nombreImagen = "disciplina-" + idDisciplina;
+
+                datos = new AccesoDatos();
+
+                datos.setearConsulta("UPDATE Disciplinas SET Imagen = @Imagen " +
+                    "WHERE IdDisciplina = @IdDisciplina");
+
+                datos.setearParametro("@Imagen", nombreImagen);
+                datos.setearParametro("@IdDisciplina", idDisciplina);
+
+                datos.ejecutarAccion();
+
+                // Se actualizan los valores del objeto por si se necesitan en el front
+                disciplinaNueva.IdDisciplina = idDisciplina;
+                disciplinaNueva.Imagen = nombreImagen;
             }
             catch (Exception ex)
             {

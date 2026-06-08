@@ -31,7 +31,7 @@
 
                             <div class="mb-3">
                                 <label for="txtImagen" class="form-label">Imagen</label>
-                                <asp:TextBox type="file" runat="server" ID="txtImagen" CssClass="form-control" />
+                                <input type="file" runat="server" ID="txtImagen" CssClass="form-control" />
                             </div>
 
                             <div class="text-center mb-4">
@@ -43,10 +43,14 @@
 
                     <div class="d-flex justify-content-center gap-2">
 
-                        <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" />
+                        <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                         <a href="EditarDisciplinas.aspx" class="btn btn-secondary">Cancelar</a>
                         <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" />
 
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2">
+                        <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
 
                 </div>
