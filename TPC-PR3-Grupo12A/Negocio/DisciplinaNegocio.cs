@@ -174,6 +174,31 @@ namespace Negocio
             }
         }
 
+        public int obtenerProximoId()
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT ISNULL(MAX(IdDisciplina), 0) + 1 FROM Disciplinas");
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0];
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
         public bool tieneInstructoresAsociados(int idDisciplina)
         {
             AccesoDatos datos = new AccesoDatos();

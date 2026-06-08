@@ -72,6 +72,11 @@ namespace App_CentroFitness
                         Response.Write("<script>alert('Error al cargar la disciplina: " + ex.Message + "');</script>");
                     }
                 }
+                else
+                {
+                    DisciplinaNegocio negocio = new DisciplinaNegocio();
+                    txtIdDisciplina.Text = negocio.obtenerProximoId().ToString();
+                }
             }
         }
 

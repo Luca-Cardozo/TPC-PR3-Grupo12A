@@ -49,7 +49,7 @@
 
                             <div class="mb-3">
                                 <label for="txtImagen" class="form-label">Imagen</label>
-                                <input type="file" runat="server" id="txtImagen" cssclass="form-control" accept=".jpg,.jpeg" onchange="previewImagen(this)" />
+                                <input type="file" runat="server" id="txtImagen" class="form-control" accept=".jpg,.jpeg" onchange="previewImagen(this)" />
                             </div>
 
                             <div class="text-center mb-4">
