@@ -32,12 +32,83 @@ namespace Negocio
                 }
                 return lista;
             }
-            
+
             catch (Exception ex)
             {
                 throw ex;
             }
-            
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void agregar(Disciplina disciplinaNueva)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Disciplinas (Nombre, Imagen) " +
+                     "VALUES (@Nombre, @Imagen)");
+
+                datos.setearParametro("@Nombre", disciplinaNueva.Nombre);
+                datos.setearParametro("@Imagen", disciplinaNueva.Imagen);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Disciplina disciplinaModificada)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Disciplinas SET Nombre = @Nombre, Imagen = @Imagen " +
+                    "WHERE IdDisciplina = @IdDisciplina");
+
+                datos.setearParametro("@Id", disciplinaModificada.IdDisciplina);
+                datos.setearParametro("@Nombre", disciplinaModificada.Nombre);
+                datos.setearParametro("@Imagen", disciplinaModificada.Imagen);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void eliminar(Disciplina disciplina)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+
+                datos.setearConsulta("UPDATE Disciplinas SET Activo = 0 " +
+                    "WHERE IdDisciplina = @IdDisciplina");
+
+                datos.setearParametro("@IdDisciplina", disciplina.IdDisciplina);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             finally
             {
                 datos.cerrarConexion();
