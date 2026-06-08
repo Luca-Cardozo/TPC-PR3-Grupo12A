@@ -1,6 +1,24 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="FormularioDisciplina.aspx.cs" Inherits="App_CentroFitness.FormularioDisciplina" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <%--Funcion en JS para previsualizar las imágenes del formulario--%>
+    <script>
+    function previewImagen(input) {
+
+        if (input.files && input.files[0]) {
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById('<%= imgDisciplina.ClientID %>').src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -31,7 +49,7 @@
 
                             <div class="mb-3">
                                 <label for="txtImagen" class="form-label">Imagen</label>
-                                <input type="file" runat="server" ID="txtImagen" CssClass="form-control" />
+                                <input type="file" runat="server" id="txtImagen" cssclass="form-control" accept=".jpg,.jpeg" onchange="previewImagen(this)" />
                             </div>
 
                             <div class="text-center mb-4">
@@ -45,7 +63,7 @@
 
                         <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                         <a href="EditarDisciplinas.aspx" class="btn btn-secondary">Cancelar</a>
-                        <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" />
+                        <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" Visible="false" OnClick="btnEliminar_Click" />
 
                     </div>
 

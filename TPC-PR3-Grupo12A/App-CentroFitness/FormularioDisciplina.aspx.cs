@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using Negocio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace App_CentroFitness
                 if (Request.QueryString["id"] != null)
                 {
                     int idSeleccionado = int.Parse(Request.QueryString["id"]);
+
+                    btnEliminar.Visible = true;
 
                     try
                     {
@@ -44,12 +47,22 @@ namespace App_CentroFitness
 
                             txtIdDisciplina.Text = seleccionada.IdDisciplina.ToString();
                             txtNombre.Text = seleccionada.Nombre;
-                            txtImagen.Text = seleccionada.Imagen;
 
 
                             if (!string.IsNullOrEmpty(seleccionada.Imagen))
                             {
                                 imgDisciplina.ImageUrl = "~/Images/" + seleccionada.Imagen + ".jpg";
+                            }
+
+                            if (seleccionada.Activa)
+                            {
+                                btnEliminar.Text = "Eliminar";
+                                btnEliminar.CssClass = "btn btn-danger";
+                            }
+                            else
+                            {
+                                btnEliminar.Text = "Reactivar";
+                                btnEliminar.CssClass = "btn btn-success";
                             }
                         }
                     }
@@ -77,33 +90,90 @@ namespace App_CentroFitness
                     return;
                 }
 
-                if (negocio.existeDisciplina(nombre))
+                bool esModificacion = Request.QueryString["id"] != null;
+
+                int? idDisciplina = null;
+
+                if (esModificacion)
+                {
+                    idDisciplina = int.Parse(Request.QueryString["id"]);
+                }
+
+                if (negocio.existeDisciplina(nombre, idDisciplina))
                 {
                     lblError.Text = "Ya existe una disciplina con ese nombre.";
                     lblError.Visible = true;
                     return;
                 }
 
-                if (txtImagen.PostedFile.FileName == "")
-                {
-                    lblError.Text = "Debe cargar una imagen para la disciplina.";
-                    lblError.Visible = true;
-                    return; ;
-                }
-
                 Disciplina nueva = new Disciplina();
 
                 nueva.Nombre = nombre;
 
-                negocio.agregar(nueva);
+                if (esModificacion)
+                {
+                    nueva.IdDisciplina = idDisciplina.Value;
+                    nueva.Imagen = "disciplina-" + nueva.IdDisciplina;
 
-                string ruta = Server.MapPath("~/Images/");
-                string nombreArchivo = "disciplina-" + nueva.IdDisciplina + ".jpg";
-                txtImagen.PostedFile.SaveAs(Path.Combine(ruta, nombreArchivo));
-                nueva.Imagen = nombreArchivo;
+                    if (txtImagen.PostedFile.FileName != "")
+                    {
+                        string ruta = Server.MapPath("~/Images/");
+                        txtImagen.PostedFile.SaveAs(Path.Combine(ruta, nueva.Imagen + ".jpg"));
+                    }
+
+                    negocio.modificar(nueva);
+                }
+                else
+                {
+                    if (txtImagen.PostedFile.FileName == "")
+                    {
+                        lblError.Text = "Debe cargar una imagen.";
+                        lblError.Visible = true;
+                        return;
+                    }
+
+                    negocio.agregar(nueva);
+
+                    string ruta = Server.MapPath("~/Images/");
+                    txtImagen.PostedFile.SaveAs(Path.Combine(ruta, nueva.Imagen + ".jpg"));
+                }
 
                 Response.Redirect("Disciplinas.aspx", false);
 
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = ex.Message;
+                lblError.Visible = true;
+            }
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisciplinaNegocio negocio = new DisciplinaNegocio();
+
+                int idDisciplina = int.Parse(Request.QueryString["id"]);
+
+                Disciplina disciplina = negocio.listar().Find(x => x.IdDisciplina == idDisciplina);
+
+                if (disciplina.Activa)
+                {
+                    if (negocio.tieneInstructoresAsociados(idDisciplina))
+                    {
+                        lblError.Text = "No se puede eliminar la disciplina porque tiene instructores asociados.";
+                        lblError.Visible = true;
+                        return;
+                    }
+                    negocio.eliminar(idDisciplina);
+                }
+                else
+                {
+                    negocio.reactivar(idDisciplina);
+                }
+
+                Response.Redirect("Disciplinas.aspx", false);
             }
             catch (Exception ex)
             {

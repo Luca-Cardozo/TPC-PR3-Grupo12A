@@ -30,7 +30,7 @@
    <%# (bool)Eval("Activa") ? "Disponible" : "No disponible" %>
                             </p>
 
-                            <asp:Button ID="btnVerClases" runat="server" Text="Ver clases" CssClass="btn btn-primary" CommandArgument='<%# Eval("IdDisciplina") %>' OnClick="btnVerClases_Click" />
+                            <asp:Button ID="btnVerClases" runat="server" Text="Ver clases" CssClass="btn btn-primary" CommandArgument='<%# Eval("IdDisciplina") %>' OnClick="btnVerClases_Click" Visible='<%# (bool)Eval("Activa") %>' />
 
                         </div>
                     </div>

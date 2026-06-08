@@ -59,7 +59,7 @@ namespace Negocio
 
                 datos.setearParametro("@Nombre", disciplinaNueva.Nombre);
 
-                datos.ejecutarAccion();
+                datos.ejecutarLectura();
 
                 int idDisciplina;
 
@@ -108,7 +108,7 @@ namespace Negocio
                 datos.setearConsulta("UPDATE Disciplinas SET Nombre = @Nombre, Imagen = @Imagen " +
                     "WHERE IdDisciplina = @IdDisciplina");
 
-                datos.setearParametro("@Id", disciplinaModificada.IdDisciplina);
+                datos.setearParametro("@IdDisciplina", disciplinaModificada.IdDisciplina);
                 datos.setearParametro("@Nombre", disciplinaModificada.Nombre);
                 datos.setearParametro("@Imagen", disciplinaModificada.Imagen);
 
@@ -124,9 +124,9 @@ namespace Negocio
             }
         }
 
-        public void eliminar(Disciplina disciplina)
+        public void eliminar(int idDisciplina)
         {
-            if (tieneInstructoresAsociados(disciplina.IdDisciplina))
+            if (tieneInstructoresAsociados(idDisciplina))
                 throw new Exception("No se puede eliminar una disciplina con instructores asociados.");
 
             AccesoDatos datos = new AccesoDatos();
@@ -134,10 +134,33 @@ namespace Negocio
             try
             {
 
-                datos.setearConsulta("UPDATE Disciplinas SET Activo = 0 " +
+                datos.setearConsulta("UPDATE Disciplinas SET Activa = 0 " +
                     "WHERE IdDisciplina = @IdDisciplina");
 
-                datos.setearParametro("@IdDisciplina", disciplina.IdDisciplina);
+                datos.setearParametro("@IdDisciplina", idDisciplina);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void reactivar(int idDisciplina)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Disciplinas SET Activa = 1 " +
+                    "WHERE IdDisciplina = @IdDisciplina");
+
+                datos.setearParametro("@IdDisciplina", idDisciplina);
 
                 datos.ejecutarAccion();
             }
