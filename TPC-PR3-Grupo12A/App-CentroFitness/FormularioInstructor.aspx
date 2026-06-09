@@ -47,7 +47,16 @@
                         <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" />
                     </div>
 
-                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <div class="mb-3">
+                        <label for="txtFechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                        <asp:TextBox runat="server" TextMode="Date" ID="txtFechaNacimiento" CssClass="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <asp:CheckBoxList ID="cblDisciplinas" runat="server" CssClass="form-check" />
+                    </div>
+
+                    <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
 
                             <div class="mb-3">
@@ -60,14 +69,18 @@
                             </div>
 
                         </ContentTemplate>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
 
                     <div class="d-flex justify-content-center gap-2">
 
-                        <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" />
+                        <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                         <a href="EditarInstructores.aspx" class="btn btn-secondary">Cancelar</a>
                         <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" />
 
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2">
+                        <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
 
                 </div>

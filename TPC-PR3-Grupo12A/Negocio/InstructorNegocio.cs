@@ -69,5 +69,130 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void agregar(Instructor instructorNuevo)
+        {
+            if (existeInstructor(instructorNuevo.DNI, instructorNuevo.Email))
+                throw new Exception("Ya existe ese instructor.");
+
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Usuarios (Nombre, Apellido, Email, Password, DNI, " +
+                    "Telefono, FechaNacimiento, Imagen, Rol) OUTPUT INSERTED.IdUsuario " +
+                     "VALUES (@Nombre, @Apellido, @Email, '1234', @DNI, @Telefono, " +
+                     "@FechaNacimiento, 'default-user', 3)");
+
+                datos.setearParametro("@Nombre", instructorNuevo.Nombre);
+                datos.setearParametro("@Apellido", instructorNuevo.Apellido);
+                datos.setearParametro("@Email", instructorNuevo.Email);
+                datos.setearParametro("@DNI", instructorNuevo.DNI);
+                datos.setearParametro("@Telefono", instructorNuevo.Telefono);
+                datos.setearParametro("@FechaNacimiento", instructorNuevo.FechaNacimiento);
+
+                datos.ejecutarLectura();
+
+                int idInstructor;
+
+                if (datos.Lector.Read())
+                    idInstructor = (int)datos.Lector["IdUsuario"];
+                else
+                    throw new Exception("No se pudo crear el instructor.");
+
+                instructorNuevo.IdUsuario = idInstructor;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void agregarDisciplinaInstructor(int idInstructor, int idDisciplina)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO DisciplinasXInstructores (IdInstructor, IdDisciplina) " +
+                    "VALUES (@IdInstructor, @IdDisciplina)");
+
+                datos.setearParametro("@IdInstructor", idInstructor);
+                datos.setearParametro("@IdDisciplina", idDisciplina);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public int obtenerProximoId()
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT ISNULL(MAX(IdUsuario), 0) + 1 FROM Usuarios");
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0];
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        public bool existeInstructor(string dni, string email, int? idExcluir = null)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "SELECT 1 FROM Usuarios WHERE (DNI = @DNI OR Email = @Email) AND Rol = 3";
+
+                // En el caso de modificar el instructor, se excluye el id del mismo
+                if (idExcluir.HasValue)
+                    consulta += " AND IdUsuario <> @IdUsuario";
+
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@DNI", dni);
+                datos.setearParametro("@Email", email);
+
+                // En caso de modificación
+                if (idExcluir.HasValue)
+                    datos.setearParametro("@IdUsuario", idExcluir.Value);
+
+                datos.ejecutarLectura();
+
+                return datos.Lector.Read();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
