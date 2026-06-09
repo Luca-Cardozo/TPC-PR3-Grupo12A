@@ -70,6 +70,40 @@ namespace Negocio
             }
         }
 
+        public List<Disciplina> listarDisciplinasPorInstructor(int idInstructor)
+        {
+            List<Disciplina> lista = new List<Disciplina>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT D.IdDisciplina, D.Nombre FROM Disciplinas D " +
+                    "INNER JOIN DisciplinasXInstructores DXI ON D.IdDisciplina = DXI.IdDisciplina " +
+                    "WHERE DXI.IdInstructor = @IdInstructor");
+                datos.setearParametro("@IdInstructor", idInstructor);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Disciplina disciplina = new Disciplina();
+                    disciplina.IdDisciplina = (int)datos.Lector["IdDisciplina"];
+                    disciplina.Nombre = (string)datos.Lector["Nombre"];
+                    lista.Add(disciplina);
+                }
+                return lista;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void agregar(Instructor instructorNuevo)
         {
             if (existeInstructor(instructorNuevo.DNI, instructorNuevo.Email))
@@ -103,6 +137,87 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void modificar(Instructor instructorModificado)
+        {
+            if (existeInstructor(instructorModificado.DNI, instructorModificado.Email, instructorModificado.IdUsuario))
+                throw new Exception("Ya existe ese instructor.");
+
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido = @Apellido, " +
+                    "Email = @Email, DNI = @DNI, Telefono = @Telefono, FechaNacimiento = @FechaNacimiento " +
+                    "WHERE IdUsuario = @IdUsuario");
+
+                datos.setearParametro("@Nombre", instructorModificado.Nombre);
+                datos.setearParametro("@Apellido", instructorModificado.Apellido);
+                datos.setearParametro("@Email", instructorModificado.Email);
+                datos.setearParametro("@DNI", instructorModificado.DNI);
+                datos.setearParametro("@Telefono", instructorModificado.Telefono);
+                datos.setearParametro("@FechaNacimiento", instructorModificado.FechaNacimiento);
+                datos.setearParametro("@IdUsuario", instructorModificado.IdUsuario);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        public void eliminar(int idInstructor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET Activo = 0 " +
+                    "WHERE IdUsuario = @IdUsuario");
+
+                datos.setearParametro("@IdUsuario", idInstructor);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void reactivar(int idInstructor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET Activo = 1 " +
+                    "WHERE IdUsuario = @IdUsuario");
+
+                datos.setearParametro("@IdUsuario", idInstructor);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
 
         public void agregarDisciplinaInstructor(int idInstructor, int idDisciplina)
         {
@@ -176,6 +291,28 @@ namespace Negocio
                 datos.ejecutarLectura();
 
                 return datos.Lector.Read();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void eliminarDisciplinasInstructor(int idInstructor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("DELETE FROM DisciplinasXInstructores WHERE IdInstructor = @IdInstructor");
+
+                datos.setearParametro("@IdInstructor", idInstructor);
+
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {

@@ -41,6 +41,7 @@ namespace App_CentroFitness
 
                         if (seleccionado != null)
                         {
+                            InstructorNegocio negocio = new InstructorNegocio();
 
                             txtIdUsuario.Text = seleccionado.IdUsuario.ToString();
                             txtNombre.Text = seleccionado.Nombre;
@@ -49,6 +50,13 @@ namespace App_CentroFitness
                             txtEmail.Text = seleccionado.Email;
                             txtTelefono.Text = seleccionado.Telefono;
                             txtFechaNacimiento.Text = seleccionado.FechaNacimiento.ToString("yyyy-MM-dd");
+
+                            seleccionado.Disciplinas = negocio.listarDisciplinasPorInstructor(seleccionado.IdUsuario);
+
+                            foreach (ListItem item in cblDisciplinas.Items)
+                            {
+                                item.Selected = seleccionado.Disciplinas.Any(x => x.IdDisciplina == int.Parse(item.Value));
+                            }
 
                             if (seleccionado.Activo)
                             {
@@ -164,6 +172,20 @@ namespace App_CentroFitness
                     return;
                 }
 
+                int? idInstructor = null;
+
+                if (Request.QueryString["id"] != null)
+                {
+                    idInstructor = int.Parse(Request.QueryString["id"]);
+                }
+
+                if (negocio.existeInstructor(dni, email, idInstructor))
+                {
+                    lblError.Text = "Ya existe un instructor con ese DNI o email.";
+                    lblError.Visible = true;
+                    return;
+                }
+
                 nuevo.Nombre = txtNombre.Text;
                 nuevo.Apellido = txtApellido.Text;
                 nuevo.Email = txtEmail.Text;
@@ -171,13 +193,21 @@ namespace App_CentroFitness
                 nuevo.Telefono = txtTelefono.Text;
                 nuevo.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Text);
 
-                negocio.agregar(nuevo);
+                if (Request.QueryString["id"] != null)
+                {
+                    nuevo.IdUsuario = int.Parse(Request.QueryString["id"]);
+                    negocio.modificar(nuevo);
+                    negocio.eliminarDisciplinasInstructor(nuevo.IdUsuario);
+                }
+                else
+                {
+                    negocio.agregar(nuevo);
+                }
 
                 foreach (ListItem item in cblDisciplinas.Items)
                 {
                     if (item.Selected)
                     {
-                        selecciono = true;
                         negocio.agregarDisciplinaInstructor(nuevo.IdUsuario, int.Parse(item.Value));
                     }
                 }
@@ -190,7 +220,34 @@ namespace App_CentroFitness
                 lblError.Visible = true;
             }
 
+        }
 
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                InstructorNegocio negocio = new InstructorNegocio();
+
+                int idInstructor = int.Parse(Request.QueryString["id"]);
+
+                Instructor instructor = negocio.listar().Find(x => x.IdUsuario == idInstructor);
+
+                if (instructor.Activo)
+                {
+                    negocio.eliminar(idInstructor);
+                }
+                else
+                {
+                    negocio.reactivar(idInstructor);
+                }
+
+                Response.Redirect("Instructores.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = ex.Message;
+                lblError.Visible = true;
+            }
         }
     }
 }
