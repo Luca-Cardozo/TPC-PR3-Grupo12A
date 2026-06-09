@@ -91,15 +91,7 @@ namespace Negocio
                 datos.setearParametro("@Telefono", instructorNuevo.Telefono);
                 datos.setearParametro("@FechaNacimiento", instructorNuevo.FechaNacimiento);
 
-                datos.ejecutarLectura();
-
-                int idInstructor;
-
-                if (datos.Lector.Read())
-                    idInstructor = (int)datos.Lector["IdUsuario"];
-                else
-                    throw new Exception("No se pudo crear el instructor.");
-
+                int idInstructor = datos.ejecutarAccionScalar();
                 instructorNuevo.IdUsuario = idInstructor;
             }
             catch (Exception ex)

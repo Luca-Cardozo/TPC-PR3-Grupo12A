@@ -59,14 +59,7 @@ namespace Negocio
 
                 datos.setearParametro("@Nombre", disciplinaNueva.Nombre);
 
-                datos.ejecutarLectura();
-
-                int idDisciplina;
-
-                if (datos.Lector.Read())
-                    idDisciplina = (int)datos.Lector["IdDisciplina"];
-                else
-                    throw new Exception("No se pudo generar la disciplina.");
+                int idDisciplina = datos.ejecutarAccionScalar();
 
                 datos.cerrarConexion();
 

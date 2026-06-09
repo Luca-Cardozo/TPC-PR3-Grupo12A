@@ -76,7 +76,7 @@ namespace App_CentroFitness
                     txtIdUsuario.Text = negocio.obtenerProximoId().ToString();
                 }
             }
-            
+
         }
 
         private void cargarDisciplinas()
@@ -90,10 +90,15 @@ namespace App_CentroFitness
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
+            Page.Validate();
+
+            if (!Page.IsValid)
+                return;
+
             try
             {
                 Instructor nuevo = new Instructor();
-                InstructorNegocio negocio = new InstructorNegocio();                
+                InstructorNegocio negocio = new InstructorNegocio();
 
                 string nombre = txtNombre.Text.Trim();
 

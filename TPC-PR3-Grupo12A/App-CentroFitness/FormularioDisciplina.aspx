@@ -25,6 +25,13 @@
         }
     </script>
 
+    <style>
+        .validacion {
+            color: red;
+            font-size: 10px;
+        }
+    </style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -48,6 +55,8 @@
                     <div class="mb-3">
                         <label for="txtNombre" class="form-label">Nombre</label>
                         <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" />
+                        <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El nombre es requerido" ControlToValidate="txtNombre" runat="server" />
+                        <asp:RegularExpressionValidator CssClass="validacion" runat="server" ControlToValidate="txtNombre" ErrorMessage="Solo puede ingresar letras" ValidationExpression="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" />
                     </div>
 
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
