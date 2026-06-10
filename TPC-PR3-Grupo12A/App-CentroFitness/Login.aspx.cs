@@ -34,11 +34,18 @@ namespace App_CentroFitness
                 {
                     Session["Usuario"] = usuario;
 
-                    Response.Redirect("Home.aspx");
+                    if (!usuario.Activo)
+                    {
+                        lblError.Text = "No tiene acceso al sistema. Comuníquese con el administrador.";
+                    }
+                    else
+                    {
+                        Response.Redirect("Home.aspx");
+                    }
                 }
                 else
                 {
-                    lblError.Text = "Email o contraseña incorrectos";
+                    lblError.Text = "Email o contraseña incorrectos";                        
                 }
             }
             catch (Exception ex)

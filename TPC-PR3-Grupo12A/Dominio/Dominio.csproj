@@ -44,7 +44,6 @@
     <Compile Include="Alumno.cs" />
     <Compile Include="Clase.cs" />
     <Compile Include="Disciplina.cs" />
-    <Compile Include="EstadoReserva.cs" />
     <Compile Include="Instructor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reserva.cs" />

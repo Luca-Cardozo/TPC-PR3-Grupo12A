@@ -19,7 +19,7 @@ namespace Negocio
             {
                 datos.setearConsulta("SELECT IdUsuario, Nombre, Apellido, Email, Password, DNI, " +
                 "Telefono, FechaNacimiento, Imagen, Rol, Observaciones, Activo FROM Usuarios " +
-                "WHERE Email = @Email AND Password = @Password AND Activo = 1"
+                "WHERE Email = @Email AND Password = @Password"
                 );
 
                 datos.setearParametro("@Email", email);
