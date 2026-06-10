@@ -84,6 +84,7 @@
     <Content Include="EditarAlumnos.aspx" />
     <Content Include="Instructores.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="MiPerfil.aspx" />
     <Content Include="MisClases.aspx" />
     <Content Include="MisReservas.aspx" />
     <Content Include="Web.config" />
@@ -224,6 +225,13 @@
     </Compile>
     <Compile Include="Master.Master.designer.cs">
       <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MiPerfil.aspx.cs">
+      <DependentUpon>MiPerfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MiPerfil.aspx.designer.cs">
+      <DependentUpon>MiPerfil.aspx</DependentUpon>
     </Compile>
     <Compile Include="MisClases.aspx.cs">
       <DependentUpon>MisClases.aspx</DependentUpon>
