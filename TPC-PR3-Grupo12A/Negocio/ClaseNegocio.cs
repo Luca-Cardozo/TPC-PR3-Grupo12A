@@ -103,5 +103,136 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void agregar(Clase claseNueva)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Clases (IdDisciplina, IdInstructor, Fecha, " +
+                    "HoraInicio, CupoMaximo, Estado) OUTPUT INSERTED.IdClase " +
+                     "VALUES (@IdDisciplina, @IdInstructor, @Fecha, @HoraInicio, @CupoMaximo, " +
+                     "@Estado)");
+
+                datos.setearParametro("@IdDisciplina", claseNueva.Disciplina.IdDisciplina);
+                datos.setearParametro("@IdInstructor", claseNueva.Instructor.IdUsuario);
+                datos.setearParametro("@Fecha", claseNueva.Fecha);
+                datos.setearParametro("@HoraInicio", claseNueva.HoraInicio);
+                datos.setearParametro("@CupoMaximo", claseNueva.CupoMaximo);
+                datos.setearParametro("@Estado", claseNueva.Estado);
+
+                int idClase = datos.ejecutarAccionScalar();
+                claseNueva.IdClase = idClase;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Clase claseModificada)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Clases SET IdDisciplina = @IdDisciplina, " +
+                    "IdInstructor = @IdInstructor, Fecha = @Fecha, HoraInicio = @HoraInicio, " +
+                    "CupoMaximo = @CupoMaximo, Estado = @Estado WHERE IdClase = @IdClase");
+
+                datos.setearParametro("@IdDisciplina", claseModificada.Disciplina.IdDisciplina);
+                datos.setearParametro("@IdInstructor", claseModificada.Instructor.IdUsuario);
+                datos.setearParametro("@Fecha", claseModificada.Fecha);
+                datos.setearParametro("@HoraInicio", claseModificada.HoraInicio);
+                datos.setearParametro("@CupoMaximo", claseModificada.CupoMaximo);
+                datos.setearParametro("@Estado", claseModificada.Estado);
+                datos.setearParametro("@IdClase", claseModificada.IdClase);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void eliminar(int idClase)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Clases SET Estado = 2 " +
+                    "WHERE IdClase = @IdClase");
+
+                datos.setearParametro("@IdClase", idClase);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void reactivar(int idClase)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Clases SET Estado = 1 " +
+                    "WHERE IdClase = @IdClase");
+
+                datos.setearParametro("@IdClase", idClase);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public int obtenerProximoId()
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT ISNULL(MAX(IdClase), 0) + 1 FROM Clases");
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0];
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
