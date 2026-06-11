@@ -245,3 +245,49 @@ SELECT
 FROM Clases C
 INNER JOIN Disciplinas D ON D.IdDisciplina = C.IdDisciplina
 INNER JOIN Usuarios U ON U.IdUsuario = C.IdInstructor;
+
+-- =============================================
+-- INSERT: 25 Alumnos (Rol = 4)
+-- =============================================
+
+INSERT INTO Usuarios (Nombre, Apellido, Email, Password, DNI, Telefono, FechaNacimiento, Imagen, Rol, Observaciones, Activo)
+VALUES
+('Luciana',      'Fernández',  'luciana.fernandez@gmail.com',   '1234', '41200101', '1151000101', '1998-03-12', 'default-user', 4, NULL,                                          1),
+('Mateo',        'García',     'mateo.garcia@gmail.com',        '1234', '38200102', '1151000102', '1994-07-25', 'default-user', 4, 'Lesión en la rodilla derecha',                1),
+('Camila',       'López',      'camila.lopez@gmail.com',        '1234', '43200103', '1151000103', '2000-11-08', 'default-user', 4, NULL,                                          1),
+('Facundo',      'Martínez',   'facundo.martinez@gmail.com',    '1234', '36200104', '1151000104', '1991-05-30', 'default-user', 4, 'Asmático, utiliza inhalador',                 1),
+('Valentina',    'Rodríguez',  'valentina.rodriguez@gmail.com', '1234', '40200105', '1151000105', '1997-09-14', 'default-user', 4, NULL,                                          1),
+('Ignacio',      'Pérez',      'ignacio.perez@gmail.com',       '1234', '35200106', '1151000106', '1989-02-28', 'default-user', 4, 'Operado de la espalda, evitar impacto',       1),
+('Florencia',    'González',   'florencia.gonzalez@gmail.com',  '1234', '42200107', '1151000107', '1999-06-17', 'default-user', 4, NULL,                                          1),
+('Tobías',       'Sánchez',    'tobias.sanchez@gmail.com',      '1234', '44200108', '1151000108', '2001-04-03', 'default-user', 4, NULL,                                          1),
+('Martina',      'Romero',     'martina.romero@gmail.com',      '1234', '37200109', '1151000109', '1992-12-22', 'default-user', 4, 'Hipertensión controlada con medicación',      1),
+('Bruno',        'Torres',     'bruno.torres@gmail.com',        '1234', '39200110', '1151000110', '1995-08-11', 'default-user', 4, NULL,                                          1),
+('Agustina',     'Díaz',       'agustina.diaz@gmail.com',       '1234', '45200111', '1151000111', '2002-01-19', 'default-user', 4, 'Tendinitis en el hombro izquierdo',           1),
+('Santiago',     'Morales',    'santiago.morales@gmail.com',    '1234', '34200112', '1151000112', '1988-10-05', 'default-user', 4, NULL,                                          1),
+('Julieta',      'Herrera',    'julieta.herrera@gmail.com',     '1234', '41200113', '1151000113', '1998-07-31', 'default-user', 4, 'Diabetes tipo 2, monitorea glucosa',          1),
+('Nicolás',      'Castro',     'nicolas.castro@gmail.com',      '1234', '38200114', '1151000114', '1993-03-16', 'default-user', 4, NULL,                                          1),
+('Antonella',    'Vargas',     'antonella.vargas@gmail.com',    '1234', '43200115', '1151000115', '2000-05-27', 'default-user', 4, NULL,                                          1),
+('Emiliano',     'Ruiz',       'emiliano.ruiz@gmail.com',       '1234', '36200116', '1151000116', '1990-11-09', 'default-user', 4, 'Fractura de tobillo en recuperación',         1),
+('Sofía',        'Medina',     'sofia.medina@gmail.com',        '1234', '40200117', '1151000117', '1996-02-14', 'default-user', 4, NULL,                                          1),
+('Lautaro',      'Jiménez',    'lautaro.jimenez@gmail.com',     '1234', '44200118', '1151000118', '2001-08-23', 'default-user', 4, NULL,                                          1),
+('Rocío',        'Suárez',     'rocio.suarez@gmail.com',        '1234', '37200119', '1151000119', '1992-06-07', 'default-user', 4, 'Escoliosis leve, evitar torsiones bruscas',   1),
+('Tomás',        'Álvarez',    'tomas.alvarez@gmail.com',       '1234', '42200120', '1151000120', '1999-04-18', 'default-user', 4, NULL,                                          1),
+('Milagros',     'Ramos',      'milagros.ramos@gmail.com',      '1234', '35200121', '1151000121', '1989-09-02', 'default-user', 4, NULL,                                          1),
+('Ezequiel',     'Molina',     'ezequiel.molina@gmail.com',     '1234', '39200122', '1151000122', '1994-12-29', 'default-user', 4, 'Operado de menisco, sin saltos ni impacto',   1),
+('Pilar',        'Ortega',     'pilar.ortega@gmail.com',        '1234', '46200123', '1151000123', '2003-07-11', 'default-user', 4, NULL,                                          1),
+('Maximiliano',  'Silva',      'maximiliano.silva@gmail.com',   '1234', '33200124', '1151000124', '1987-01-24', 'default-user', 4, 'Alérgico a la penicilina',                    1),
+('Catalina',     'Reyes',      'catalina.reyes@gmail.com',      '1234', '41200125', '1151000125', '1997-10-15', 'default-user', 4, NULL,                                          1);
+
+GO
+
+-- =============================================
+-- INSERT: 3 Recepcionistas (Rol = 2)
+-- =============================================
+
+INSERT INTO Usuarios (Nombre, Apellido, Email, Password, DNI, Telefono, FechaNacimiento, Imagen, Rol, Observaciones, Activo)
+VALUES
+('Romina',   'Acosta',   'romina.acosta@centrofitness.com',   '1234', '32500201', '1161000201', '1990-04-18', 'default-user', 2, NULL, 1),
+('Leandro',  'Burgos',   'leandro.burgos@centrofitness.com',  '1234', '29500202', '1161000202', '1986-09-07', 'default-user', 2, NULL, 1),
+('Mariela',  'Campos',   'mariela.campos@centrofitness.com',  '1234', '35500203', '1161000203', '1993-12-23', 'default-user', 2, NULL, 1);
+
+GO

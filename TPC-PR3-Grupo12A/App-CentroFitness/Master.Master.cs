@@ -17,6 +17,7 @@ namespace App_CentroFitness
 
             liLogin.Visible = !logueado;
             liLogout.Visible = logueado;
+            liPerfil.Visible = logueado;
 
             if (logueado)
             {
