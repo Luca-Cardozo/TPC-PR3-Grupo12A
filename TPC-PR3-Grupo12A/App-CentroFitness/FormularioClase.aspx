@@ -6,21 +6,20 @@
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-    <div class="container mt-4">
+    <div class="container py-4">
 
         <div class="row justify-content-center">
 
-            <div class="col-lg-8">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
 
-                <div class="card shadow">
+                <div class="card shadow-sm border-0 rounded-4">
 
-                    <div class="card-header">
-                        <h3 class="mb-0">Gestión de Clases</h3>
+                    <div class="card-header bg-white border-bottom">
+                        <h3 class="mb-0 text-center">Gestión de Clases</h3>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body p-4">
 
-                        <asp:Label ID="lblError" runat="server" Visible="false" CssClass="text-danger fw-bold" />
 
                         <div class="mb-3">
                             <label class="form-label">ID Clase</label>
@@ -87,7 +86,7 @@
                                 <asp:TextBox ID="txtCupoMaximo" runat="server" CssClass="form-control" TextMode="Number" />
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCupoMaximo" ErrorMessage="Debe ingresar un cupo" CssClass="text-danger" />
                                 <asp:RangeValidator runat="server" ControlToValidate="txtCupoMaximo" MinimumValue="1" MaximumValue="15" Type="Integer" ErrorMessage="El cupo debe estar entre 1 y 15" CssClass="text-danger" />
-                            
+
                             </div>
 
                         </div>
@@ -96,8 +95,12 @@
 
                             <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                             <a href="EditarClases.aspx" class="btn btn-secondary">Cancelar</a>
-                            <asp:Button Text="Eliminar" ID="btnEliminar" Visible="false" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
+                            <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
 
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-2">
+                            <asp:Label ID="lblError" runat="server" Visible="false" CssClass="text-danger fw-bold" />
                         </div>
 
                     </div>

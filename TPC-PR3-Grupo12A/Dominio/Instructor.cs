@@ -15,5 +15,12 @@ namespace Dominio
             Disciplinas = new List<Disciplina>();
             this.Rol = Rol.Instructor;
         }
+        public string NombreCompleto
+        {
+            get
+            {
+                return Nombre + " " + Apellido;
+            }
+        }
     }
 }

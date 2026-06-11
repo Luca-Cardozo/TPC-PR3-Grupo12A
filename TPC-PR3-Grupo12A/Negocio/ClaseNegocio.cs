@@ -234,5 +234,46 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public bool existeClase(DateTime fecha, int horaInicio, int? idExcluir = null)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "SELECT 1 FROM Clases WHERE Fecha = @Fecha " +
+                    "AND HoraInicio = @HoraInicio ";
+
+                if (idExcluir.HasValue)
+                {
+                    consulta += "AND IdClase <> @IdClase ";
+                }
+
+                consulta += "AND Estado = 1";
+
+                datos.setearConsulta(consulta);
+
+                datos.setearParametro("@Fecha", fecha.Date);
+
+                datos.setearParametro("@HoraInicio", horaInicio);
+
+                if (idExcluir.HasValue)
+                {
+                    datos.setearParametro("@IdClase", idExcluir.Value);
+                }
+
+                datos.ejecutarLectura();
+
+                return datos.Lector.Read();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
