@@ -89,9 +89,6 @@
                                     <a class="dropdown-item" href="EditarReservas.aspx">Reservas</a>
                                 </li>
 
-                                <li>
-                                    <a class="dropdown-item" href="EditarEstados.aspx">Estados</a>
-                                </li>
                             </ul>
                         </li>
 

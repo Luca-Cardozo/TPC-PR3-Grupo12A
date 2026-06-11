@@ -23,7 +23,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">ID Clase</label>
-                            <asp:TextBox ID="txtIdClase" runat="server" CssClass="form-control bg-light text-muted" ReadOnly="true" />
+                            <asp:TextBox ID="txtIdClase" runat="server" CssClass="form-control bg-light text-muted w-25" ReadOnly="true" />
                         </div>
 
 
@@ -91,7 +91,7 @@
 
                         </div>
 
-                        <div class="d-flex justify-content-between mt-4">
+                        <div class="d-flex justify-content-center gap-2 mt-4 flex-wrap">
 
                             <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                             <a href="EditarClases.aspx" class="btn btn-secondary">Cancelar</a>
