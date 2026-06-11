@@ -40,7 +40,7 @@ namespace App_CentroFitness
         protected void dgvDisciplinas_SelectedIndexChanged(object sender, EventArgs e)
         {
             string id = dgvAlumnos.SelectedDataKey.Value.ToString();
-           Response.Redirect("FormularioAlumno.aspx?id=" + id);
+            Response.Redirect("FormularioAlumno.aspx?id=" + id);
         }
 
         protected void dgvAlumnos_SelectedIndexChanged(object sender, EventArgs e)

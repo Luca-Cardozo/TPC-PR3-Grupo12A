@@ -9,7 +9,7 @@
         <div class="text-center mb-5">
             <h1>Administración de Alumnos</h1>
         </div>
-               <%--   <div class="row justify-content-center mb-4">
+        <%--   <div class="row justify-content-center mb-4">
 <div class="col-md-7">
 
 
@@ -19,12 +19,12 @@
       </div>--%>
 
 
-          <div class="row justify-content-center mb-4">
-      <div class="col-md-4 d-grid">
-          <a href="FormularioAlumno.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Alumno
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4 d-grid">
+                <a href="FormularioAlumno.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Alumno
       </a>
-      </div>
-  </div>
+            </div>
+        </div>
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -34,25 +34,25 @@
                     <Columns>
                         <asp:BoundField DataField="IdUsuario" HeaderText="ID" />
 
-<asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                        <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
 
-<asp:BoundField DataField="Apellido" HeaderText="Apellido" />
+                        <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
 
-<asp:BoundField DataField="DNI" HeaderText="DNI" />
+                        <asp:BoundField DataField="DNI" HeaderText="DNI" />
 
-<asp:BoundField DataField="Email" HeaderText="Email" />
-<asp:CheckBoxField DataField="Activo" HeaderText="Estado" />
+                        <asp:BoundField DataField="Email" HeaderText="Email" />
+                        <asp:CheckBoxField DataField="Activo" HeaderText="Estado" />
 
-<asp:CommandField
-    ShowSelectButton="true"
-    SelectText="Ver/Editar" />
-                        
+                        <asp:CommandField
+                            ShowSelectButton="true"
+                            SelectText="Ver/Editar" />
+
                     </Columns>
                 </asp:GridView>
             </div>
         </div>
 
-        
+
 
     </div>
 
