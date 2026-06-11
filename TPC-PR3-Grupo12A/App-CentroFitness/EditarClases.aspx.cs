@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,36 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                try
+                {
+                    cargarClases();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("<script>alert('Error al listar clases: " + ex.Message + "');</script>");
+                }
+            }
+        }
 
+        private void cargarClases()
+        {
+            ClaseNegocio negocio = new ClaseNegocio();
+            List<Clase> lista = negocio.listar();
+            Session["listaClases"] = lista;
+            repClases.DataSource = lista;
+            repClases.DataBind();
+        }
+        protected void btnNuevaClase_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FormularioClase.aspx", false);
+        }
+        protected void btnEditar_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int idClase = int.Parse(btn.CommandArgument);
+            Response.Redirect("FormularioClase.aspx?id=" + idClase, false);
         }
 
         protected void btnVolverHome_Click(object sender, EventArgs e)
@@ -19,10 +50,5 @@ namespace App_CentroFitness
             Response.Redirect("Home.aspx", false);
         }
 
-        //protected void dgvClases_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    string id = dgvClases.SelectedDataKey.Value.ToString();
-        //    Response.Redirect("FormularioClase.aspx?id=" + id);
-        //}
     }
 }

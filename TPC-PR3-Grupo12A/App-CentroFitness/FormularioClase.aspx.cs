@@ -13,5 +13,20 @@ namespace App_CentroFitness
         {
 
         }
+
+        protected void ddlInstructor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

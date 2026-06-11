@@ -10,32 +10,81 @@
             <h1>Administración de Clases</h1>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <%--<asp:GridView ID="dgvClases" runat="server" DataKeyNames="IdClase"
-                CssClass="table table-striped table-hover" AutoGenerateColumns="false"
-                OnSelectedIndexChanged="dgvClases_SelectedIndexChanged">
-                <Columns>
-                    
-                </Columns>
-            </asp:GridView>--%>
+        <div class="container mt-4">
+
+            <div class="d-flex justify-content-between mb-4">
+                <asp:Button ID="btnNuevaClase" runat="server" Text="+ Nueva clase" CssClass="btn btn-success" OnClick="btnNuevaClase_Click" />
             </div>
-        </div>
 
-        <div class="row justify-content-center g-3">
+            <div class="table-responsive">
 
-            <div class="col-md-3 d-grid">
-                <a href="FormularioClase.aspx" class="btn btn-success btn-lg p-4">➕ Agregar Clase </a>
+                <table class="table table-hover align-middle shadow-sm">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Horario</th>
+                            <th>Disciplina</th>
+                            <th>Instructor</th>
+                            <th>Cupo</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acción</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <asp:Repeater ID="repClases" runat="server">
+                            <ItemTemplate>
+                                <tr>
+                                    <td>
+                                        <%# Eval("Fecha", "{0:dd/MM/yyyy}") %>
+                                    </td>
+                                    <td>
+                                        <%# Eval("HoraInicio") %>:00 - <%# Eval("HoraFin") %>:00
+                                    </td>
+                                    <td>
+                                        <%# Eval("Disciplina.Nombre") %>
+                                    </td>
+                                    <td>
+                                        <%# Eval("Instructor.Nombre") %>
+                                        <%# Eval("Instructor.Apellido") %>
+                                    </td>
+                                    <td>
+                                        <%# Eval("CupoMaximo") %>
+                                    </td>
+                                    <td>
+                                        <span class='badge <%#(Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Vigente ? "bg-success" : "bg-danger"%>'>
+                                            <%# Eval("Estado") %>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <asp:Button ID="btnEditar" runat="server" Text="✏️ Editar" CssClass="btn btn-outline-primary btn-sm" CommandArgument='<%#Eval("IdClase") %>' OnClick="btnEditar_Click" />
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+
+                    </tbody>
+
+                </table>
+
             </div>
 
         </div>
 
     </div>
 
-    <div class="row">
-        <div class="col-4 d-grid gap-2 d-md-block">
-            <asp:Button ID="btnVolverHome" runat="server" Text="Volver a página principal" OnClick="btnVolverHome_Click" CssClass="btn btn-primary" />
+    <div class="row mt-4">
+
+        <div class="col-12 text-center">
+
+            <asp:Button ID="btnVolverHome" runat="server" Text="🏠 Volver a página principal" OnClick="btnVolverHome_Click" CssClass="btn btn-outline-primary px-4 py-2 shadow-sm" />
+
         </div>
+
     </div>
 
 

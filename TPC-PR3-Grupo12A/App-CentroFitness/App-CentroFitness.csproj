@@ -69,14 +69,12 @@
     <Content Include="Disciplinas.aspx" />
     <Content Include="EditarClases.aspx" />
     <Content Include="EditarDisciplinas.aspx" />
-    <Content Include="EditarEstados.aspx" />
     <Content Include="EditarInstructores.aspx" />
     <Content Include="EditarRecepcionistas.aspx" />
     <Content Include="EditarReservas.aspx" />
     <Content Include="FormularioAlumno.aspx" />
     <Content Include="FormularioClase.aspx" />
     <Content Include="FormularioDisciplina.aspx" />
-    <Content Include="FormularioEstado.aspx" />
     <Content Include="FormularioInstructor.aspx" />
     <Content Include="FormularioRecepcionista.aspx" />
     <Content Include="Global.asax" />
@@ -119,13 +117,6 @@
     <Compile Include="EditarDisciplinas.aspx.designer.cs">
       <DependentUpon>EditarDisciplinas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EditarEstados.aspx.cs">
-      <DependentUpon>EditarEstados.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EditarEstados.aspx.designer.cs">
-      <DependentUpon>EditarEstados.aspx</DependentUpon>
-    </Compile>
     <Compile Include="EditarInstructores.aspx.cs">
       <DependentUpon>EditarInstructores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -167,13 +158,6 @@
     </Compile>
     <Compile Include="FormularioDisciplina.aspx.designer.cs">
       <DependentUpon>FormularioDisciplina.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FormularioEstado.aspx.cs">
-      <DependentUpon>FormularioEstado.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FormularioEstado.aspx.designer.cs">
-      <DependentUpon>FormularioEstado.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormularioInstructor.aspx.cs">
       <DependentUpon>FormularioInstructor.aspx</DependentUpon>

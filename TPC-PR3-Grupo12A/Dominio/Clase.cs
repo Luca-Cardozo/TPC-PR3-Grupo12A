@@ -30,7 +30,7 @@ namespace Dominio
             {
                 if (value < 0 || value > 23)
                 {
-                    throw new Exception("La hora debe estar entre 0 y 23.");
+                    throw new Exception("La hora debe estar entre 7 y 22.");
                 }
                 horaInicio = value;
             }

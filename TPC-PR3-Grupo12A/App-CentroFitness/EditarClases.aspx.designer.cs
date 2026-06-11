@@ -15,6 +15,24 @@ namespace App_CentroFitness
     {
 
         /// <summary>
+        /// Control btnNuevaClase.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNuevaClase;
+
+        /// <summary>
+        /// Control repClases.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater repClases;
+
+        /// <summary>
         /// Control btnVolverHome.
         /// </summary>
         /// <remarks>
