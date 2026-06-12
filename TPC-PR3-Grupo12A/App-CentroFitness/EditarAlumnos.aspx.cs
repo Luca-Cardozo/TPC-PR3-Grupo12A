@@ -17,13 +17,7 @@ namespace App_CentroFitness
             {
                 try
                 {
-                    AlumnoNegocio negocio = new AlumnoNegocio();
-
-                    Session["listaAlumnos"] = negocio.listar();
-
-
-                    dgvAlumnos.DataSource = Session["listaAlumnos"];
-                    dgvAlumnos.DataBind();
+                    cargarAlumnos();
                 }
                 catch (Exception ex)
                 {
@@ -48,33 +42,51 @@ namespace App_CentroFitness
             string id = dgvAlumnos.SelectedDataKey.Value.ToString();
             Response.Redirect("FormularioAlumno.aspx?id=" + id);
         }
-
-        ///ver filtro a futuro
-
-
-        /*protected void txtFiltro_TextChanged(object sender, EventArgs e)
+        protected void btnBuscar_Click(object sender, EventArgs e)
         {
             List<Alumno> lista = (List<Alumno>)Session["listaAlumnos"];
 
-            string filtro = txtFiltro.Text.Trim().ToUpper();
+            string nombre = txtNombreFiltro.Text.Trim().ToLower();
+            string apellido = txtApellidoFiltro.Text.Trim().ToLower();
+            string dni = txtDniFiltro.Text.Trim();
+            int estado = int.Parse(ddlEstadoFiltro.SelectedValue);
 
-            if (string.IsNullOrWhiteSpace(filtro))
-            {
-                dgvAlumnos.DataSource = lista;
-            }
-            else
-            {
-                List<Alumno> listaFiltrada = lista.FindAll(x =>
-                    x.Nombre.ToUpper().Contains(filtro) ||
-                    x.Apellido.ToUpper().Contains(filtro) ||
-                    x.DNI.ToUpper().Contains(filtro) ||
-                    x.Email.ToUpper().Contains(filtro)
-                );
+            if (!string.IsNullOrWhiteSpace(nombre))
+                lista = lista.FindAll(x => x.Nombre.ToLower().Contains(nombre));
 
-                dgvAlumnos.DataSource = listaFiltrada;
-            }
+            if (!string.IsNullOrWhiteSpace(apellido))
+                lista = lista.FindAll(x => x.Apellido.ToLower().Contains(apellido));
 
+            if (!string.IsNullOrWhiteSpace(dni))
+                lista = lista.FindAll(x => x.DNI.Contains(dni));
+
+            if (estado == 1)
+                lista = lista.FindAll(x => x.Activo);
+            else if (estado == 2)
+                lista = lista.FindAll(x => !x.Activo);
+
+            dgvAlumnos.DataSource = lista;
             dgvAlumnos.DataBind();
-        }*/
+        }
+
+        protected void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtNombreFiltro.Text = "";
+            txtApellidoFiltro.Text = "";
+            txtDniFiltro.Text = "";
+            ddlEstadoFiltro.SelectedIndex = 0;
+
+            cargarAlumnos();
+        }
+
+        private void cargarAlumnos()
+        {
+            AlumnoNegocio negocio = new AlumnoNegocio();
+
+            Session["listaAlumnos"] = negocio.listar();
+
+            dgvAlumnos.DataSource = Session["listaAlumnos"];
+            dgvAlumnos.DataBind();
+        }
     }
 }
