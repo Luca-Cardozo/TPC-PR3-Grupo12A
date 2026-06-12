@@ -10,24 +10,40 @@
             <h1>Administración de Disciplinas</h1>
         </div>
 
+        <div class="row mb-4 align-items-end justify-content-center">
+
+            <div class="col-md-4">
+
+                <label class="form-label">Estado</label>
+
+                <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged">
+                    <asp:ListItem Text="Todas" Value="0" />
+                    <asp:ListItem Text="Activas" Value="1" />
+                    <asp:ListItem Text="Inactivas" Value="2" />
+                </asp:DropDownList>
+
+            </div>
+
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <asp:GridView ID="dgvDisciplinas" runat="server" DataKeyNames="IdDisciplina"
                     CssClass="table table-striped table-hover" AutoGenerateColumns="false"
                     OnSelectedIndexChanged="dgvDisciplinas_SelectedIndexChanged">
-                    <columns>
+                    <Columns>
                         <asp:BoundField HeaderText="Nombre" DataField="Nombre">
-                            <headerstyle cssclass="w-50" />
+                            <HeaderStyle CssClass="w-50" />
                         </asp:BoundField>
                         <asp:CheckBoxField HeaderText="Activa" DataField="Activa">
-                            <headerstyle cssclass="text-center w-25" />
-                            <itemstyle cssclass="text-center" />
+                            <HeaderStyle CssClass="text-center w-25" />
+                            <ItemStyle CssClass="text-center" />
                         </asp:CheckBoxField>
                         <asp:CommandField HeaderText="Acción" ShowSelectButton="true" SelectText="✍️ Modificar/Eliminar">
-                            <headerstyle cssclass="text-center w-25" />
-                            <itemstyle cssclass="text-center" />
+                            <HeaderStyle CssClass="text-center w-25" />
+                            <ItemStyle CssClass="text-center" />
                         </asp:CommandField>
-                    </columns>
+                    </Columns>
                 </asp:GridView>
             </div>
         </div>
