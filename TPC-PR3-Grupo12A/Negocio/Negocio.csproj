@@ -46,6 +46,7 @@
     <Compile Include="DisciplinaNegocio.cs" />
     <Compile Include="InstructorNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecepcionistaNegocio.cs" />
     <Compile Include="UsuarioNegocio.cs" />
   </ItemGroup>
   <ItemGroup>

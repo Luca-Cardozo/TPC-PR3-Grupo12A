@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,22 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                try
+                {
+                    RecepcionistaNegocio negocio = new RecepcionistaNegocio();
+
+                    Session["listaRecepcionistas"] = negocio.listar();
+
+                    dgvRecepcionistas.DataSource = Session["listaRecepcionistas"];
+                    dgvRecepcionistas.DataBind();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("<script>alert('Error al listar recepcionistas: " + ex.Message + "');</script>");
+                }
+            }
 
         }
 
@@ -19,11 +36,11 @@ namespace App_CentroFitness
             Response.Redirect("Home.aspx", false);
         }
 
-        //protected void dgvRecepcionistas_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    string id = dgvRecepcionistas.SelectedDataKey.Value.ToString();
-        //    Response.Redirect("FormularioRecepcionista.aspx?id=" + id);
-        //}
+        protected void dgvRecepcionistas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string id = dgvRecepcionistas.SelectedDataKey.Value.ToString();
+            Response.Redirect("FormularioRecepcionista.aspx?id=" + id);
+        }
 
 
     }

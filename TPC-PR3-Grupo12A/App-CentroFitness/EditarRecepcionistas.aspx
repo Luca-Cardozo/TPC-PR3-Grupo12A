@@ -11,13 +11,29 @@
 
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <%--<asp:GridView ID="dgvRecepcionistas" runat="server" DataKeyNames="IdUsuario"
+            <asp:GridView ID="dgvRecepcionistas" runat="server" DataKeyNames="IdUsuario"
                 CssClass="table table-striped table-hover" AutoGenerateColumns="false"
                 OnSelectedIndexChanged="dgvRecepcionistas_SelectedIndexChanged">
                 <Columns>
-                    
+                       <asp:BoundField HeaderText="Nombre" DataField="Nombre">
+            <HeaderStyle CssClass="w-25" />
+        </asp:BoundField>
+
+        <asp:BoundField HeaderText="Apellido" DataField="Apellido">
+            <HeaderStyle CssClass="w-25" />
+        </asp:BoundField>
+
+        <asp:BoundField HeaderText="Email" DataField="Email">
+            <HeaderStyle CssClass="w-25" />
+        </asp:BoundField>
+
+        <asp:CommandField HeaderText="Acción" ShowSelectButton="true" SelectText="✍️ Modificar/Eliminar">
+            <HeaderStyle CssClass="text-center w-25" />
+            <ItemStyle CssClass="text-center" />
+        </asp:CommandField> 
+
                 </Columns>
-            </asp:GridView>--%>
+            </asp:GridView>
         </div>
     </div>
 
