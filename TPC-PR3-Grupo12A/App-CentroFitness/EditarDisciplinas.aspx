@@ -26,6 +26,12 @@
 
         </div>
 
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4 d-grid">
+                <a href="FormularioDisciplina.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Disciplina </a>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <asp:GridView ID="dgvDisciplinas" runat="server" DataKeyNames="IdDisciplina"
@@ -47,15 +53,6 @@
                 </asp:GridView>
             </div>
         </div>
-
-        <div class="row justify-content-center g-3">
-
-            <div class="col-md-3 d-grid">
-                <a href="FormularioDisciplina.aspx" class="btn btn-success btn-lg p-4">➕ Agregar Disciplina </a>
-            </div>
-
-        </div>
-
     </div>
 
 </asp:Content>

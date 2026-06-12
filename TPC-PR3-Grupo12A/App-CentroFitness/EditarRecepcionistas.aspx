@@ -47,7 +47,11 @@
             </div>
         </div>
 
-
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4 d-grid">
+                <a href="FormularioRecepcionista.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Recepcionista </a>
+            </div>
+        </div>
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -56,15 +60,19 @@
                     OnSelectedIndexChanged="dgvRecepcionistas_SelectedIndexChanged">
                     <Columns>
                         <asp:BoundField HeaderText="Nombre" DataField="Nombre">
-                            <HeaderStyle CssClass="w-25" />
+                            <HeaderStyle CssClass="w-20" />
                         </asp:BoundField>
 
                         <asp:BoundField HeaderText="Apellido" DataField="Apellido">
-                            <HeaderStyle CssClass="w-25" />
+                            <HeaderStyle CssClass="w-20" />
+                        </asp:BoundField>
+
+                        <asp:BoundField HeaderText="DNI" DataField="DNI">
+                            <HeaderStyle CssClass="w-20" />
                         </asp:BoundField>
 
                         <asp:BoundField HeaderText="Email" DataField="Email">
-                            <HeaderStyle CssClass="w-25" />
+                            <HeaderStyle CssClass="w-20" />
                         </asp:BoundField>
 
                         <asp:CommandField HeaderText="Acción" ShowSelectButton="true" SelectText="✍️ Modificar/Eliminar">
@@ -76,15 +84,6 @@
                 </asp:GridView>
             </div>
         </div>
-
-        <div class="row justify-content-center g-3">
-
-            <div class="col-md-3 d-grid">
-                <a href="FormularioRecepcionista.aspx" class="btn btn-success btn-lg p-4">➕ Agregar Recepcionista </a>
-            </div>
-
-        </div>
-
     </div>
 
 

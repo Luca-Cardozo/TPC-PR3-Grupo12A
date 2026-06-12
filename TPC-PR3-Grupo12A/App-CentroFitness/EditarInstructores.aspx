@@ -60,6 +60,12 @@
 
         </div>
 
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4 d-grid">
+                <a href="FormularioInstructor.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Instructor </a>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <asp:GridView ID="dgvInstructores" runat="server" DataKeyNames="IdUsuario"
@@ -90,15 +96,6 @@
                 </asp:GridView>
             </div>
         </div>
-
-        <div class="row justify-content-center g-3">
-
-            <div class="col-md-3 d-grid">
-                <a href="FormularioInstructor.aspx" class="btn btn-success btn-lg p-4">➕ Agregar Instructor </a>
-            </div>
-
-        </div>
-
     </div>
 
     <div class="row">
