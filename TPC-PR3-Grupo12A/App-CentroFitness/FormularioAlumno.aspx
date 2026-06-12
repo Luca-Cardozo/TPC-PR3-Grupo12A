@@ -14,8 +14,8 @@
 
                 <div class="card shadow p-4">
 
-                                    <h2 class="text-center mb-4">
-<asp:Label ID="lblTitulo" runat="server" /></h2>
+                    <h2 class="text-center mb-4">
+                        <asp:Label ID="lblTitulo" runat="server" /></h2>
 
 
                     <%--Acá va el formulario de registro--%>
@@ -73,18 +73,21 @@
                         <label for="txtObservaciones" class="form-label">Observaciones</label>
                         <asp:TextBox runat="server" ID="txtObservaciones" CssClass="form-control" TextMode="MultiLine" Rows="4" MaxLength="500" />
                     </div>
+                    <%--Mostrar la imagen del alumno cargada desde Mi Perfil.
 
+<div class="text-center mb-4"><asp:Image ID="imgAlumno" runat="server" CssClass="img-fluid rounded-circle border" Width="150px" /></div> --%>
                     <div class="d-flex justify-content-center gap-2">
 
                         <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
                         <a href="EditarAlumnos.aspx" class="btn btn-secondary">Cancelar</a>
-                        <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server"  OnClick="btnEliminar_Click"/>
-                        
-                        </div>
+                        <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
+
                     </div>
                     <div class="d-flex justify-content-center gap-2 mt-3">
-    <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
+                        <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
+                    </div>
                 </div>
+
 
             </div>
 

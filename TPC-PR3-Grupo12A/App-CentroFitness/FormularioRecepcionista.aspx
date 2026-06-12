@@ -76,7 +76,8 @@
      <asp:TextBox runat="server" TextMode="Date" ID="txtFechaNacimiento" CssClass="form-control" />
      <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="La fecha de nacimiento es requerida" ControlToValidate="txtFechaNacimiento" runat="server" />
  </div>
-
+                    <%-- Mejora futura: mostrar la imagen del recepcionista cargada desde Mi Perfil.
+                        <div class="text-center mb-4"><asp:Image ID="imgRecepcionista" runat="server" CssClass="img-fluid rounded-circle border" Width="150px" /></div> --%>
                     <div class="d-flex justify-content-center gap-2">
 
                         <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />

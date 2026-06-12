@@ -42,6 +42,7 @@ namespace App_CentroFitness
                             txtEmail.Text = seleccionado.Email;
                             txtTelefono.Text = seleccionado.Telefono;
                             txtFechaNacimiento.Text = seleccionado.FechaNacimiento.ToString("yyyy-MM-dd");
+                            // imgRecepcionista.ImageUrl = "~/Images/" + seleccionado.Imagen + ".jpg";
 
                             if (seleccionado.Activo)
                             {

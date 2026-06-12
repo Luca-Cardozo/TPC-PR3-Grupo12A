@@ -46,6 +46,8 @@ namespace App_CentroFitness
                             txtFechaNacimiento.Text = seleccionado.FechaNacimiento.ToString("yyyy-MM-dd");
                             txtObservaciones.Text = seleccionado.Observaciones;
 
+                            // imgAlumno.ImageUrl = "~/Images/" + seleccionado.Imagen + ".jpg";
+
                             if (seleccionado.Activo)
                             {
                                 btnEliminar.Text = "Eliminar";
