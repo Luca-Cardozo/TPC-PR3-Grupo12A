@@ -12,6 +12,56 @@
 
         <div class="container mt-4">
 
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h5 class="mb-3">Filtros de búsqueda</h5>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-2">
+                            <label class="form-label">Desde</label>
+                            <asp:TextBox ID="txtFechaDesde" runat="server" CssClass="form-control" TextMode="Date" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Hasta</label>
+                            <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control" TextMode="Date" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Instructor</label>
+                            <asp:DropDownList ID="ddlInstructorFiltro" runat="server" CssClass="form-select" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Disciplina</label>
+                            <asp:DropDownList ID="ddlDisciplinaFiltro" runat="server" CssClass="form-select" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Estado</label>
+                            <asp:DropDownList ID="ddlEstadoFiltro" runat="server" CssClass="form-select">
+                                <asp:ListItem Text="Todas" Value="0" />
+                                <asp:ListItem Text="Vigentes" Value="1" />
+                                <asp:ListItem Text="Canceladas" Value="2" />
+                            </asp:DropDownList>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+
+                        <asp:Button ID="btnBuscar" runat="server" Text="🔍 Buscar" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                        <asp:Button ID="btnRecargar" runat="server" Text="↻ Recargar" CssClass="btn btn-outline-secondary" OnClick="btnRecargar_Click" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
             <div class="d-flex justify-content-between mb-4">
                 <asp:Button ID="btnNuevaClase" runat="server" Text="+ Nueva clase" CssClass="btn btn-success" OnClick="btnNuevaClase_Click" />
             </div>

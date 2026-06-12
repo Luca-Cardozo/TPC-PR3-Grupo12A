@@ -18,12 +18,84 @@ namespace App_CentroFitness
                 try
                 {
                     cargarClases();
+                    cargarFiltros();
                 }
                 catch (Exception ex)
                 {
                     Response.Write("<script>alert('Error al listar clases: " + ex.Message + "');</script>");
                 }
             }
+        }
+
+
+        protected void btnNuevaClase_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FormularioClase.aspx", false);
+        }
+
+        protected void btnEditar_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int idClase = int.Parse(btn.CommandArgument);
+            Response.Redirect("FormularioClase.aspx?id=" + idClase, false);
+        }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            List<Clase> lista = (List<Clase>)Session["listaClases"];
+
+            int idInstructor = int.Parse(ddlInstructorFiltro.SelectedValue);
+            int idDisciplina = int.Parse(ddlDisciplinaFiltro.SelectedValue);
+            int estado = int.Parse(ddlEstadoFiltro.SelectedValue);
+
+            if (!string.IsNullOrWhiteSpace(txtFechaDesde.Text))
+            {
+                DateTime desde = DateTime.Parse(txtFechaDesde.Text);
+                lista = lista.FindAll(x => x.Fecha.Date >= desde.Date);
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtFechaHasta.Text))
+            {
+                DateTime hasta = DateTime.Parse(txtFechaHasta.Text);
+                lista = lista.FindAll(x => x.Fecha.Date <= hasta.Date);
+            }
+
+            if (idInstructor != 0)
+            {
+                lista = lista.FindAll(x => x.Instructor.IdUsuario == idInstructor);
+            }
+
+            if (idDisciplina != 0)
+            {
+                lista = lista.FindAll(x => x.Disciplina.IdDisciplina == idDisciplina);
+            }
+
+            if (estado == 1)
+            {
+                lista = lista.FindAll(x => x.Estado == EstadoClase.Vigente);
+            }
+            else if (estado == 2)
+            {
+                lista = lista.FindAll(x => x.Estado == EstadoClase.Cancelada);
+            }
+
+            repClases.DataSource = lista;
+            repClases.DataBind();
+        }
+
+        protected void btnRecargar_Click(object sender, EventArgs e)
+        {
+            txtFechaDesde.Text = "";
+            txtFechaHasta.Text = "";
+            ddlInstructorFiltro.SelectedIndex = 0;
+            ddlDisciplinaFiltro.SelectedIndex = 0;
+            ddlEstadoFiltro.SelectedIndex = 0;
+            cargarClases();
+        }
+
+        protected void btnVolverHome_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Home.aspx", false);
         }
 
         private void cargarClases()
@@ -34,21 +106,23 @@ namespace App_CentroFitness
             repClases.DataSource = lista;
             repClases.DataBind();
         }
-        protected void btnNuevaClase_Click(object sender, EventArgs e)
+        private void cargarFiltros()
         {
-            Response.Redirect("FormularioClase.aspx", false);
-        }
-        protected void btnEditar_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            int idClase = int.Parse(btn.CommandArgument);
-            Response.Redirect("FormularioClase.aspx?id=" + idClase, false);
-        }
+            InstructorNegocio instructorNegocio = new InstructorNegocio();
 
-        protected void btnVolverHome_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("Home.aspx", false);
-        }
+            ddlInstructorFiltro.DataSource = instructorNegocio.listar().FindAll(x => x.Activo);
+            ddlInstructorFiltro.DataTextField = "NombreCompleto";
+            ddlInstructorFiltro.DataValueField = "IdUsuario";
+            ddlInstructorFiltro.DataBind();
+            ddlInstructorFiltro.Items.Insert(0, new ListItem("Todos", "0"));
 
+            DisciplinaNegocio disciplinaNegocio = new DisciplinaNegocio();
+
+            ddlDisciplinaFiltro.DataSource = disciplinaNegocio.listar().FindAll(x => x.Activa);
+            ddlDisciplinaFiltro.DataTextField = "Nombre";
+            ddlDisciplinaFiltro.DataValueField = "IdDisciplina";
+            ddlDisciplinaFiltro.DataBind();
+            ddlDisciplinaFiltro.Items.Insert(0, new ListItem("Todas", "0"));
+        }
     }
 }
