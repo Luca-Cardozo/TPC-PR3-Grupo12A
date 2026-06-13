@@ -62,8 +62,10 @@
 
             </div>
 
-            <div class="d-flex justify-content-between mb-4">
-                <asp:Button ID="btnNuevaClase" runat="server" Text="+ Nueva clase" CssClass="btn btn-success" OnClick="btnNuevaClase_Click" />
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-4 d-grid">
+                    <asp:Button ID="btnNuevaClase" runat="server" Text="➕ Nueva clase" CssClass="btn btn-success btn-lg p-3" OnClick="btnNuevaClase_Click" />
+                </div>
             </div>
 
             <div class="table-responsive">
@@ -127,14 +129,10 @@
 
     </div>
 
-    <div class="row mt-4">
-
+    <div class="row mt-4 mb-5">
         <div class="col-12 text-center">
-
             <asp:Button ID="btnVolverHome" runat="server" Text="🏠 Volver a página principal" OnClick="btnVolverHome_Click" CssClass="btn btn-outline-primary px-4 py-2 shadow-sm" />
-
         </div>
-
     </div>
 
 

@@ -55,4 +55,10 @@
         </div>
     </div>
 
+    <div class="row mt-4 mb-5">
+        <div class="col-12 text-center">
+            <asp:Button ID="btnVolverHome" runat="server" Text="🏠 Volver a página principal" OnClick="btnVolverHome_Click" CssClass="btn btn-outline-primary px-4 py-2 shadow-sm" />
+        </div>
+    </div>
+
 </asp:Content>

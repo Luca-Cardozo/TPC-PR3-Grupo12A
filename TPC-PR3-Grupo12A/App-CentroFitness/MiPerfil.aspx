@@ -30,7 +30,7 @@
             }
         }
 
-</script>
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -147,10 +147,9 @@
 
                         </div>
 
-                        <div class="text-end">
-
+                        <div class="d-flex justify-content-between mt-4">
+                            <asp:Button ID="btnVolverHome" runat="server" Text="🏠 Volver al inicio" CssClass="btn btn-outline-secondary" OnClick="btnVolverHome_Click" />
                             <asp:Button ID="btnGuardar" runat="server" Text="Guardar cambios" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-
                         </div>
 
                         <div>

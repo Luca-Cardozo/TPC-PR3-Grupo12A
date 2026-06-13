@@ -49,5 +49,10 @@ namespace App_CentroFitness
             dgvDisciplinas.DataSource = lista;
             dgvDisciplinas.DataBind();
         }
+
+        protected void btnVolverHome_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Home.aspx", false);
+        }
     }
 }

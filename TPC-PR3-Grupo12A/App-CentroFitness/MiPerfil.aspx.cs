@@ -113,5 +113,10 @@ namespace App_CentroFitness
                 lblError.Visible = true;
             }
         }
+
+        protected void btnVolverHome_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Home.aspx", false);
+        }
     }
 }
