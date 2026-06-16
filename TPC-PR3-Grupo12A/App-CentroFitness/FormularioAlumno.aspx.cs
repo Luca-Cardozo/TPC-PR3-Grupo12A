@@ -172,8 +172,17 @@ namespace App_CentroFitness
                 }
                 else
                 {
+                    EmailService service = new EmailService();
+
+                    string cuerpo = @"<h2>¡Bienvenido a Centro Fitness!</h2>
+                                <p>Tu cuenta fue creada correctamente.</p>
+                                <p>Gracias por confiar en nosotros.</p>";
+                    service.armarCorreo(nuevo.Email, "Bienvenido a Centro Fitness", cuerpo);
+
+                    service.enviarEmail();
                     negocio.agregar(nuevo);
                 }
+                                
 
                 Response.Redirect("EditarAlumnos.aspx", false);
             }

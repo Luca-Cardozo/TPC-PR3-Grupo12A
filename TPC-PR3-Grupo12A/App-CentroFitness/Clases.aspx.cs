@@ -38,5 +38,6 @@ namespace App_CentroFitness
         {
             Response.Redirect("Disciplinas.aspx", false);
         }
+        
     }
 }
