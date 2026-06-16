@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Security;
 using System.Security.Authentication;
+using System.Configuration;
 
 namespace Negocio
 {
@@ -16,8 +17,8 @@ namespace Negocio
         private SmtpClient server;
 
         // Cuenta emisora
-        private string remitente = "centrofitness160@gmail.com";
-        private string password = "wfrqsmuitphintjd";
+        private string remitente = ConfigurationManager.AppSettings["Email"];
+        private string password = ConfigurationManager.AppSettings["PasswordEmail"];
 
         public EmailService()
         {
@@ -29,13 +30,9 @@ namespace Negocio
             server.DeliveryMethod = SmtpDeliveryMethod.Network;
             server.UseDefaultCredentials = false;
 
-            server.Credentials = new NetworkCredential(
-                "centrofitness160@gmail.com",
-                "wfrqsmuitphintjd"
-            );
+            server.Credentials = new NetworkCredential(remitente, password);
 
-            ServicePointManager.SecurityProtocol =
-                SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
         public void armarCorreo(string emailDestino, string asunto, string cuerpo)
