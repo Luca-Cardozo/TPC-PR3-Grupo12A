@@ -291,3 +291,40 @@ VALUES
 ('Mariela',  'Campos',   'mariela.campos@centrofitness.com',  '1234', '35500203', '1161000203', '1993-12-23', 'default-user', 2, NULL, 1);
 
 GO
+
+-- =============================================
+-- Tabla: Reservas 
+-- =============================================
+CREATE TABLE Reservas (
+    IdReserva     INT IDENTITY(1,1) NOT NULL,
+    IdClase       INT NOT NULL,
+    IdAlumno      INT NOT NULL, 
+    FechaReserva  DATETIME NOT NULL DEFAULT GETDATE(),
+    Estado        INT NOT NULL DEFAULT 1, -- 1=Vigente, 2=Cancelada, 3=Finalizada, 4=Reprogramada
+    Asistio       BIT NULL, -- NULL (no pasó la clase), 1 (Asistió), 0 (Faltó)
+    Observaciones VARCHAR(500) NULL,
+
+    CONSTRAINT PK_Reservas PRIMARY KEY (IdReserva),
+    CONSTRAINT FK_Reservas_Clases FOREIGN KEY (IdClase) REFERENCES Clases(IdClase),
+    CONSTRAINT FK_Reservas_Usuarios FOREIGN KEY (IdAlumno) REFERENCES Usuarios(IdUsuario),
+    CONSTRAINT UQ_Alumno_Clase UNIQUE (IdAlumno, IdClase),
+    CONSTRAINT CK_Reservas_Estado CHECK (Estado IN (1, 2, 3, 4)) 
+);
+GO
+
+-- ====================================================================
+-- INSERT: Reservas de Prueba 
+-- ====================================================================
+
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Observaciones)
+SELECT 1, IdUsuario, 1, 'Inscripción web regular.' 
+FROM Usuarios WHERE Email = 'luciana.fernandez@gmail.com';
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Observaciones)
+SELECT 2, IdUsuario, 1, 'Recordar: el alumno tiene lesión en rodilla derecha.' 
+FROM Usuarios WHERE Email = 'mateo.garcia@gmail.com';
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Observaciones)
+SELECT 3, IdUsuario, 1, 'Primera vez en esta disciplina.' 
+FROM Usuarios WHERE Email = 'camila.lopez@gmail.com';
