@@ -328,3 +328,239 @@ FROM Usuarios WHERE Email = 'mateo.garcia@gmail.com';
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Observaciones)
 SELECT 3, IdUsuario, 1, 'Primera vez en esta disciplina.' 
 FROM Usuarios WHERE Email = 'camila.lopez@gmail.com';
+
+
+-- =============================================
+-- INSERT: Clases de Julio 2026
+-- =============================================
+ 
+INSERT INTO Clases (IdDisciplina, IdInstructor, Fecha, HoraInicio, CupoMaximo)
+VALUES
+-- Martes 01/07
+(1,  2,  '2026-07-01',  8,  10),   -- 08hs Pilates       - Ana García
+(2,  7,  '2026-07-01',  9,  12),   -- 09hs Yoga          - Nicolás Romero
+(3,  5,  '2026-07-01', 10,  15),   -- 10hs Funcional     - Diego Fernández
+(5,  3,  '2026-07-01', 17,  10),   -- 17hs Spinning      - Carlos Rodríguez
+(6, 15,  '2026-07-01', 18,  20),   -- 18hs Zumba         - Julieta Vargas
+(7, 16,  '2026-07-01', 19,  20),   -- 19hs Bachata       - Lucía González
+ 
+-- Miércoles 02/07
+(1,  4,  '2026-07-02',  8,  10),   -- 08hs Pilates       - Valentina Pérez
+(4, 11,  '2026-07-02',  9,  12),   -- 09hs Stretching    - Sofía Martínez
+(3,  9,  '2026-07-02', 10,  15),   -- 10hs Funcional     - Tomás Castro
+(8, 15,  '2026-07-02', 17,  20),   -- 17hs Salsa         - Julieta Vargas
+(6, 16,  '2026-07-02', 18,  20),   -- 18hs Zumba         - Lucía González
+ 
+-- Jueves 03/07
+(2, 14,  '2026-07-03',  8,  12),   -- 08hs Yoga          - Micaela Herrera
+(1,  8,  '2026-07-03',  9,  10),   -- 09hs Pilates       - Agustín Morales
+(5, 10,  '2026-07-03', 10,  10),   -- 10hs Spinning      - Martín López
+(4,  6,  '2026-07-03', 17,  12),   -- 17hs Stretching    - Sebastián Díaz
+(8, 16,  '2026-07-03', 18,  20),   -- 18hs Salsa         - Lucía González
+ 
+-- Lunes 07/07
+(1, 12,  '2026-07-07',  8,  10),   -- 08hs Pilates       - Camila Sánchez
+(2,  7,  '2026-07-07',  9,  12),   -- 09hs Yoga          - Nicolás Romero
+(3, 13,  '2026-07-07', 10,  15),   -- 10hs Funcional     - Florencia Torres
+(7, 16,  '2026-07-07', 18,  20),   -- 18hs Bachata       - Lucía González
+ 
+-- Martes 08/07
+(4, 11,  '2026-07-08',  8,  12),   -- 08hs Stretching    - Sofía Martínez
+(5, 13,  '2026-07-08',  9,  10),   -- 09hs Spinning      - Florencia Torres
+(1,  2,  '2026-07-08', 10,  10),   -- 10hs Pilates       - Ana García
+(6, 15,  '2026-07-08', 17,  20),   -- 17hs Zumba         - Julieta Vargas
+(8, 16,  '2026-07-08', 18,  20),   -- 18hs Salsa         - Lucía González
+ 
+-- Miércoles 09/07
+(1, 14,  '2026-07-09',  8,  10),   -- 08hs Pilates       - Micaela Herrera
+(2, 11,  '2026-07-09',  9,  12),   -- 09hs Yoga          - Sofía Martínez
+(3,  5,  '2026-07-09', 10,  15),   -- 10hs Funcional     - Diego Fernández
+ 
+-- Jueves 10/07
+(5,  3,  '2026-07-10',  8,  10),   -- 08hs Spinning      - Carlos Rodríguez
+(4,  6,  '2026-07-10',  9,  12),   -- 09hs Stretching    - Sebastián Díaz
+(1,  4,  '2026-07-10', 10,  10),   -- 10hs Pilates       - Valentina Pérez
+(7, 16,  '2026-07-10', 17,  20),   -- 17hs Bachata       - Lucía González
+(6, 15,  '2026-07-10', 18,  20);   -- 18hs Zumba         - Julieta Vargas
+ 
+GO
+ 
+-- =============================================
+-- INSERT: Reservas
+-- =============================================
+ 
+-- ── 01/07 ── Pilates 08hs (Ana García) ──────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 19, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 20, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 21, GETDATE(), 1, NULL, 'Alumno con lesión en rodilla, avisó que trae rodillera' FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 22, GETDATE(), 3, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8; -- Cancelada
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 23, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 24, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+ 
+-- ── 01/07 ── Yoga 09hs (Nicolás Romero) ─────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 25, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 26, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 27, GETDATE(), 2, NULL, 'Reprogramó desde el 28/06' FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 9; -- Reprogramada
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 28, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 9;
+ 
+-- ── 01/07 ── Funcional 10hs (Diego Fernández) ────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 29, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 30, GETDATE(), 1, NULL, 'Asmático, trae inhalador' FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 31, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 32, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 33, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+ 
+-- ── 01/07 ── Zumba 18hs (Julieta Vargas) ────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 34, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 35, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 36, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 37, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 18;
+ 
+-- ── 01/07 ── Bachata 19hs (Lucía González) ──────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 38, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 39, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 40, GETDATE(), 3, NULL, 'Canceló por enfermedad' FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19; -- Cancelada
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 41, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19;
+ 
+-- ── 02/07 ── Pilates 08hs (Valentina Pérez) ─────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 19, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 22, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 8; -- La misma que canceló el 01/07 reprogramó acá
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 23, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 42, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 8;
+ 
+-- ── 02/07 ── Stretching 09hs (Sofía Martínez) ───────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 25, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 26, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 43, GETDATE(), 1, NULL, 'Operado de espalda, solo elongación suave' FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 9;
+ 
+-- ── 02/07 ── Zumba 18hs (Lucía González) ────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 34, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 35, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 36, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 37, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 38, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+ 
+-- ── 03/07 ── Yoga 08hs (Micaela Herrera) ────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 20, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 28, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 29, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 8;
+ 
+-- ── 03/07 ── Pilates 09hs (Agustín Morales) ─────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 30, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 31, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 32, GETDATE(), 2, NULL, 'Reprogramó desde el 01/07' FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 9;
+ 
+-- ── 03/07 ── Salsa 18hs (Lucía González) ────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 39, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 40, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 41, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 42, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 18;
+ 
+-- ── 07/07 ── Pilates 08hs (Camila Sánchez) ──────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 19, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 21, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 24, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 43, GETDATE(), 3, NULL, 'Canceló con poca anticipación' FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+ 
+-- ── 07/07 ── Yoga 09hs (Nicolás Romero) ─────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 20, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 25, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 33, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 9;
+ 
+-- ── 08/07 ── Spinning 09hs (Florencia Torres) ───────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 26, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 27, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 9;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 28, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 9;
+ 
+-- ── 08/07 ── Zumba 17hs (Julieta Vargas) ────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 34, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 17;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 35, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 17;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 36, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 17;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 37, GETDATE(), 4, NULL, 'En lista de espera' FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 17; -- Lista de espera
+ 
+-- ── 09/07 ── Pilates 08hs (Micaela Herrera) ─────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 19, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-09' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 21, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-09' AND HoraInicio = 8;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 23, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-09' AND HoraInicio = 8;
+ 
+-- ── 10/07 ── Bachata 17hs (Lucía González) ──────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 38, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 17;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 39, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 17;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 40, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 17;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 41, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 17;
+ 
+-- ── 10/07 ── Zumba 18hs (Julieta Vargas) ────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 34, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 35, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 42, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
+SELECT IdClase, 43, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;

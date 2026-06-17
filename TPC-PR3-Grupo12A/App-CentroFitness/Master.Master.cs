@@ -26,6 +26,16 @@ namespace App_CentroFitness
                 if (!string.IsNullOrEmpty(usuario.Imagen))
                     imgAvatar.ImageUrl = "~/Images/" + usuario.Imagen + ".jpg";
             }
+
+            if (Session["usuario"] != null)
+            {
+                Usuario usuario = (Usuario)Session["usuario"];
+                liMisReservas.Visible = usuario.Rol == Rol.Alumno;
+            }
+            else
+            {
+                liMisReservas.Visible = false;
+            }
         }
     }
 }
