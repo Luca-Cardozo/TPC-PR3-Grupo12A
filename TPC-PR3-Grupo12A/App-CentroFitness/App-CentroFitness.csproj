@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Clases.aspx" />
+    <Content Include="ConfirmarReserva.aspx" />
     <Content Include="Disciplinas.aspx" />
     <Content Include="EditarClases.aspx" />
     <Content Include="EditarDisciplinas.aspx" />
@@ -95,6 +96,13 @@
     </Compile>
     <Compile Include="Clases.aspx.designer.cs">
       <DependentUpon>Clases.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfirmarReserva.aspx.cs">
+      <DependentUpon>ConfirmarReserva.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfirmarReserva.aspx.designer.cs">
+      <DependentUpon>ConfirmarReserva.aspx</DependentUpon>
     </Compile>
     <Compile Include="Disciplinas.aspx.cs">
       <DependentUpon>Disciplinas.aspx</DependentUpon>

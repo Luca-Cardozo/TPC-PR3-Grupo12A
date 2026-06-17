@@ -14,13 +14,25 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["usuario"] == null)
+            {
+                Response.Redirect("Login.aspx", false);
+                return;
+            }
+
+            Usuario usuario = (Usuario)Session["usuario"];
+            if (usuario.Rol != Rol.Alumno)
+            {
+                Response.Write("<script>alert('Debe ser alumno para acceder a esta página.');window.location='Default.aspx';</script>");
+                return;
+            }
 
             if (!IsPostBack)
             {
                 ClaseNegocio negocio = new ClaseNegocio();
 
                 int id = int.Parse(Request.QueryString["id"]);
-                List<Clase> lista = negocio.listarPorDisciplina(id);
+                List<Clase> lista = negocio.listarVigentesPorDisciplina(id);
                 if (lista.Count == 0)
                 {
                     lblSinClases.Visible = true;
@@ -38,6 +50,12 @@ namespace App_CentroFitness
         {
             Response.Redirect("Disciplinas.aspx", false);
         }
-        
+
+        protected void btnSeleccionar_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int idClase = int.Parse(btn.CommandArgument);
+            Response.Redirect("ConfirmarReserva.aspx?id=" + idClase, false);
+        }
     }
 }

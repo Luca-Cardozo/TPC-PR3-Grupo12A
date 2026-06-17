@@ -56,7 +56,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public List<Clase> listarPorDisciplina(int idDisciplina)
+        public List<Clase> listarVigentesPorDisciplina(int idDisciplina)
         {
             List<Clase> lista = new List<Clase>();
             AccesoDatos datos = new AccesoDatos();
@@ -70,8 +70,12 @@ namespace Negocio
                     "FROM Clases C " +
                     "INNER JOIN Disciplinas D ON D.IdDisciplina = C.IdDisciplina " +
                     "INNER JOIN Usuarios U ON U.IdUsuario = C.IdInstructor " +
-                    "WHERE C.IdDisciplina = " + idDisciplina);
+                    "WHERE C.IdDisciplina = @IdDisciplina " +
+                    "AND C.Estado = 1 " +
+                    "AND DATEADD(HOUR, C.HoraInicio, CAST(C.Fecha AS DATETIME)) > GETDATE() " +
+                    "ORDER BY C.Fecha, C.HoraInicio");
 
+                datos.setearParametro("@IdDisciplina", idDisciplina);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
