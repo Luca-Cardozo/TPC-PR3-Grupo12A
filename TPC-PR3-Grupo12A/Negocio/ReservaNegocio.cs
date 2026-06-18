@@ -266,7 +266,7 @@ namespace Negocio
                     "INNER JOIN Clases C ON R.IdClase = C.IdClase " +
                     "INNER JOIN Disciplinas D ON C.IdDisciplina = D.IdDisciplina " +
                     "INNER JOIN Usuarios A ON R.IdAlumno = A.IdUsuario " +
-                    "WHERE C.IdInstructor = @IdInstructor " +
+                    "WHERE C.IdInstructor = @IdInstructor AND R.Estado = 1 " +
                     "ORDER BY C.Fecha, C.HoraInicio, D.Nombre, A.Apellido");
 
                 datos.setearParametro("@IdInstructor", idInstructor);
@@ -311,7 +311,34 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void actualizarAsistencia(int idReserva, bool asistio, string observaciones)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "UPDATE Reservas SET Asistio = @Asistio, Observaciones = @Observaciones, Estado = 3 " +
+                    "WHERE IdReserva = @IdReserva");
+
+                datos.setearParametro("@Asistio", asistio);
+                datos.setearParametro("@Observaciones", observaciones ?? "");
+                datos.setearParametro("@IdReserva", idReserva);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
+
 
 

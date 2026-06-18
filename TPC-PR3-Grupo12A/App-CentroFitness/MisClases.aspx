@@ -42,7 +42,7 @@
     <asp:Label ID="lblInfoClase" runat="server"
         CssClass="alert alert-info d-block text-center" />
 
-    <asp:GridView ID="dgvAsistencia" runat="server" CssClass="table table-hover shadow-sm" AutoGenerateColumns="false"> <HeaderStyle CssClass="table-dark text-center" />
+    <asp:GridView ID="dgvAsistencia" runat="server" CssClass="table table-hover shadow-sm" AutoGenerateColumns="false" DataKeyNames="IdReserva"> <HeaderStyle CssClass="table-dark text-center" />
 
         <Columns>
             <asp:TemplateField HeaderText="Alumno">  <ItemStyle CssClass="text-center" />
@@ -69,7 +69,7 @@
     </asp:GridView>
 
     <div class="text-end mt-3 mb-4">
-        <asp:Button ID="btnGuardarAsistencia" runat="server" Text="Guardar asistencia" CssClass="btn btn-success" />
+        <asp:Button ID="btnGuardarAsistencia" runat="server" Text="Guardar asistencia" CssClass="btn btn-success"  OnClick="btnGuardarAsistencia_Click"/>
     </div>
 
 </div>

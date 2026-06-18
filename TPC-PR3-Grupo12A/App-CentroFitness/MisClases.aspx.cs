@@ -107,6 +107,34 @@ namespace App_CentroFitness
 
             cargarAsistencia();
         }
+        protected void btnGuardarAsistencia_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ReservaNegocio negocio = new ReservaNegocio();
 
+                foreach (GridViewRow fila in dgvAsistencia.Rows)
+                {
+                    int idReserva = (int)dgvAsistencia.DataKeys[fila.RowIndex].Value;
+
+                    CheckBox chkAsistio = (CheckBox)fila.FindControl("chkAsistio");
+                    TextBox txtObservaciones = (TextBox)fila.FindControl("txtObservaciones");
+
+                    negocio.actualizarAsistencia(
+                        idReserva,
+                        chkAsistio.Checked,
+                        txtObservaciones.Text.Trim()
+                    );
+                }
+                Response.Redirect("MisClases.aspx", false);
+
+            }
+            catch (Exception ex)
+            {
+                lblInfoClase.Text = "Error al guardar asistencia: " + ex.Message;
+                lblInfoClase.CssClass = "alert alert-danger d-block text-center";
+                lblInfoClase.Visible = true;
+            }
+        }
     }
 }
