@@ -62,8 +62,51 @@ namespace App_CentroFitness
 
             ddlClases.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Seleccione una clase", "0"));
         }
+        private void cargarAsistencia()
+        {
+            Usuario usuario = (Usuario)Session["usuario"];
+            int idClase = int.Parse(ddlClases.SelectedValue);
 
+            ReservaNegocio negocio = new ReservaNegocio();
+            List<Reserva> reservas = negocio.listarPorInstructor(usuario.IdUsuario);
 
+            List<Reserva> reservasClase = reservas.FindAll(x => x.Clase.IdClase == idClase);
+
+            dgvAsistencia.DataSource = reservasClase;
+            dgvAsistencia.DataBind();
+
+            if (reservasClase.Count > 0)
+            {
+                Reserva primera = reservasClase[0];
+
+                lblInfoClase.Text =
+                    primera.Clase.Disciplina.Nombre + " - " +
+                    primera.Clase.Fecha.ToString("dd/MM/yyyy") + " - " +
+                    primera.Clase.HoraInicio + ":00 a " +
+                    primera.Clase.HoraFin + ":00 | Reservados: " +
+                    reservasClase.Count + "/" + primera.Clase.CupoMaximo;
+
+                lblInfoClase.Visible = true;
+            }
+
+            dgvAsistencia.Visible = true;
+            btnGuardarAsistencia.Visible = true;
+        }
+
+        protected void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            ddlClases.SelectedIndex = 0;
+            dgvAsistencia.Visible = false;
+            btnGuardarAsistencia.Visible = false;
+            lblInfoClase.Visible = false;
+        }
+        protected void btnBuscarClase_Click(object sender, EventArgs e)
+        {
+            if (ddlClases.SelectedValue == "0")
+                return;
+
+            cargarAsistencia();
+        }
 
     }
 }

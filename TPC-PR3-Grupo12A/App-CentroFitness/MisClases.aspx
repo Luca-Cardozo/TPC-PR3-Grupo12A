@@ -26,13 +26,13 @@
                 <div class="col-md-2">
                     <asp:Button ID="btnBuscarClase" runat="server" Text="Buscar"
                         CssClass="btn btn-primary w-100"
-                        />
+                        OnClick="btnBuscarClase_Click" />
                 </div>
 
                 <div class="col-md-2">
                     <asp:Button ID="btnLimpiar" runat="server" Text="Recargar"
                         CssClass="btn btn-outline-secondary w-100"
-                         />
+                        OnClick="btnLimpiar_Click" />
                 </div>
             </div>
 
