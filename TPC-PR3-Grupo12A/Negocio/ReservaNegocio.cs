@@ -249,6 +249,68 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Reserva> listarPorInstructor(int idInstructor)
+        {
+            List<Reserva> lista = new List<Reserva>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistio, R.Observaciones, " +
+                    "C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
+                    "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
+                    "A.IdUsuario AS IdAlumno, A.Nombre AS NombreAlumno, A.Apellido AS ApellidoAlumno " +
+                    "FROM Reservas R " +
+                    "INNER JOIN Clases C ON R.IdClase = C.IdClase " +
+                    "INNER JOIN Disciplinas D ON C.IdDisciplina = D.IdDisciplina " +
+                    "INNER JOIN Usuarios A ON R.IdAlumno = A.IdUsuario " +
+                    "WHERE C.IdInstructor = @IdInstructor " +
+                    "ORDER BY C.Fecha, C.HoraInicio, D.Nombre, A.Apellido");
+
+                datos.setearParametro("@IdInstructor", idInstructor);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Reserva res = new Reserva();
+
+                    res.IdReserva = (int)datos.Lector["IdReserva"];
+                    res.FechaReserva = (DateTime)datos.Lector["FechaReserva"];
+                    res.Estado = (Estado)(int)datos.Lector["Estado"];
+                    res.Asistio = datos.Lector["Asistio"] == DBNull.Value ? (bool?)null : (bool)datos.Lector["Asistio"];
+                    res.Observaciones = datos.Lector["Observaciones"] == DBNull.Value ? "" : (string)datos.Lector["Observaciones"];
+
+                    res.Clase = new Clase();
+                    res.Clase.IdClase = (int)datos.Lector["IdClase"];
+                    res.Clase.Fecha = (DateTime)datos.Lector["Fecha"];
+                    res.Clase.HoraInicio = (int)datos.Lector["HoraInicio"];
+                    res.Clase.CupoMaximo = (int)datos.Lector["CupoMaximo"];
+
+                    res.Clase.Disciplina = new Disciplina();
+                    res.Clase.Disciplina.IdDisciplina = (int)datos.Lector["IdDisciplina"];
+                    res.Clase.Disciplina.Nombre = (string)datos.Lector["NombreDisciplina"];
+
+                    res.Alumno = new Alumno();
+                    res.Alumno.IdUsuario = (int)datos.Lector["IdAlumno"];
+                    res.Alumno.Nombre = (string)datos.Lector["NombreAlumno"];
+                    res.Alumno.Apellido = (string)datos.Lector["ApellidoAlumno"];
+
+                    lista.Add(res);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
 
