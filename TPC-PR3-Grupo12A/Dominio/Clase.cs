@@ -9,7 +9,9 @@ namespace Dominio
     public enum EstadoClase
     {
         Vigente = 1,
-        Cancelada = 2
+        Cancelada = 2,
+        Finalizada = 3,
+        Reprogramada = 4,
     }
 
     public class Clase

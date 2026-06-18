@@ -46,6 +46,8 @@
                                 <asp:ListItem Text="Todas" Value="0" />
                                 <asp:ListItem Text="Vigentes" Value="1" />
                                 <asp:ListItem Text="Canceladas" Value="2" />
+                                <asp:ListItem Text="Finalizadas" Value="3" />
+                                <asp:ListItem Text="Reprogramadas" Value="4" />
                             </asp:DropDownList>
                         </div>
 

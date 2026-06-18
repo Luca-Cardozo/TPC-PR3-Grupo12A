@@ -250,7 +250,7 @@ namespace Negocio
             }
         }
 
-        public List<Reserva> listarPorInstructor(int idInstructor)
+        public List<Reserva> listarVigentesPorInstructor(int idInstructor)
         {
             List<Reserva> lista = new List<Reserva>();
             AccesoDatos datos = new AccesoDatos();
@@ -266,7 +266,7 @@ namespace Negocio
                     "INNER JOIN Clases C ON R.IdClase = C.IdClase " +
                     "INNER JOIN Disciplinas D ON C.IdDisciplina = D.IdDisciplina " +
                     "INNER JOIN Usuarios A ON R.IdAlumno = A.IdUsuario " +
-                    "WHERE C.IdInstructor = @IdInstructor AND R.Estado = 1 " +
+                    "WHERE C.IdInstructor = @IdInstructor AND R.Estado = 1 AND C.Estado = 1 " +
                     "ORDER BY C.Fecha, C.HoraInicio, D.Nombre, A.Apellido");
 
                 datos.setearParametro("@IdInstructor", idInstructor);

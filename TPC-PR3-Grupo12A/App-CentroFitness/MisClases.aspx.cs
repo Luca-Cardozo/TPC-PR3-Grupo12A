@@ -22,6 +22,13 @@ namespace App_CentroFitness
                 }
 
                 Usuario usuario = (Usuario)Session["usuario"];
+
+                if (usuario.Rol != Rol.Instructor)
+                {
+                    Response.Write("<script>alert('Debe ser instructor para acceder a esta sección.');window.location='Home.aspx';</script>");
+                    return;
+                }
+
                 lblTitulo.Text = "Bienvenida " + usuario.Nombre;
 
                 cargarClasesInstructor(usuario.IdUsuario);
@@ -42,7 +49,7 @@ namespace App_CentroFitness
         private void cargarClasesInstructor(int idInstructor)
         {
             ReservaNegocio negocio = new ReservaNegocio();
-            List<Reserva> reservas = negocio.listarPorInstructor(idInstructor);
+            List<Reserva> reservas = negocio.listarVigentesPorInstructor(idInstructor);
 
             var clases = reservas
                 .GroupBy(r => r.Clase.IdClase)
@@ -68,7 +75,7 @@ namespace App_CentroFitness
             int idClase = int.Parse(ddlClases.SelectedValue);
 
             ReservaNegocio negocio = new ReservaNegocio();
-            List<Reserva> reservas = negocio.listarPorInstructor(usuario.IdUsuario);
+            List<Reserva> reservas = negocio.listarVigentesPorInstructor(usuario.IdUsuario);
 
             List<Reserva> reservasClase = reservas.FindAll(x => x.Clase.IdClase == idClase);
 
@@ -126,7 +133,17 @@ namespace App_CentroFitness
                         txtObservaciones.Text.Trim()
                     );
                 }
-                Response.Redirect("MisClases.aspx", false);
+                
+                int idClase = int.Parse(ddlClases.SelectedValue);
+
+                if (dgvAsistencia.Rows.Count > 0)
+                {
+                    ClaseNegocio claseNegocio = new ClaseNegocio();
+                    claseNegocio.finalizarClase(idClase);
+                }
+
+                Response.Write("<script>alert('Asistencia registrada correctamente.');" +
+                               "window.location='MisClases.aspx';</script>");
 
             }
             catch (Exception ex)

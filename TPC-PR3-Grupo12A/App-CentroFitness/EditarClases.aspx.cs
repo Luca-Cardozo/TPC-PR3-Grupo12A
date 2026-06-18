@@ -78,6 +78,14 @@ namespace App_CentroFitness
             {
                 lista = lista.FindAll(x => x.Estado == EstadoClase.Cancelada);
             }
+            else if (estado == 3)
+            {
+                lista = lista.FindAll(x => x.Estado == EstadoClase.Finalizada);
+            }
+            else if (estado == 4)
+            {
+                lista = lista.FindAll(x => x.Estado == EstadoClase.Reprogramada);
+            }
 
             repClases.DataSource = lista;
             repClases.DataBind();

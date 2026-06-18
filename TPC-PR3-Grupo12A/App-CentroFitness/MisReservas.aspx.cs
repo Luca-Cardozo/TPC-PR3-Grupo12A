@@ -24,7 +24,7 @@ namespace App_CentroFitness
 
             if (usuario.Rol != Rol.Alumno)
             {
-                Response.Write("<script>alert('No cuenta con permisos para acceder a esta sección.');" +
+                Response.Write("<script>alert('Debe ser alumno para acceder a esta sección.');" +
                                 "window.location='Home.aspx';</script>");
                 return;
             }
