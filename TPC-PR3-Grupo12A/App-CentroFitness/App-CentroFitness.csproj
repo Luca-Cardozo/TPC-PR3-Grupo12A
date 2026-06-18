@@ -78,6 +78,7 @@
     <Content Include="FormularioDisciplina.aspx" />
     <Content Include="FormularioInstructor.aspx" />
     <Content Include="FormularioRecepcionista.aspx" />
+    <Content Include="FormularioReserva.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Home.aspx" />
     <Content Include="EditarAlumnos.aspx" />
@@ -180,6 +181,13 @@
     </Compile>
     <Compile Include="FormularioRecepcionista.aspx.designer.cs">
       <DependentUpon>FormularioRecepcionista.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioReserva.aspx.cs">
+      <DependentUpon>FormularioReserva.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioReserva.aspx.designer.cs">
+      <DependentUpon>FormularioReserva.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

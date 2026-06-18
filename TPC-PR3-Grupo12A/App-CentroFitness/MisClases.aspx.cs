@@ -29,7 +29,7 @@ namespace App_CentroFitness
                     return;
                 }
 
-                lblTitulo.Text = "Bienvenida " + usuario.Nombre;
+                lblTitulo.Text = "Bienvenido/a " + usuario.Nombre;
 
                 cargarClasesInstructor(usuario.IdUsuario);
 

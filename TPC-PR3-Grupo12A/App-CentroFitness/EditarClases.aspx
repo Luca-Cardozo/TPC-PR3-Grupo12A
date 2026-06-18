@@ -110,7 +110,11 @@
                                         <%# Eval("CupoMaximo") %>
                                     </td>
                                     <td>
-                                        <span class='badge <%#(Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Vigente ? "bg-success" : "bg-danger"%>'>
+                                        <span class='badge 
+                                        <%# (Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Vigente ? "bg-success" :
+                                            (Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Finalizada ? "bg-primary" :
+                                            (Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Reprogramada ? "bg-warning text-dark" :
+                                            "bg-danger" %>'>
                                             <%# Eval("Estado") %>
                                         </span>
                                     </td>

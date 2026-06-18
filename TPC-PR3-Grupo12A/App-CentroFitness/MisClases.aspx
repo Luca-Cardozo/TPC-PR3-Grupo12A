@@ -85,7 +85,6 @@
     <div class="row justify-content-center g-3">
     </div>
 
-    </div>
 
     <div class="row mt-4 mb-5">
         <div class="col-12 text-center">

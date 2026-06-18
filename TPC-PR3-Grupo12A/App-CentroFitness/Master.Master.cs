@@ -31,10 +31,12 @@ namespace App_CentroFitness
             {
                 Usuario usuario = (Usuario)Session["usuario"];
                 liMisReservas.Visible = usuario.Rol == Rol.Alumno;
+                liMisClases.Visible = usuario.Rol == Rol.Instructor;
             }
             else
             {
                 liMisReservas.Visible = false;
+                liMisClases.Visible = false;
             }
         }
     }

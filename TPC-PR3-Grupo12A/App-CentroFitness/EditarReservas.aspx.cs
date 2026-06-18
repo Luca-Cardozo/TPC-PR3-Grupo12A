@@ -48,23 +48,6 @@ namespace App_CentroFitness
             ddlDisciplinaFiltro.Items.Insert(0, new ListItem("Todas las disciplinas", "0"));
         }
 
-        protected void dgvReservas_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int id = Convert.ToInt32(dgvReservas.SelectedDataKey.Value);
-
-                ReservaNegocio negocio = new ReservaNegocio();
-                negocio.eliminar(id);
-
-
-                cargarReservas();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('Error al cancelar la reserva: " + ex.Message + "');</script>");
-            }
-        }
         protected void btnVolverHome_Click(object sender, EventArgs e)
         {
             Response.Redirect("Home.aspx", false);
@@ -131,6 +114,13 @@ namespace App_CentroFitness
             ddlEstadoFiltro.SelectedIndex = 0;
 
             cargarReservas();
+        }
+
+        protected void btnEditar_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int id = int.Parse(btn.CommandArgument);
+            Response.Redirect("FormularioReserva.aspx?id=" + id, false);
         }
     }
 }

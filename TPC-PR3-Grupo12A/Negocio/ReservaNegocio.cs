@@ -22,11 +22,13 @@ namespace Negocio
                     "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistio, R.Observaciones, " +
                     "C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
                     "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
-                    "U.IdUsuario, U.Nombre AS NombreAlumno, U.Apellido AS ApellidoAlumno, U.DNI " +
+                    "U.IdUsuario AS IdAlumno, U.Nombre AS NombreAlumno, U.Apellido AS ApellidoAlumno, U.DNI, " +
+                    "U2.IdUsuario AS IdInstructor, U2.Nombre AS NombreInstructor, U2.Apellido AS ApellidoInstructor " +
                     "FROM Reservas R " +
                     "INNER JOIN Clases C ON R.IdClase = C.IdClase " +
                     "INNER JOIN Disciplinas D ON C.IdDisciplina = D.IdDisciplina " +
                     "INNER JOIN Usuarios U ON R.IdAlumno = U.IdUsuario " +
+                    "INNER JOIN Usuarios U2 ON C.IdInstructor = U2.IdUsuario " +
                     "ORDER BY C.Fecha DESC, C.HoraInicio DESC");
 
                 datos.ejecutarLectura();
@@ -51,6 +53,10 @@ namespace Negocio
                     res.Clase.Fecha = (DateTime)datos.Lector["Fecha"];
                     res.Clase.HoraInicio = (int)datos.Lector["HoraInicio"];
                     res.Clase.CupoMaximo = (int)datos.Lector["CupoMaximo"];
+                    res.Clase.Instructor = new Instructor();
+                    res.Clase.Instructor.IdUsuario = (int)datos.Lector["IdInstructor"];
+                    res.Clase.Instructor.Nombre = (string)datos.Lector["NombreInstructor"];
+                    res.Clase.Instructor.Apellido = (string)datos.Lector["ApellidoInstructor"];
 
                     res.Clase.Disciplina = new Disciplina();
                     res.Clase.Disciplina.IdDisciplina = (int)datos.Lector["IdDisciplina"];
@@ -58,7 +64,7 @@ namespace Negocio
 
 
                     res.Alumno = new Alumno();
-                    res.Alumno.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    res.Alumno.IdUsuario = (int)datos.Lector["IdAlumno"];
                     res.Alumno.Nombre = (string)datos.Lector["NombreAlumno"];
                     res.Alumno.Apellido = (string)datos.Lector["ApellidoAlumno"];
                     res.Alumno.DNI = (string)datos.Lector["DNI"];
@@ -187,7 +193,7 @@ namespace Negocio
 
 
                 datos.setearParametro("@Asistio", (object)reservaModificada.Asistio ?? DBNull.Value);
-                datos.setearParametro("@Observaciones", reservaModificada.Observaciones ?? "");
+                datos.setearParametro("@Observaciones", string.IsNullOrWhiteSpace(reservaModificada.Observaciones) ? (object)DBNull.Value : reservaModificada.Observaciones.Trim());
                 datos.setearParametro("@IdReserva", reservaModificada.IdReserva);
 
                 datos.ejecutarAccion();
@@ -202,7 +208,7 @@ namespace Negocio
             }
         }
 
-        public void eliminar(int idReserva)
+        public void cancelar(int idReserva)
         {
             AccesoDatos datos = new AccesoDatos();
 

@@ -48,7 +48,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
 
-                                <li>
+                                <li id="liMisClases" runat="server">
                                     <a class="dropdown-item" href="MisClases.aspx">Mis Clases</a>
                                 </li>
 
