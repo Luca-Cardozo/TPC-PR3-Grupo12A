@@ -33,7 +33,7 @@ namespace App_CentroFitness
                         }
                         else
                         {
-                            InstructorNegocio negocio = new InstructorNegocio();
+                            InstructorNegocio negocio = new InstructorNegocio();                            
                             lista = negocio.listar();
                         }
 
@@ -90,7 +90,8 @@ namespace App_CentroFitness
         private void cargarDisciplinas()
         {
             DisciplinaNegocio negocio = new DisciplinaNegocio();
-            cblDisciplinas.DataSource = negocio.listar();
+            bool soloActivas = true;
+            cblDisciplinas.DataSource = negocio.listar(soloActivas);
             cblDisciplinas.DataTextField = "Nombre";
             cblDisciplinas.DataValueField = "IdDisciplina";
             cblDisciplinas.DataBind();

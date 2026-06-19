@@ -18,6 +18,7 @@ namespace Negocio
 
             try
             {
+
                 datos.setearConsulta("SELECT U.IdUsuario, U.Nombre AS NombreInstructor, " +
                     "U.Apellido, U.Email, U.Password, U.DNI, U.Telefono, U.FechaNacimiento, " +
                     "U.Imagen AS ImagenInstructor, U.Rol, U.Activo, D.IdDisciplina, " +

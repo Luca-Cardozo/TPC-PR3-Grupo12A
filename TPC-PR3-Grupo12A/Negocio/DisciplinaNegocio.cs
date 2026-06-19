@@ -12,14 +12,19 @@ namespace Negocio
 {
     public class DisciplinaNegocio
     {
-        public List<Disciplina> listar()
+        public List<Disciplina> listar(bool soloActivas = false)
         {
             List<Disciplina> lista = new List<Disciplina>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas");
+                string consulta = "SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas";
+                if (soloActivas)
+                {
+                    consulta += " WHERE Activa = 1";
+                }
+                datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {

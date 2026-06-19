@@ -23,7 +23,8 @@ namespace Negocio
                     "U.IdUsuario, U.Nombre AS NombreInstructor, U.Apellido " +
                     "FROM Clases C " +
                     "INNER JOIN Disciplinas D ON D.IdDisciplina = C.IdDisciplina " +
-                    "INNER JOIN Usuarios U ON U.IdUsuario = C.IdInstructor");
+                    "INNER JOIN Usuarios U ON U.IdUsuario = C.IdInstructor " +
+                    "ORDER BY C.Fecha DESC, C.HoraInicio DESC");
 
                 datos.ejecutarLectura();
 
