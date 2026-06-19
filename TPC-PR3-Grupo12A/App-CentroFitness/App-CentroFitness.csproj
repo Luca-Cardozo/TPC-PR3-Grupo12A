@@ -65,6 +65,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AltaReserva.aspx" />
     <Content Include="Clases.aspx" />
     <Content Include="ConfirmarReserva.aspx" />
     <Content Include="Disciplinas.aspx" />
@@ -91,6 +92,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AltaReserva.aspx.cs">
+      <DependentUpon>AltaReserva.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AltaReserva.aspx.designer.cs">
+      <DependentUpon>AltaReserva.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Clases.aspx.cs">
       <DependentUpon>Clases.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -22,7 +22,7 @@ namespace Dominio
         public Disciplina Disciplina { get; set; }
         public DateTime Fecha { get; set; }
         // Trabajamos con turnos de 1 hora de duración, desde una hora redonda a otra. Ej: 18 a 19 hs
-        public int HoraInicio 
+        public int HoraInicio
         {
             get
             {
@@ -49,5 +49,12 @@ namespace Dominio
             Estado = EstadoClase.Vigente;
         }
 
+        public DateTime FechaHoraInicio
+        {
+            get
+            {
+                return Fecha.Date.AddHours(HoraInicio);
+            }
+        }
     }
 }

@@ -122,5 +122,10 @@ namespace App_CentroFitness
             int id = int.Parse(btn.CommandArgument);
             Response.Redirect("FormularioReserva.aspx?id=" + id, false);
         }
+
+        protected void btnNuevaReserva_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AltaReserva.aspx", false);
+        }
     }
 }

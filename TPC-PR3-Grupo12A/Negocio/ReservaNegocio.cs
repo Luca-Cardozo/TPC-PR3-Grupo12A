@@ -142,41 +142,40 @@ namespace Negocio
             }
         }
 
+        public void agregar(Reserva reservaNueva)
+        {
 
-        //comentado porque no se si se va a usar
-        //public void agregar(Reserva reservaNueva)
-        //{
+            if (existeReserva(reservaNueva.Alumno.IdUsuario, reservaNueva.Clase.IdClase))
+                throw new Exception("El alumno ya posee una reserva vigente para esta clase.");
 
-        //    if (existeReserva(reservaNueva.Alumno.IdUsuario, reservaNueva.Clase.IdClase))
-        //        throw new Exception("El alumno ya posee una reserva vigente para esta clase.");
+            AccesoDatos datos = new AccesoDatos();
 
-        //    AccesoDatos datos = new AccesoDatos();
+            try
+            {
 
-        //    try
-        //    {
+                datos.setearConsulta(
+                    "INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones) " +
+                    "OUTPUT INSERTED.IdReserva " +
+                    "VALUES (@IdClase, @IdAlumno, GETDATE(), @Estado, @Asistio, @Observaciones)");
 
-        //        datos.setearConsulta(
-        //            "INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones) " +
-        //            "OUTPUT INSERTED.IdReserva " +
-        //            "VALUES (@IdClase, @IdAlumno, GETDATE(), 1, NULL, @Observaciones)");
+                datos.setearParametro("@IdClase", reservaNueva.Clase.IdClase);
+                datos.setearParametro("@IdAlumno", reservaNueva.Alumno.IdUsuario);
+                datos.setearParametro("@Estado", (int)Estado.Vigente);
+                datos.setearParametro("@Asistio", DBNull.Value);
+                datos.setearParametro("@Observaciones", string.IsNullOrWhiteSpace(reservaNueva.Observaciones) ? (object)DBNull.Value : reservaNueva.Observaciones.Trim());
 
-        //        datos.setearParametro("@IdClase", reservaNueva.Clase.IdClase);
-        //        datos.setearParametro("@IdAlumno", reservaNueva.Alumno.IdUsuario);
-        //        datos.setearParametro("@Observaciones", reservaNueva.Observaciones ?? "");
-
-
-        //        int idReserva = datos.ejecutarAccionScalar();
-        //        reservaNueva.IdReserva = idReserva;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    finally
-        //    {
-        //        datos.cerrarConexion();
-        //    }
-        //}
+                int idReserva = datos.ejecutarAccionScalar();
+                reservaNueva.IdReserva = idReserva;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
         public void modificar(Reserva reservaModificada)
         {
@@ -208,28 +207,28 @@ namespace Negocio
             }
         }
 
-        public void cancelar(int idReserva)
-        {
-            AccesoDatos datos = new AccesoDatos();
+        //public void cancelar(int idReserva)
+        //{
+        //    AccesoDatos datos = new AccesoDatos();
 
-            try
-            {
+        //    try
+        //    {
 
 
-                datos.setearConsulta("UPDATE Reservas SET Estado = 2 WHERE IdReserva = @IdReserva");
-                datos.setearParametro("@IdReserva", idReserva);
+        //        datos.setearConsulta("UPDATE Reservas SET Estado = 2 WHERE IdReserva = @IdReserva");
+        //        datos.setearParametro("@IdReserva", idReserva);
 
-                datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
+        //        datos.ejecutarAccion();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
 
         public bool existeReserva(int idAlumno, int idClase)
         {

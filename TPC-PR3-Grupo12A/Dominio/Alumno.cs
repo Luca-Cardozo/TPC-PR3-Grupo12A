@@ -14,5 +14,12 @@ namespace Dominio
         {
             this.Rol = Rol.Alumno;
         }
+        public string NombreCompleto
+        {
+            get
+            {
+                return Nombre + " " + Apellido;
+            }
+        }
     }
 }

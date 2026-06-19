@@ -73,6 +73,12 @@
         </div>
     </div>
 
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-4 d-grid">
+            <asp:Button ID="btnNuevaReserva" runat="server" Text="➕ Nueva reserva" CssClass="btn btn-success btn-lg p-3" OnClick="btnNuevaReserva_Click" />
+        </div>
+    </div>
+
     <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-lg-9">
