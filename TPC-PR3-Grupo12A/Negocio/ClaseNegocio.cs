@@ -108,6 +108,59 @@ namespace Negocio
             }
         }
 
+        public Clase obtenerPorId(int idClase)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "SELECT C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, C.Estado, " +
+                    "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
+                    "U.IdUsuario AS IdInstructor, U.Nombre AS NombreInstructor, U.Apellido AS ApellidoInstructor " +
+                    "FROM Clases C " +
+                    "INNER JOIN Disciplinas D ON C.IdDisciplina = D.IdDisciplina " +
+                    "INNER JOIN Usuarios U ON C.IdInstructor = U.IdUsuario " +
+                    "WHERE C.IdClase = @IdClase"
+                );
+
+                datos.setearParametro("@IdClase", idClase);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Clase clase = new Clase();
+
+                    clase.IdClase = (int)datos.Lector["IdClase"];
+                    clase.Fecha = (DateTime)datos.Lector["Fecha"];
+                    clase.HoraInicio = (int)datos.Lector["HoraInicio"];
+                    clase.CupoMaximo = (int)datos.Lector["CupoMaximo"];
+                    clase.Estado = (EstadoClase)(int)datos.Lector["Estado"];
+
+                    clase.Disciplina = new Disciplina();
+                    clase.Disciplina.IdDisciplina = (int)datos.Lector["IdDisciplina"];
+                    clase.Disciplina.Nombre = (string)datos.Lector["NombreDisciplina"];
+
+                    clase.Instructor = new Instructor();
+                    clase.Instructor.IdUsuario = (int)datos.Lector["IdInstructor"];
+                    clase.Instructor.Nombre = (string)datos.Lector["NombreInstructor"];
+                    clase.Instructor.Apellido = (string)datos.Lector["ApellidoInstructor"];
+
+                    return clase;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void agregar(Clase claseNueva)
         {
             AccesoDatos datos = new AccesoDatos();

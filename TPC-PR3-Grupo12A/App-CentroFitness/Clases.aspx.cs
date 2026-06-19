@@ -31,7 +31,13 @@ namespace App_CentroFitness
             {
                 ClaseNegocio negocio = new ClaseNegocio();
 
-                int id = int.Parse(Request.QueryString["id"]);
+                int id;
+                if (!int.TryParse(Request.QueryString["id"], out id))
+                {
+                    Response.Redirect("Disciplinas.aspx", false);
+                    return;
+                }
+
                 List<Clase> lista = negocio.listarVigentesPorDisciplina(id);
                 if (lista.Count == 0)
                 {

@@ -86,6 +86,16 @@
 
                         </div>
 
+                        <asp:Button
+                            ID="btnCancelar"
+                            runat="server"
+                            Text="❌ Cancelar reserva"
+                            CssClass="btn btn-outline-danger btn-sm mt-2"
+                            CommandArgument='<%# Eval("IdReserva") %>'
+                            OnClick="btnCancelar_Click"
+                            OnClientClick="return confirm('¿Seguro que deseas cancelar esta reserva?');"
+                            Visible='<%# (int)Eval("Estado") == 1 %>' />
+
                     </ItemTemplate>
                 </asp:Repeater>
 

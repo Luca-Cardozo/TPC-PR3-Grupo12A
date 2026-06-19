@@ -104,5 +104,25 @@ namespace App_CentroFitness
             ddlDisciplinaFiltro.DataBind();
             ddlDisciplinaFiltro.Items.Insert(0, new ListItem("Todas las disciplinas", "0"));
         }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Button btn = (Button)sender;
+                int idReserva = int.Parse(btn.CommandArgument);
+
+                ReservaNegocio negocio = new ReservaNegocio();
+                negocio.cancelar(idReserva);
+
+                cargarReservas();
+
+                Response.Write("<script>alert('Reserva cancelada correctamente');</script>");
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('Error al cancelar: " + ex.Message + "');</script>");
+            }
+        }
     }
 }
