@@ -18,7 +18,7 @@
 
         <div class="row justify-content-center">
 
-            <div class="col-md-6 col-lg-5">
+           <div class="col-md-10 col-lg-8">
 
                 <div class="card shadow p-4">
 
@@ -29,51 +29,63 @@
                         <label for="txtIdUsuario" class="form-label">Id</label>
                         <asp:TextBox runat="server" ID="txtIdUsuario" CssClass="form-control" Enabled="false" />
                     </div>
-
-                    <div class="mb-3">
+                    
+ <div class="row">
+                     <div class="col-md-6 mb-3">
                         <label for="txtNombre" class="form-label">Nombre</label>
                         <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" />
                         <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El nombre es requerido" ControlToValidate="txtNombre" runat="server" />
                         <asp:RegularExpressionValidator CssClass="validacion" runat="server" ControlToValidate="txtNombre" ErrorMessage="Solo puede ingresar letras" ValidationExpression="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" />
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="txtApellido" class="form-label">Apellido</label>
                         <asp:TextBox runat="server" ID="txtApellido" CssClass="form-control" />
                         <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El apellido es requerido" ControlToValidate="txtApellido" runat="server" />
                         <asp:RegularExpressionValidator CssClass="validacion" runat="server" ControlToValidate="txtApellido" ErrorMessage="Solo puede ingresar letras" ValidationExpression="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" />
                     </div>
-
-                    <div class="mb-3">
+      </div>
+ <div class="row">
+                   <div class="col-md-6 mb-3">
                         <label for="txtDni" class="form-label">DNI</label>
                         <asp:TextBox runat="server" ID="txtDni" CssClass="form-control" MaxLength="10" />
                         <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El DNI es requerido" ControlToValidate="txtDni" runat="server" />
                         <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Solo puede ingresar números" ControlToValidate="txtDni" ValidationExpression="^[0-9]+$" runat="server"/>
                     </div>
-
-                    <div class="mb-3">
+                     <div class="col-md-6 mb-3">
                         <label for="txtEmail" class="form-label">Email</label>
                         <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" />
                         <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El email es requerido" ControlToValidate="txtEmail" runat="server" />
                         <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Ingrese un email válido por favor" ControlToValidate="txtEmail" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" runat="server" />
                     </div>
-
-                    <div class="mb-3">
+      </div>
+ <div class="row">
+                     <div class="col-md-6 mb-3">
                         <label for="txtTelefono" class="form-label">Teléfono</label>
                         <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" MaxLength="20"/>
                         <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="El teléfono es requerido" ControlToValidate="txtTelefono" runat="server" />
                         <asp:RegularExpressionValidator CssClass="validacion" ErrorMessage="Solo puede ingresar números" ControlToValidate="txtTelefono" ValidationExpression="^[0-9]+$" runat="server"/>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="txtFechaNacimiento" class="form-label">Fecha de nacimiento</label>
                         <asp:TextBox runat="server" TextMode="Date" ID="txtFechaNacimiento" CssClass="form-control" />
                         <asp:RequiredFieldValidator CssClass="validacion" ErrorMessage="La fecha de nacimiento es requerida" ControlToValidate="txtFechaNacimiento" runat="server" />
                     </div>
+      </div>
+                     <div class="row">
+    <div class="col-12">
 
-                    <div class="mb-3">
-                        <asp:CheckBoxList ID="cblDisciplinas" runat="server" CssClass="form-check" />
-                    </div>
+        <label class="form-label fw-bold">
+            Disciplinas:
+        </label>
+
+       
+        <asp:CheckBoxList ID="cblDisciplinas" runat="server" RepeatColumns="4" RepeatDirection="Horizontal" />
+        
+
+    </div>
+</div>
 
                     <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
