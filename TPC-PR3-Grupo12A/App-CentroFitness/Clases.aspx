@@ -26,8 +26,18 @@
                                 <p class="mb-2">🏋️‍<strong>Instructor: </strong><%# Eval("Instructor.Nombre") %> <%# Eval("Instructor.Apellido") %></p>
                                 <p class="mb-2">📅<strong>Fecha: </strong><%# Eval("Fecha", "{0:dd/MM/yyyy}") %></p>
                                 <p class="mb-3">🕐<strong>Horario: </strong><%# Eval("HoraInicio") %>:00 - <%# Eval("HoraFin") %>:00 hs</p>
+                                <p class="mb-3">
+                                    👥 <strong>Cupos disponibles:</strong>
+                                    <%# Eval("CuposDisponibles") %> / <%# Eval("CupoMaximo") %>
+                                </p>
                                 <div class="text-center">
-                                    <asp:Button ID="btnSeleccionar" runat="server" Text="✅ Reservar clase" CssClass="btn btn-success px-4" CommandArgument='<%# Eval("IdClase") %>' OnClick="btnSeleccionar_Click" />
+                                    <asp:Button ID="btnSeleccionar" 
+                                        runat="server" 
+                                        Text='<%# (int)Eval("CuposDisponibles") > 0 ? "✅ Reservar clase" : "❌ Clase completa" %>' 
+                                        CssClass="btn btn-success px-4" 
+                                        CommandArgument='<%# Eval("IdClase") %>' 
+                                        OnClick="btnSeleccionar_Click"
+                                        Enabled='<%# (int)Eval("CuposDisponibles") > 0 %>' />
                                 </div>
                             </div>
                         </div>

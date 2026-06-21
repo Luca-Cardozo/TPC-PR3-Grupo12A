@@ -75,8 +75,11 @@ namespace App_CentroFitness
         private void cargarClases()
         {
             ClaseNegocio negocio = new ClaseNegocio();
+            ReservaNegocio reservaNegocio = new ReservaNegocio();
+
             List<Clase> lista = negocio.listar();
             List<Clase> disponibles = new List<Clase>();
+
             DateTime ahora = DateTime.Now;
 
             foreach (Clase clase in lista)
@@ -84,6 +87,8 @@ namespace App_CentroFitness
                 DateTime fechaHoraClase = clase.Fecha.Date.AddHours(clase.HoraInicio);
                 if (clase.Estado == EstadoClase.Vigente && fechaHoraClase > ahora)
                 {
+                    clase.CantidadReservas = reservaNegocio.contarReservasVigentes(clase.IdClase);
+                    clase.CuposDisponibles = clase.CupoMaximo - clase.CantidadReservas;
                     disponibles.Add(clase);
                 }
             }

@@ -56,5 +56,8 @@ namespace Dominio
                 return Fecha.Date.AddHours(HoraInicio);
             }
         }
+
+        public int CantidadReservas { get; set; }
+        public int CuposDisponibles { get; set; }
     }
 }

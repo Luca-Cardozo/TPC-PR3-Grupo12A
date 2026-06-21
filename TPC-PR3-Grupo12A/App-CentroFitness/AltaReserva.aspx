@@ -77,14 +77,29 @@
 
                                 <div>
                                     <h5 class="mb-1"><%# Eval("Disciplina.Nombre") %></h5>
-                                    <p class="mb-0 text-muted">
-                                        👨‍🏫 <%# Eval("Instructor.Nombre") %> <%# Eval("Instructor.Apellido") %> |
-                                        📅 <%# Eval("Fecha", "{0:dd/MM/yyyy}") %> |
-                                        🕐 <%# Eval("HoraInicio") %>:00 - <%# Eval("HoraFin") %>:00 hs                               
-                                    </p>
+                                    <div class="text-muted">
+                                        <div>
+                                            👨‍🏫 <%# Eval("Instructor.Nombre") %> <%# Eval("Instructor.Apellido") %>
+                                        </div>
+                                        <div>
+                                            📅 <%# Eval("Fecha", "{0:dd/MM/yyyy}") %>
+                                        </div>
+                                        <div>
+                                            🕐 <%# Eval("HoraInicio") %>:00 - <%# Eval("HoraFin") %>:00 hs
+                                        </div>
+                                        <div>
+                                            👥 Cupos disponibles: <%# Eval("CuposDisponibles") %> de <%# Eval("CupoMaximo") %>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <asp:Button ID="btnSeleccionar" runat="server" Text="Seleccionar" CssClass="btn btn-success px-4" CommandArgument='<%# Eval("IdClase") %>' OnClick="btnSeleccionar_Click" />
+                                <asp:Button ID="btnSeleccionar"
+                                    runat="server"
+                                    Text='<%# (int)Eval("CuposDisponibles") > 0 ? "Seleccionar" : "Clase completa" %>'
+                                    Enabled='<%# (int)Eval("CuposDisponibles") > 0 %>'
+                                    CssClass="btn btn-success px-4"
+                                    CommandArgument='<%# Eval("IdClase") %>'
+                                    OnClick="btnSeleccionar_Click" />
 
                             </div>
                         </div>

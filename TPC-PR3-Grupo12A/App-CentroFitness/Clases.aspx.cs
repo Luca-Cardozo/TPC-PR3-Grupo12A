@@ -39,6 +39,15 @@ namespace App_CentroFitness
                 }
 
                 List<Clase> lista = negocio.listarVigentesPorDisciplina(id);
+
+                ReservaNegocio reservaNegocio = new ReservaNegocio();
+
+                foreach (Clase clase in lista)
+                {
+                    clase.CantidadReservas = reservaNegocio.contarReservasVigentes(clase.IdClase);
+                    clase.CuposDisponibles = clase.CupoMaximo - clase.CantidadReservas;
+                }
+
                 if (lista.Count == 0)
                 {
                     lblSinClases.Visible = true;

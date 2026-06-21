@@ -162,12 +162,15 @@ namespace Negocio
 
                     if (estado == 2)
                     {
+                        validarCupoDisponible(reservaNueva.Clase.IdClase);
                         reactivar(reservaNueva.Alumno.IdUsuario, reservaNueva.Clase.IdClase);
                         return;
                     }
                 }
 
                 datos.cerrarConexion();
+
+                validarCupoDisponible(reservaNueva.Clase.IdClase);
 
                 datos = new AccesoDatos();
                 datos.setearConsulta("INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones) " +
@@ -366,6 +369,31 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public int contarReservasVigentes(int idClase)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Reservas " +
+                    "WHERE IdClase = @IdClase AND Estado = 1");
+                datos.setearParametro("@IdClase", idClase);
+                return datos.ejecutarAccionScalar();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        private void validarCupoDisponible(int idClase)
+        {
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            Clase clase = claseNegocio.obtenerPorId(idClase);
+            int reservasVigentes = contarReservasVigentes(idClase);
+            if (reservasVigentes >= clase.CupoMaximo)
+                throw new Exception("No hay cupos disponibles para esta clase.");
         }
     }
 }

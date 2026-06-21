@@ -67,7 +67,29 @@ namespace App_CentroFitness
             try
             {
                 Usuario usuario = (Usuario)Session["usuario"];
-                int idClase = (int)Session["idClaseSeleccionada"];
+                int idClase = int.Parse(Request.QueryString["id"]);
+
+                ClaseNegocio claseNegocio = new ClaseNegocio();
+                Clase clase = claseNegocio.obtenerPorId(idClase);
+
+                if (clase == null)
+                    throw new Exception("La clase no existe.");
+
+                DateTime fechaHora = clase.Fecha.Date.AddHours(clase.HoraInicio);
+
+                if (clase.Estado != EstadoClase.Vigente || fechaHora <= DateTime.Now)
+                    throw new Exception("La clase ya no está disponible.");
+
+                
+                ReservaNegocio reservaNegocio = new ReservaNegocio();
+
+                int reservas = reservaNegocio.contarReservasVigentes(idClase);
+
+                if (reservas >= clase.CupoMaximo)
+                    throw new Exception("No hay cupos disponibles.");
+
+                if (reservaNegocio.existeReserva(usuario.IdUsuario, idClase))
+                    throw new Exception("Ya estás inscripto en esta clase.");
 
                 Reserva reserva = new Reserva();
                 reserva.Alumno = new Alumno();
@@ -76,17 +98,14 @@ namespace App_CentroFitness
                 reserva.Clase = new Clase();
                 reserva.Clase.IdClase = idClase;
 
-                ReservaNegocio negocio = new ReservaNegocio();
-
-                if (negocio.existeReserva(usuario.IdUsuario, idClase))
-                    throw new Exception("Ya estás inscripto en esta clase.");
-
-                negocio.agregar(reserva);
+                reservaNegocio.agregar(reserva);
 
                 lblMensaje.CssClass = "text-success text-center d-block mt-3";
-                lblMensaje.Text = "Reserva realizada con éxito ✔";
+                lblMensaje.Text = "Reserva realizada con éxito ✔. Serás redirigido en 3 segundos...";
 
                 btnConfirmar.Enabled = false;
+
+                Response.AddHeader("REFRESH", "3;URL=MisReservas.aspx");
             }
             catch (Exception ex)
             {
