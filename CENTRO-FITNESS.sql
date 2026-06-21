@@ -564,3 +564,241 @@ INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observac
 SELECT IdClase, 42, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
 INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones)
 SELECT IdClase, 43, GETDATE(), 1, NULL, NULL FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+
+
+
+-- =============================================
+-- Tabla: Planes
+-- =============================================
+
+CREATE TABLE Planes (
+    IdPlan INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(100) NOT NULL,
+    CantidadClases INT NULL, -- NULL = ilimitado
+    DuracionDias INT NOT NULL,
+    Precio DECIMAL(10,2) NOT NULL,
+    Activo BIT NOT NULL DEFAULT 1
+);
+
+-- =============================================
+-- Tabla: Suscripciones
+-- =============================================
+
+CREATE TABLE Suscripciones (
+    IdSuscripcion INT IDENTITY(1,1) PRIMARY KEY,
+
+    IdUsuario INT NOT NULL UNIQUE, -- 1 sola suscripción activa por usuario
+    IdPlan INT NOT NULL,
+
+    FechaInicio DATE NOT NULL,
+    FechaFin DATE NOT NULL,
+
+    ClasesConsumidas INT NOT NULL DEFAULT 0,
+
+    FechaUltimaActualizacion DATETIME NOT NULL DEFAULT GETDATE(),
+
+    CONSTRAINT FK_Suscripciones_Usuarios
+        FOREIGN KEY (IdUsuario) REFERENCES Usuarios(IdUsuario),
+
+    CONSTRAINT FK_Suscripciones_Planes
+        FOREIGN KEY (IdPlan) REFERENCES Planes(IdPlan)
+);
+
+-- =============================================
+-- Tabla: HistorialSuscripciones (por si se necesitan hacer reportes en el futuro)
+-- =============================================
+
+CREATE TABLE HistorialSuscripciones (
+    IdHistorial INT IDENTITY(1,1) PRIMARY KEY,
+
+    IdUsuario INT NOT NULL,
+    IdPlan INT NOT NULL,
+
+    FechaInicio DATE NOT NULL,
+    FechaFin DATE NOT NULL,
+
+    FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+
+    TipoMovimiento INT NOT NULL
+    -- EJ: 1-'ALTA', 2-'RENOVACION', 3-'CAMBIO_PLAN'
+);
+
+
+-- =============================================
+-- INSERT: Planes
+-- =============================================
+INSERT INTO Planes (Descripcion, CantidadClases, DuracionDias, Precio)
+VALUES
+('Pack 4 clases',   4,    30,  8000.00),   -- IdPlan 1
+('Pack 8 clases',   8,    30, 14000.00),   -- IdPlan 2
+('Pack 12 clases',  12,   30, 20000.00),   -- IdPlan 3
+('Pase Libre',      NULL, 30, 30000.00);   -- IdPlan 4
+
+GO
+
+-- =============================================
+-- INSERT: Suscripciones
+-- UNIQUE en IdUsuario → cada alumno aparece
+-- una sola vez con su suscripción vigente.
+--
+-- Distribución:
+--   Julio  (01/07–31/07): alumnos 19–26  → ClasesConsumidas = 0  (mes no iniciado)
+--   Junio  (01/06–30/06): alumnos 27–38  → ClasesConsumidas parciales (estamos en el día 21)
+--   Mayo   (01/05–31/05): alumnos 39–43  → suscripción vencida, no renovaron
+--
+-- FechaUltimaActualizacion = fecha en que se dio de alta el plan
+-- =============================================
+
+-- ── Julio (alumnos 19–26) ──────────────────────────────────────────────
+INSERT INTO Suscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, ClasesConsumidas, FechaUltimaActualizacion)
+VALUES
+(19, 2, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pack 8
+(20, 1, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pack 4
+(21, 3, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pack 12
+(22, 4, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pase Libre
+(23, 2, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pack 8  (venía con Pack 4 en mayo)
+(24, 1, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pack 4
+(25, 3, '2026-07-01', '2026-07-31', 0,  '2026-07-01'),   -- Pack 12
+(26, 4, '2026-07-01', '2026-07-31', 0,  '2026-07-01');   -- Pase Libre
+
+-- ── Junio (alumnos 27–38) ─────────────────────────────────────────────
+INSERT INTO Suscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, ClasesConsumidas, FechaUltimaActualizacion)
+VALUES
+(27, 1, '2026-06-01', '2026-06-30', 3,  '2026-06-01'),   -- Pack 4  (3/4 usadas, casi sin clases)
+(28, 2, '2026-06-01', '2026-06-30', 5,  '2026-06-01'),   -- Pack 8
+(29, 3, '2026-06-01', '2026-06-30', 7,  '2026-06-01'),   -- Pack 12
+(30, 4, '2026-06-01', '2026-06-30', 9,  '2026-06-01'),   -- Pase Libre
+(31, 1, '2026-06-01', '2026-06-30', 2,  '2026-06-01'),   -- Pack 4
+(32, 2, '2026-06-01', '2026-06-30', 4,  '2026-06-01'),   -- Pack 8
+(33, 3, '2026-06-01', '2026-06-30', 6,  '2026-06-01'),   -- Pack 12
+(34, 4, '2026-06-01', '2026-06-30', 8,  '2026-06-01'),   -- Pase Libre
+(35, 1, '2026-06-01', '2026-06-30', 4,  '2026-06-01'),   -- Pack 4  (agotó sus 4 clases)
+(36, 2, '2026-06-01', '2026-06-30', 3,  '2026-06-01'),   -- Pack 8
+(37, 3, '2026-06-01', '2026-06-30', 5,  '2026-06-01'),   -- Pack 12 (cambió de Pack 4 en mayo)
+(38, 1, '2026-06-01', '2026-06-30', 1,  '2026-06-01');   -- Pack 4
+
+-- ── Mayo (alumnos 39–43, suscripción vencida sin renovar) ─────────────
+INSERT INTO Suscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, ClasesConsumidas, FechaUltimaActualizacion)
+VALUES
+(39, 1, '2026-05-01', '2026-05-31', 4,  '2026-05-01'),   -- Pack 4  (usó las 4)
+(40, 2, '2026-05-01', '2026-05-31', 7,  '2026-05-01'),   -- Pack 8
+(41, 3, '2026-05-01', '2026-05-31', 10, '2026-05-01'),   -- Pack 12
+(42, 4, '2026-05-01', '2026-05-31', 15, '2026-05-01'),   -- Pase Libre
+(43, 2, '2026-05-01', '2026-05-31', 8,  '2026-05-01');   -- Pack 8  (usó las 8)
+
+GO
+
+-- =============================================
+-- INSERT: HistorialSuscripciones
+-- Registra cada movimiento: ALTA (1), RENOVACION (2), CAMBIO_PLAN (3)
+-- FechaRegistro = primer día del mes en que se activó
+--
+-- Lectura:
+--   Alumno 19 → ALTA en mayo, RENOVACION junio, RENOVACION julio
+--   Alumno 20 → ALTA en junio, RENOVACION julio
+--   Alumno 21 → ALTA en mayo, RENOVACION junio, RENOVACION julio
+--   Alumno 22 → ALTA en junio, RENOVACION julio
+--   Alumno 23 → ALTA en mayo (Pack 4), CAMBIO_PLAN junio (→Pack 8), RENOVACION julio
+--   Alumno 24 → ALTA en junio, RENOVACION julio
+--   Alumno 25 → ALTA en julio (nuevo)
+--   Alumno 26 → ALTA en julio (nuevo)
+--   Alumno 27 → ALTA en mayo, RENOVACION junio
+--   Alumno 28 → ALTA en mayo, RENOVACION junio
+--   Alumno 29 → ALTA en junio
+--   Alumno 30 → ALTA en junio
+--   Alumno 31 → ALTA en mayo, RENOVACION junio
+--   Alumno 32 → ALTA en junio
+--   Alumno 33 → ALTA en junio
+--   Alumno 34 → ALTA en mayo, RENOVACION junio
+--   Alumno 35 → ALTA en junio
+--   Alumno 36 → ALTA en junio
+--   Alumno 37 → ALTA en mayo (Pack 4), CAMBIO_PLAN junio (→Pack 12)
+--   Alumno 38 → ALTA en junio
+--   Alumnos 39–43 → ALTA en mayo (nunca renovaron)
+-- =============================================
+
+INSERT INTO HistorialSuscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, FechaRegistro, TipoMovimiento)
+VALUES
+
+-- ── Alumno 19 ─────────────────────────────────────────────────────────
+(19, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 8
+(19, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),   -- RENOVACION junio Pack 8
+(19, 2, '2026-07-01', '2026-07-31', '2026-07-01', 2),   -- RENOVACION julio Pack 8
+
+-- ── Alumno 20 ─────────────────────────────────────────────────────────
+(20, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 4
+(20, 1, '2026-07-01', '2026-07-31', '2026-07-01', 2),   -- RENOVACION julio Pack 4
+
+-- ── Alumno 21 ─────────────────────────────────────────────────────────
+(21, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 12
+(21, 3, '2026-06-01', '2026-06-30', '2026-06-01', 2),   -- RENOVACION junio Pack 12
+(21, 3, '2026-07-01', '2026-07-31', '2026-07-01', 2),   -- RENOVACION julio Pack 12
+
+-- ── Alumno 22 ─────────────────────────────────────────────────────────
+(22, 4, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pase Libre
+(22, 4, '2026-07-01', '2026-07-31', '2026-07-01', 2),   -- RENOVACION julio Pase Libre
+
+-- ── Alumno 23 (cambió de Pack 4 a Pack 8 en junio) ───────────────────
+(23, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 4
+(23, 2, '2026-06-01', '2026-06-30', '2026-06-01', 3),   -- CAMBIO_PLAN junio → Pack 8
+(23, 2, '2026-07-01', '2026-07-31', '2026-07-01', 2),   -- RENOVACION julio Pack 8
+
+-- ── Alumno 24 ─────────────────────────────────────────────────────────
+(24, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 4
+(24, 1, '2026-07-01', '2026-07-31', '2026-07-01', 2),   -- RENOVACION julio Pack 4
+
+-- ── Alumno 25 (nuevo en julio) ────────────────────────────────────────
+(25, 3, '2026-07-01', '2026-07-31', '2026-07-01', 1),   -- ALTA      julio Pack 12
+
+-- ── Alumno 26 (nuevo en julio) ────────────────────────────────────────
+(26, 4, '2026-07-01', '2026-07-31', '2026-07-01', 1),   -- ALTA      julio Pase Libre
+
+-- ── Alumno 27 ─────────────────────────────────────────────────────────
+(27, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 4
+(27, 1, '2026-06-01', '2026-06-30', '2026-06-01', 2),   -- RENOVACION junio Pack 4
+
+-- ── Alumno 28 ─────────────────────────────────────────────────────────
+(28, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 8
+(28, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),   -- RENOVACION junio Pack 8
+
+-- ── Alumno 29 ─────────────────────────────────────────────────────────
+(29, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 12
+
+-- ── Alumno 30 ─────────────────────────────────────────────────────────
+(30, 4, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pase Libre
+
+-- ── Alumno 31 ─────────────────────────────────────────────────────────
+(31, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 4
+(31, 1, '2026-06-01', '2026-06-30', '2026-06-01', 2),   -- RENOVACION junio Pack 4
+
+-- ── Alumno 32 ─────────────────────────────────────────────────────────
+(32, 2, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 8
+
+-- ── Alumno 33 ─────────────────────────────────────────────────────────
+(33, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 12
+
+-- ── Alumno 34 ─────────────────────────────────────────────────────────
+(34, 4, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pase Libre
+(34, 4, '2026-06-01', '2026-06-30', '2026-06-01', 2),   -- RENOVACION junio Pase Libre
+
+-- ── Alumno 35 ─────────────────────────────────────────────────────────
+(35, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 4 (agotó las 4)
+
+-- ── Alumno 36 ─────────────────────────────────────────────────────────
+(36, 2, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 8
+
+-- ── Alumno 37 (cambió de Pack 4 a Pack 12 en junio) ──────────────────
+(37, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 4
+(37, 3, '2026-06-01', '2026-06-30', '2026-06-01', 3),   -- CAMBIO_PLAN junio → Pack 12
+
+-- ── Alumno 38 ─────────────────────────────────────────────────────────
+(38, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),   -- ALTA      junio Pack 4
+
+-- ── Alumnos 39–43 (suscripción mayo, no renovaron) ───────────────────
+(39, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 4
+(40, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 8
+(41, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pack 12
+(42, 4, '2026-05-01', '2026-05-31', '2026-05-01', 1),   -- ALTA      mayo  Pase Libre
+(43, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1);   -- ALTA      mayo  Pack 8
+
+GO
