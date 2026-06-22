@@ -72,12 +72,14 @@
     <Content Include="EditarClases.aspx" />
     <Content Include="EditarDisciplinas.aspx" />
     <Content Include="EditarInstructores.aspx" />
+    <Content Include="EditarPlanes.aspx" />
     <Content Include="EditarRecepcionistas.aspx" />
     <Content Include="EditarReservas.aspx" />
     <Content Include="FormularioAlumno.aspx" />
     <Content Include="FormularioClase.aspx" />
     <Content Include="FormularioDisciplina.aspx" />
     <Content Include="FormularioInstructor.aspx" />
+    <Content Include="FormularioPlan.aspx" />
     <Content Include="FormularioRecepcionista.aspx" />
     <Content Include="FormularioReserva.aspx" />
     <Content Include="FormularioSuscripcion.aspx" />
@@ -143,6 +145,13 @@
     <Compile Include="EditarInstructores.aspx.designer.cs">
       <DependentUpon>EditarInstructores.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EditarPlanes.aspx.cs">
+      <DependentUpon>EditarPlanes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditarPlanes.aspx.designer.cs">
+      <DependentUpon>EditarPlanes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="EditarRecepcionistas.aspx.cs">
       <DependentUpon>EditarRecepcionistas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +193,13 @@
     </Compile>
     <Compile Include="FormularioInstructor.aspx.designer.cs">
       <DependentUpon>FormularioInstructor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioPlan.aspx.cs">
+      <DependentUpon>FormularioPlan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioPlan.aspx.designer.cs">
+      <DependentUpon>FormularioPlan.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormularioRecepcionista.aspx.cs">
       <DependentUpon>FormularioRecepcionista.aspx</DependentUpon>
