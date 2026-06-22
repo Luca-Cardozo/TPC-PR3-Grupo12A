@@ -57,8 +57,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <asp:GridView ID="dgvAlumnos" runat="server" DataKeyNames="IdUsuario"
-                        CssClass="table table-striped table-hover" AutoGenerateColumns="false"
-                        OnSelectedIndexChanged="dgvAlumnos_SelectedIndexChanged">
+                        CssClass="table table-striped table-hover" AutoGenerateColumns="false">
                         <Columns>
                             <asp:BoundField DataField="IdUsuario" HeaderText="ID" />
 
@@ -71,7 +70,27 @@
                             <asp:BoundField DataField="Email" HeaderText="Email" />
                             <asp:CheckBoxField DataField="Activo" HeaderText="Estado" />
 
-                            <asp:CommandField ShowSelectButton="true" SelectText="Ver/Editar" />
+                            <asp:TemplateField HeaderText="Acciones">
+                                <ItemTemplate>
+
+                                    <asp:Button
+                                        ID="btnEditarAlumno"
+                                        runat="server"
+                                        Text="✏️ Ver/Editar"
+                                        CssClass="btn btn-primary btn-sm me-1"
+                                        CommandArgument='<%# Eval("IdUsuario") %>'
+                                        OnClick="btnEditarAlumno_Click" />
+
+                                    <asp:Button
+                                        ID="btnEditarSuscripcion"
+                                        runat="server"
+                                        Text="📋 Suscripción"
+                                        CssClass="btn btn-outline-success btn-sm"
+                                        CommandArgument='<%# Eval("IdUsuario") %>'
+                                        OnClick="btnEditarSuscripcion_Click" />
+
+                                </ItemTemplate>
+                            </asp:TemplateField>
 
                         </Columns>
                     </asp:GridView>

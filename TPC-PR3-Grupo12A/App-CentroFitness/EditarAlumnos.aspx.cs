@@ -37,11 +37,6 @@ namespace App_CentroFitness
             Response.Redirect("FormularioAlumno.aspx?id=" + id);
         }
 
-        protected void dgvAlumnos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string id = dgvAlumnos.SelectedDataKey.Value.ToString();
-            Response.Redirect("FormularioAlumno.aspx?id=" + id);
-        }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             List<Alumno> lista = (List<Alumno>)Session["listaAlumnos"];
@@ -87,6 +82,20 @@ namespace App_CentroFitness
 
             dgvAlumnos.DataSource = Session["listaAlumnos"];
             dgvAlumnos.DataBind();
+        }
+
+        protected void btnEditarAlumno_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string id = btn.CommandArgument;
+            Response.Redirect("FormularioAlumno.aspx?id=" + id, false);
+        }
+
+        protected void btnEditarSuscripcion_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string id = btn.CommandArgument;
+            Response.Redirect("FormularioSuscripcion.aspx?id=" + id, false);
         }
     }
 }

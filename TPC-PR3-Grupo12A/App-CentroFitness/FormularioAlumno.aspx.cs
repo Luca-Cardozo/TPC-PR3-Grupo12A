@@ -220,5 +220,6 @@ namespace App_CentroFitness
                 lblError.Visible = true;
             }
         }
+
     }
 }
