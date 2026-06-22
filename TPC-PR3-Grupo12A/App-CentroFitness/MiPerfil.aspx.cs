@@ -42,9 +42,53 @@ namespace App_CentroFitness
                 pnlObservaciones.Visible = true;
                 Alumno alumno = (Alumno)usuario;
                 txtObservaciones.Text = alumno.Observaciones;
+                cargarSuscripcionAlumno(alumno);
             }
         }
 
+        private void cargarSuscripcionAlumno(Alumno alumno)
+        {
+            pnlSuscripcion.Visible = true;
+
+            SuscripcionNegocio negocio = new SuscripcionNegocio();
+            Suscripcion suscripcion = negocio.obtenerSuscripcionActualUsuario(alumno.IdUsuario);
+
+            if (suscripcion == null || !suscripcion.EstaVigente(DateTime.Now))
+            {
+                pnlSuscripcionVigente.Visible = false;
+                pnlSinSuscripcion.Visible = true;
+                return;
+            }
+
+            pnlSuscripcionVigente.Visible = true;
+            pnlSinSuscripcion.Visible = false;
+
+            txtPlan.Text = suscripcion.Plan.Descripcion;
+
+            if (suscripcion.Plan.CantidadClases.HasValue)
+            {
+                txtClasesConsumidas.Text =
+                    suscripcion.ClasesConsumidas + " / " + suscripcion.Plan.CantidadClases.Value;
+            }
+            else
+            {
+                txtClasesConsumidas.Text = "Pase libre";
+            }
+
+            txtFechaInicioSuscripcion.Text = suscripcion.FechaInicio.ToString("dd/MM/yyyy");
+            txtFechaFinSuscripcion.Text = suscripcion.FechaFin.ToString("dd/MM/yyyy");
+
+            if (suscripcion.EnGracia(DateTime.Now))
+            {
+                lblEstadoSuscripcion.Text = "Vigente (en período de gracia por 5 días)";
+                lblEstadoSuscripcion.CssClass = "badge bg-warning text-dark p-2";
+            }
+            else
+            {
+                lblEstadoSuscripcion.Text = "Vigente";
+                lblEstadoSuscripcion.CssClass = "badge bg-success p-2";
+            }
+        }
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             try
