@@ -89,6 +89,7 @@
     <Content Include="MiPerfil.aspx" />
     <Content Include="MisClases.aspx" />
     <Content Include="MisReservas.aspx" />
+    <Content Include="ReprogramarReserva.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +265,13 @@
       <DependentUpon>MisReservas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReprogramarReserva.aspx.cs">
+      <DependentUpon>ReprogramarReserva.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReprogramarReserva.aspx.designer.cs">
+      <DependentUpon>ReprogramarReserva.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Master.Master" />

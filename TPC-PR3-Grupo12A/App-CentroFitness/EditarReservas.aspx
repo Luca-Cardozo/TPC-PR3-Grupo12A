@@ -97,6 +97,9 @@
                         <asp:TemplateField HeaderText="Acción">
                             <ItemTemplate>
                                 <asp:Button ID="btnEditar" runat="server" Text="✏️ Editar" CssClass="btn btn-primary btn-sm" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnEditar_Click" />
+                                <asp:Button ID="btnReprogramar" runat="server" Text="🔄 Reprogramar" CssClass="btn btn-info btn-sm" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnReprogramar_Click" />  
+   
+
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

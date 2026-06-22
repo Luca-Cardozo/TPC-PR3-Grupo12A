@@ -441,7 +441,40 @@ namespace Negocio
                 throw new Exception("No hay cupos disponibles para esta clase.");
         }
 
+
+
+        public void reprogramar(int idReserva, int idClaseNueva)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                Reserva reserva = listar().Find(x => x.IdReserva == idReserva);
+
+                if (reserva == null)
+                    throw new Exception("No se encontró la reserva.");
+
+                if (existeReserva(reserva.Alumno.IdUsuario, idClaseNueva))
+                    throw new Exception("El alumno ya tiene una reserva vigente para esa clase.");
+
+                validarCupoDisponible(idClaseNueva);
+
+                datos.setearConsulta(
+                    "UPDATE Reservas SET IdClase = @IdClaseNueva, Estado = 4, Asistio = NULL " +
+                    "WHERE IdReserva = @IdReserva");
+
+                datos.setearParametro("@IdClaseNueva", idClaseNueva);
+                datos.setearParametro("@IdReserva", idReserva);
+
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
+
 }
 
 
