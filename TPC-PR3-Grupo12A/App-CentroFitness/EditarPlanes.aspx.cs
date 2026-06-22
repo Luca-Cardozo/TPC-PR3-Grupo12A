@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,27 +13,52 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                try
+                {
+                    cargarPlanes();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("<script>alert('Error al listar planes: " + ex.Message + "');</script>");
+                }
+            }
+        }
 
+        private void cargarPlanes()
+        {
+            PlanNegocio negocio = new PlanNegocio();
+            List<Plan> lista = negocio.listar();
+            Session["listaPlanes"] = lista;
+            dgvPlanes.DataSource = lista;
+            dgvPlanes.DataBind();
         }
 
         protected void btnVolverHome_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("Home.aspx", false);
         }
 
         protected void btnEditarPlan_Click(object sender, EventArgs e)
         {
-
+            Button btn = (Button)sender;
+            string id = btn.CommandArgument;
+            Response.Redirect("FormularioPlan.aspx?id=" + id, false);
         }
 
         protected void ddlEstadoFiltro_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-        }
-
-        protected void btnVolverHome_Click1(object sender, EventArgs e)
-        {
-
+            int estado = int.Parse(ddlEstadoFiltro.SelectedValue);
+            if (estado == 0)
+            {
+                cargarPlanes();
+                return;
+            }
+            List<Plan> lista = (List<Plan>)Session["listaPlanes"];
+            lista = estado == 1 ? lista.FindAll(x => x.Activo) : lista.FindAll(x => !x.Activo);
+            dgvPlanes.DataSource = lista;
+            dgvPlanes.DataBind();
         }
 
     }

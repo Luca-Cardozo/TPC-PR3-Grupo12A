@@ -17,8 +17,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT IdPlan, Descripcion, CantidadClases, DuracionDias, Precio, Activo " +
-                    "FROM Planes ORDER BY Activo DESC, Descripcion ASC");
+                datos.setearConsulta("SELECT IdPlan, Descripcion, CantidadClases, DuracionMeses, Precio, Activo " +
+                    "FROM Planes ORDER BY Activo DESC, IdPlan ASC");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -28,7 +28,7 @@ namespace Negocio
                     plan.IdPlan = (int)datos.Lector["IdPlan"];
                     plan.Descripcion = (string)datos.Lector["Descripcion"];
                     plan.CantidadClases = datos.Lector["CantidadClases"] == DBNull.Value ? (int?)null : (int)datos.Lector["CantidadClases"];
-                    plan.DuracionDias = (int)datos.Lector["DuracionDias"];
+                    plan.DuracionMeses = (int)datos.Lector["DuracionMeses"];
                     plan.Precio = (decimal)datos.Lector["Precio"];
                     plan.Activo = (bool)datos.Lector["Activo"];
 
@@ -52,11 +52,11 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO Planes (Descripcion, CantidadClases, DuracionDias, Precio, Activo) " +
-                    "VALUES (@Descripcion, @CantidadClases, @DuracionDias, @Precio, 1)");
+                datos.setearConsulta("INSERT INTO Planes (Descripcion, CantidadClases, DuracionMeses, Precio, Activo) " +
+                    "VALUES (@Descripcion, @CantidadClases, @DuracionMeses, @Precio, 1)");
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
                 datos.setearParametro("@CantidadClases", nuevo.CantidadClases.HasValue ? (object)nuevo.CantidadClases.Value : DBNull.Value);
-                datos.setearParametro("@DuracionDias", nuevo.DuracionDias);
+                datos.setearParametro("@DuracionMeses", nuevo.DuracionMeses);
                 datos.setearParametro("@Precio", nuevo.Precio);
                 datos.ejecutarAccion();
             }
@@ -76,12 +76,12 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("UPDATE Planes SET Descripcion = @Descripcion, " +
-                    "CantidadClases = @CantidadClases, DuracionDias = @DuracionDias, Precio = @Precio " +
+                    "CantidadClases = @CantidadClases, DuracionMeses = @DuracionMeses, Precio = @Precio " +
                     "WHERE IdPlan = @IdPlan");
 
                 datos.setearParametro("@Descripcion", modificado.Descripcion);
                 datos.setearParametro("@CantidadClases", modificado.CantidadClases.HasValue ? (object)modificado.CantidadClases.Value : DBNull.Value);
-                datos.setearParametro("@DuracionDias", modificado.DuracionDias);
+                datos.setearParametro("@DuracionMeses", modificado.DuracionMeses);
                 datos.setearParametro("@Precio", modificado.Precio);
                 datos.setearParametro("@IdPlan", modificado.IdPlan);
                 datos.ejecutarAccion();

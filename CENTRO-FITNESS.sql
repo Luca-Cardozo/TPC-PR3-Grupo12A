@@ -575,10 +575,18 @@ CREATE TABLE Planes (
     IdPlan INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion VARCHAR(100) NOT NULL,
     CantidadClases INT NULL, -- NULL = ilimitado
-    DuracionDias INT NOT NULL,
+    DuracionMeses INT NOT NULL,
     Precio DECIMAL(10,2) NOT NULL,
     Activo BIT NOT NULL DEFAULT 1
 );
+
+ALTER TABLE Planes
+ADD CONSTRAINT CHK_Planes_DuracionMeses
+CHECK (DuracionMeses >= 1);
+
+ALTER TABLE Planes
+ADD CONSTRAINT DF_Planes_DuracionMeses
+DEFAULT 1 FOR DuracionMeses;
 
 -- =============================================
 -- Tabla: Suscripciones

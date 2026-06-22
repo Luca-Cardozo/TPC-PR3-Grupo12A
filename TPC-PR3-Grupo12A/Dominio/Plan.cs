@@ -12,7 +12,7 @@ namespace Dominio
         public string Descripcion { get; set; }
         // Se usa NULL para el plan libre (clases ilimitadas)
         public int? CantidadClases { get; set; }
-        public int DuracionDias { get; set; }
+        public int DuracionMeses { get; set; }
         public decimal Precio { get; set; }
         public bool Activo { get; set; }
     }

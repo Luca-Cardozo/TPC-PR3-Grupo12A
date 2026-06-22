@@ -58,10 +58,10 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Duración en días</label>
-                            <asp:TextBox ID="txtDuracionDias" runat="server" CssClass="form-control" TextMode="Number" placeholder="Ej: 30" />
-                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDuracionDias" ErrorMessage="La duración es obligatoria" CssClass="validacion" Display="Dynamic" />
-                            <asp:RangeValidator runat="server" ControlToValidate="txtDuracionDias" MinimumValue="1" MaximumValue="365" Type="Integer" ErrorMessage="La duración debe estar entre 1 y 365 días" CssClass="validacion" Display="Dynamic" />
+                            <label class="form-label">Duración en meses</label>
+                            <asp:TextBox ID="txtDuracionMeses" runat="server" CssClass="form-control" TextMode="Number" placeholder="Ej: 1" />
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDuracionMeses" ErrorMessage="La duración es obligatoria" CssClass="validacion" Display="Dynamic" />
+                            <asp:RangeValidator runat="server" ControlToValidate="txtDuracionMeses" MinimumValue="1" MaximumValue="12" Type="Integer" ErrorMessage="La duración debe estar entre 1 y 12 meses" CssClass="validacion" Display="Dynamic" />
                         </div>
 
                     </div>

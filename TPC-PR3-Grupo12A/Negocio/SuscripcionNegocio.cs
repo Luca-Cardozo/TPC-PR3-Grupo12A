@@ -37,7 +37,7 @@ namespace Negocio
                 plan.IdPlan = (int)datos.Lector["IdPlan"];
                 plan.Descripcion = (string)datos.Lector["Descripcion"];
                 plan.CantidadClases = datos.Lector["CantidadClases"] != DBNull.Value ? (int?)datos.Lector["CantidadClases"] : null;
-                plan.DuracionDias = (int)datos.Lector["DuracionDias"];
+                plan.DuracionMeses = (int)datos.Lector["DuracionMeses"];
                 plan.Precio = (decimal)datos.Lector["Precio"];
                 plan.Activo = (bool)datos.Lector["Activo"];
 
