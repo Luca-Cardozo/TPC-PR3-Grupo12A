@@ -628,7 +628,7 @@ CREATE TABLE HistorialSuscripciones (
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
 
     TipoMovimiento INT NOT NULL
-    -- EJ: 1-'ALTA', 2-'RENOVACION', 3-'CAMBIO_PLAN'
+    -- EJ: 1-'ALTA', 2-'ACTUALIZACIÓN'
 );
 
 

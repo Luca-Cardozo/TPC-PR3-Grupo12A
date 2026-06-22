@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Negocio
 {
+    public enum TipoMovimientoSuscripcion
+    {
+        Alta = 1,
+        Actualizacion = 2
+    }
     public class SuscripcionNegocio
     {
         public Suscripcion obtenerSuscripcionActualUsuario(int idUsuario)
@@ -17,7 +22,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("SELECT S.FechaInicio, S.FechaFin, S.ClasesConsumidas, " +
-                    "P.IdPlan, P.Descripcion, P.CantidadClases, P.DuracionDias, P.Precio, P.Activo " +
+                    "P.IdPlan, P.Descripcion, P.CantidadClases, P.DuracionMeses, P.Precio, P.Activo " +
                     "FROM Suscripciones S " +
                     "INNER JOIN Planes P ON P.IdPlan = S.IdPlan " +
                     "WHERE S.IdUsuario = @IdUsuario");
@@ -112,6 +117,123 @@ namespace Negocio
 
             if (fechaClase < inicio || fechaClase > finConGracia)
                 throw new Exception("La clase seleccionada no corresponde al período de la suscripción vigente.");
+        }
+
+        public void altaSuscripcion(int idUsuario, int idPlan, int mes, int anio)
+        {
+            validarPeriodoSuscripcion(mes, anio);
+
+            if (obtenerSuscripcionActualUsuario(idUsuario) != null)
+                throw new Exception("El alumno ya posee una suscripción cargada. Puede actualizarla.");
+
+            Plan plan = new PlanNegocio().listar().Find(x => x.IdPlan == idPlan);
+
+            if (plan == null)
+                throw new Exception("El plan seleccionado no existe.");
+
+            if (!plan.Activo)
+                throw new Exception("No se puede asignar un plan inactivo.");
+
+            DateTime inicio = new DateTime(anio, mes, 1);
+            DateTime fin = inicio.AddMonths(plan.DuracionMeses).AddDays(-1);
+
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "INSERT INTO Suscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, ClasesConsumidas) " +
+                    "VALUES (@IdUsuario, @IdPlan, @FechaInicio, @FechaFin, 0)");
+
+                datos.setearParametro("@IdUsuario", idUsuario);
+                datos.setearParametro("@IdPlan", idPlan);
+                datos.setearParametro("@FechaInicio", inicio);
+                datos.setearParametro("@FechaFin", fin);
+
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            registrarHistorial(idUsuario, idPlan, inicio, fin, (int)TipoMovimientoSuscripcion.Alta);
+        }
+
+        public void actualizarSuscripcion(int idUsuario, int idPlan, int mes, int anio)
+        {
+            validarPeriodoSuscripcion(mes, anio);
+
+            Suscripcion actual = obtenerSuscripcionActualUsuario(idUsuario);
+
+            if (actual == null)
+                throw new Exception("El alumno no posee una suscripción cargada. Debe dar de alta una primero.");
+
+            Plan plan = new PlanNegocio().listar().Find(x => x.IdPlan == idPlan);
+
+            if (plan == null)
+                throw new Exception("El plan seleccionado no existe.");
+
+            if (!plan.Activo)
+                throw new Exception("No se puede asignar un plan inactivo.");
+
+            DateTime inicio = new DateTime(anio, mes, 1);
+            DateTime fin = inicio.AddMonths(plan.DuracionMeses).AddDays(-1);
+
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Suscripciones SET IdPlan = @IdPlan, FechaInicio = @FechaInicio, " +
+                    "FechaFin = @FechaFin, ClasesConsumidas = 0, FechaUltimaActualizacion = GETDATE() " +
+                    "WHERE IdUsuario = @IdUsuario");
+
+                datos.setearParametro("@IdUsuario", idUsuario);
+                datos.setearParametro("@IdPlan", idPlan);
+                datos.setearParametro("@FechaInicio", inicio);
+                datos.setearParametro("@FechaFin", fin);
+
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+            registrarHistorial(idUsuario, idPlan, inicio, fin, (int)TipoMovimientoSuscripcion.Actualizacion);
+        }
+
+
+        private void registrarHistorial(int idUsuario, int idPlan, DateTime fechaInicio, DateTime fechaFin, int tipoMovimiento)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "INSERT INTO HistorialSuscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, TipoMovimiento) " +
+                    "VALUES (@IdUsuario, @IdPlan, @FechaInicio, @FechaFin, @TipoMovimiento)");
+
+                datos.setearParametro("@IdUsuario", idUsuario);
+                datos.setearParametro("@IdPlan", idPlan);
+                datos.setearParametro("@FechaInicio", fechaInicio);
+                datos.setearParametro("@FechaFin", fechaFin);
+                datos.setearParametro("@TipoMovimiento", tipoMovimiento);
+
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        private void validarPeriodoSuscripcion(int mes, int anio)
+        {
+            DateTime inicioSeleccionado = new DateTime(anio, mes, 1);
+            DateTime inicioMesActual = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+
+            if (inicioSeleccionado < inicioMesActual)
+                throw new Exception("No se puede cargar una suscripción para un período anterior al mes actual.");
         }
     }
 }

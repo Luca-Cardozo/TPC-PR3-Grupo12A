@@ -18,7 +18,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("SELECT IdPlan, Descripcion, CantidadClases, DuracionMeses, Precio, Activo " +
-                    "FROM Planes ORDER BY Activo DESC, IdPlan ASC");
+                    "FROM Planes ORDER BY Activo DESC, Descripcion ASC");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
