@@ -422,7 +422,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("SELECT COUNT(*) FROM Reservas " +
-                    "WHERE IdClase = @IdClase AND Estado = 1");
+                    "WHERE IdClase = @IdClase AND Estado IN (1, 4)");
                 datos.setearParametro("@IdClase", idClase);
                 return datos.ejecutarAccionScalar();
             }
