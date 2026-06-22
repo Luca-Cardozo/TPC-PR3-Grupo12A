@@ -148,6 +148,34 @@ namespace Negocio
 
             try
             {
+                SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
+                Suscripcion suscripcion = suscripcionNegocio.obtenerSuscripcionActualUsuario(reservaNueva.Alumno.IdUsuario);
+
+                if (suscripcion == null)
+                    throw new Exception("El alumno no posee una suscripción activa. Debe dar de alta un plan en recepción.");
+
+                if (!suscripcion.EstaVigente(DateTime.Now))
+                    throw new Exception("La suscripción se encuentra vencida. Debe actualizar su plan en recepción.");
+
+                ClaseNegocio claseNegocio = new ClaseNegocio();
+                Clase clase = claseNegocio.obtenerPorId(reservaNueva.Clase.IdClase);
+
+                if (clase == null)
+                    throw new Exception("La clase seleccionada no existe.");
+
+                DateTime fechaClase = clase.Fecha.Date;
+                DateTime inicioSuscripcion = suscripcion.FechaInicio.Date;
+                DateTime finSuscripcionConGracia = suscripcion.FechaFin.Date.AddDays(5);
+
+                if (fechaClase < inicioSuscripcion || fechaClase > finSuscripcionConGracia)
+                    throw new Exception("La clase seleccionada no corresponde al período de la suscripción vigente.");
+
+                if (suscripcion.Plan.CantidadClases.HasValue)
+                {
+                    if (suscripcion.ClasesConsumidas >= suscripcion.Plan.CantidadClases.Value)
+                        throw new Exception("Ya se consumieron todas las clases disponibles en su plan.");
+                }
+
                 datos.setearConsulta("SELECT Estado FROM Reservas WHERE IdAlumno = @IdAlumno AND IdClase = @IdClase");
                 datos.setearParametro("@IdAlumno", reservaNueva.Alumno.IdUsuario);
                 datos.setearParametro("@IdClase", reservaNueva.Clase.IdClase);
@@ -180,6 +208,8 @@ namespace Negocio
                 datos.setearParametro("@IdAlumno", reservaNueva.Alumno.IdUsuario);
                 datos.setearParametro("@Observaciones", string.IsNullOrWhiteSpace(reservaNueva.Observaciones) ? (object)DBNull.Value : reservaNueva.Observaciones);
                 datos.ejecutarAccion();
+
+                suscripcionNegocio.incrementarClasesConsumidas(reservaNueva.Alumno.IdUsuario);
             }
             finally
             {
@@ -223,9 +253,21 @@ namespace Negocio
 
             try
             {
+                datos.setearConsulta("SELECT IdAlumno FROM Reservas WHERE IdReserva = @IdReserva");
+                datos.setearParametro("@IdReserva", idReserva);
+                datos.ejecutarLectura();
+                if (!datos.Lector.Read())
+                    throw new Exception("Reserva no encontrada.");
+                int idAlumno = (int)datos.Lector["IdAlumno"];
+                datos.cerrarConexion();
+
+                datos = new AccesoDatos();
                 datos.setearConsulta("UPDATE Reservas SET Estado = 2 WHERE IdReserva = @IdReserva");
                 datos.setearParametro("@IdReserva", idReserva);
                 datos.ejecutarAccion();
+
+                SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
+                suscripcionNegocio.disminuirClasesConsumidas(idAlumno);
             }
             catch (Exception ex)
             {
@@ -243,14 +285,17 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("UPDATE Reservas SET Estado = 1, Asistio = NULL, Observaciones = NULL " +
-                    "WHERE IdAlumno = @IdAlumno AND IdClase = @IdClase AND Estado = 2"
+                datos.setearConsulta("UPDATE Reservas SET Estado = 1, FechaReserva = GETDATE() " +
+                    "WHERE IdAlumno = @IdAlumno AND IdClase = @IdClase"
                 );
 
                 datos.setearParametro("@IdAlumno", idAlumno);
                 datos.setearParametro("@IdClase", idClase);
 
                 datos.ejecutarAccion();
+
+                SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
+                suscripcionNegocio.incrementarClasesConsumidas(idAlumno);
             }
             finally
             {
@@ -395,6 +440,7 @@ namespace Negocio
             if (reservasVigentes >= clase.CupoMaximo)
                 throw new Exception("No hay cupos disponibles para esta clase.");
         }
+
     }
 }
 
