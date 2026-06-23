@@ -113,7 +113,24 @@ namespace App_CentroFitness
                 int idReserva = int.Parse(btn.CommandArgument);
 
                 ReservaNegocio negocio = new ReservaNegocio();
+                Reserva reserva = negocio.listar().Find(x => x.IdReserva == idReserva);
                 negocio.cancelar(idReserva);
+
+                EmailService email = new EmailService();
+
+                string cuerpo = @"<h2>Reserva cancelada correctamente</h2>
+                          <p>Tu reserva fue cancelada exitosamente.</p>
+                         
+                          <br/>
+                          <p>Centro Fitness</p>";
+
+                email.armarCorreo(
+                    reserva.Alumno.Email,
+                    "Cancelación de reserva - Centro Fitness",
+                    cuerpo
+                );
+
+                email.enviarEmail();
 
                 cargarReservas();
 

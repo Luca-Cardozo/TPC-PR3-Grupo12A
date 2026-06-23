@@ -94,7 +94,7 @@
                             CommandArgument='<%# Eval("IdReserva") %>'
                             OnClick="btnCancelar_Click"
                             OnClientClick="return confirm('¿Seguro que deseas cancelar esta reserva?');"
-                            Visible='<%# (int)Eval("Estado") == 1 %>' />
+                            Visible='<%# (int)Eval("Estado") == 1 || (int)Eval("Estado") == 4 %>' />
 
                     </ItemTemplate>
                 </asp:Repeater>
