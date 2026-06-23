@@ -204,5 +204,50 @@ namespace App_CentroFitness
             pnlSeleccionClase.Visible = true;
             pnlDatosReserva.Visible = false;
         }
+
+        protected void ddlAlumno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblClasesDisponiblesAlumno.Visible = false;
+
+            if (ddlAlumno.SelectedValue == "0")
+                return;
+
+            try
+            {
+                int idAlumno = int.Parse(ddlAlumno.SelectedValue);
+
+                SuscripcionNegocio negocio = new SuscripcionNegocio();
+                Suscripcion suscripcion = negocio.obtenerSuscripcionActualUsuario(idAlumno);
+
+                if (suscripcion == null || !suscripcion.EstaVigente(DateTime.Now))
+                {
+                    lblClasesDisponiblesAlumno.Text = "El alumno no posee una suscripción vigente.";
+                    lblClasesDisponiblesAlumno.CssClass = "d-block mt-2 fw-bold text-danger";
+                    lblClasesDisponiblesAlumno.Visible = true;
+                    return;
+                }
+
+                if (!suscripcion.Plan.CantidadClases.HasValue)
+                {
+                    lblClasesDisponiblesAlumno.Text = "Clases disponibles: pase libre";
+                    lblClasesDisponiblesAlumno.CssClass = "d-block mt-2 fw-bold text-success";
+                    lblClasesDisponiblesAlumno.Visible = true;
+                    return;
+                }
+
+                int disponibles = suscripcion.Plan.CantidadClases.Value - suscripcion.ClasesConsumidas;
+
+                lblClasesDisponiblesAlumno.Text = "Clases disponibles: " + disponibles + " de " + suscripcion.Plan.CantidadClases.Value;
+
+                lblClasesDisponiblesAlumno.CssClass = disponibles > 0 ? "d-block mt-2 fw-bold text-success" : "d-block mt-2 fw-bold text-danger";
+                lblClasesDisponiblesAlumno.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                lblClasesDisponiblesAlumno.Text = ex.Message;
+                lblClasesDisponiblesAlumno.CssClass = "d-block mt-2 fw-bold text-danger";
+                lblClasesDisponiblesAlumno.Visible = true;
+            }
+        }
     }
 }

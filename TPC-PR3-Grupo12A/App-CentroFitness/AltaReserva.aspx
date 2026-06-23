@@ -125,7 +125,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label">Alumno</label>
-                                    <asp:DropDownList ID="ddlAlumno" runat="server" CssClass="form-select" />
+                                    <asp:DropDownList ID="ddlAlumno" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlAlumno_SelectedIndexChanged" />
                                     <asp:RequiredFieldValidator
                                         runat="server"
                                         ControlToValidate="ddlAlumno"
@@ -133,6 +133,7 @@
                                         ErrorMessage="Debe seleccionar un alumno"
                                         CssClass="text-danger d-block"
                                         ValidationGroup="Reserva" />
+                                    <asp:Label ID="lblClasesDisponiblesAlumno" runat="server" CssClass="d-block mt-2 fw-bold" Visible="false" />
                                 </div>
 
                                 <div class="col-md-6">
