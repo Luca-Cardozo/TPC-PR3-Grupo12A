@@ -24,6 +24,15 @@ namespace App_CentroFitness
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
+        /// Control pnlSeleccionClase.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlSeleccionClase;
+
+        /// <summary>
         /// Control ddlDisciplinaFiltro.
         /// </summary>
         /// <remarks>
@@ -96,6 +105,15 @@ namespace App_CentroFitness
         protected global::System.Web.UI.WebControls.Repeater repClases;
 
         /// <summary>
+        /// Control pnlDatosReserva.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlDatosReserva;
+
+        /// <summary>
         /// Control ddlAlumno.
         /// </summary>
         /// <remarks>
@@ -112,6 +130,15 @@ namespace App_CentroFitness
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtClaseSeleccionada;
+
+        /// <summary>
+        /// Control btnCambiarClase.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCambiarClase;
 
         /// <summary>
         /// Control txtObservaciones.

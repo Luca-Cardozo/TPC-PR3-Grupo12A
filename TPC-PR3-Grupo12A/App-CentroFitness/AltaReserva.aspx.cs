@@ -27,6 +27,9 @@ namespace App_CentroFitness
                 cargarInstructores();
                 cargarAlumnos();
                 cargarClases();
+
+                pnlSeleccionClase.Visible = true;
+                pnlDatosReserva.Visible = false;
             }
         }
 
@@ -150,6 +153,9 @@ namespace App_CentroFitness
             List<Clase> clases = (List<Clase>)Session["listaClases"];
             Clase seleccionada = clases.Find(x => x.IdClase == idClase);
             txtClaseSeleccionada.Text = seleccionada.Disciplina.Nombre + " - " + seleccionada.Fecha.ToString("dd/MM/yyyy") + " - " + seleccionada.HoraInicio + ":00 hs";
+
+            pnlSeleccionClase.Visible = false;
+            pnlDatosReserva.Visible = true;
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -189,6 +195,14 @@ namespace App_CentroFitness
         {
             Response.Redirect("EditarReservas.aspx", false);
         }
-        
+
+        protected void btnCambiarClase_Click(object sender, EventArgs e)
+        {
+            Session["idClaseSeleccionada"] = null;
+            txtClaseSeleccionada.Text = "";
+
+            pnlSeleccionClase.Visible = true;
+            pnlDatosReserva.Visible = false;
+        }
     }
 }
