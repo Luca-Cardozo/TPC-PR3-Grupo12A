@@ -22,7 +22,7 @@ namespace Negocio
                     "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistio, R.Observaciones, " +
                     "C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
                     "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
-                    "U.IdUsuario AS IdAlumno, U.Nombre AS NombreAlumno, U.Apellido AS ApellidoAlumno, U.DNI, " +
+                    "U.IdUsuario AS IdAlumno, U.Nombre AS NombreAlumno, U.Apellido AS ApellidoAlumno, U.DNI, U.Email AS EmailAlumno, " +
                     "U2.IdUsuario AS IdInstructor, U2.Nombre AS NombreInstructor, U2.Apellido AS ApellidoInstructor " +
                     "FROM Reservas R " +
                     "INNER JOIN Clases C ON R.IdClase = C.IdClase " +
@@ -68,6 +68,7 @@ namespace Negocio
                     res.Alumno.Nombre = (string)datos.Lector["NombreAlumno"];
                     res.Alumno.Apellido = (string)datos.Lector["ApellidoAlumno"];
                     res.Alumno.DNI = (string)datos.Lector["DNI"];
+                    res.Alumno.Email = (string)datos.Lector["EmailAlumno"];
 
                     lista.Add(res);
                 }

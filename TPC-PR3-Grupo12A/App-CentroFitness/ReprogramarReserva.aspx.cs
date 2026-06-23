@@ -75,7 +75,24 @@ namespace App_CentroFitness
                 int idNuevaClase = int.Parse(ddlNuevaClase.SelectedValue);
 
                 ReservaNegocio negocio = new ReservaNegocio();
+
+                Reserva reserva = negocio.listar().Find(x => x.IdReserva == idReserva);
                 negocio.reprogramar(idReserva, idNuevaClase);
+
+
+                EmailService email = new EmailService();
+
+                string cuerpo = @"<h2>Reserva reprogramada correctamente</h2>
+                          <p>Tu clase fue reprogramada exitosamente.</p>
+                          <p>Te esperamos en tu próxima actividad.</p>
+                          <br/>
+                          <p>Centro Fitness</p>";
+
+                email.armarCorreo(
+                    reserva.Alumno.Email,
+                    "Reprogramación de reserva - Centro Fitness",
+                    cuerpo);
+                email.enviarEmail();
 
                 Response.Write("<script>alert('Reserva reprogramada correctamente.'); window.location='EditarReservas.aspx';</script>");
             }
@@ -88,13 +105,13 @@ namespace App_CentroFitness
         }
 
 
-            
+
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("EditarReservas.aspx", false);
         }
-        
+
         private void cargarClasesDisponibles(int idDisciplina, int idClaseActual, int idAlumno)
         {
             ClaseNegocio claseNegocio = new ClaseNegocio();
