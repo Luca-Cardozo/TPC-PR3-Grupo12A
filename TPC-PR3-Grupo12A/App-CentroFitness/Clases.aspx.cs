@@ -23,7 +23,7 @@ namespace App_CentroFitness
             Usuario usuario = (Usuario)Session["usuario"];
             if (usuario.Rol != Rol.Alumno)
             {
-                Response.Write("<script>alert('Debe ser alumno para acceder a esta página.');window.location='Default.aspx';</script>");
+                Response.Write("<script>alert('Debe ser alumno para acceder a esta página.');window.location='Home.aspx';</script>");
                 return;
             }
 
