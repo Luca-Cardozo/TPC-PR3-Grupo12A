@@ -119,7 +119,14 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
+                                       
                                         <asp:Button ID="btnEditar" runat="server" Text="✏️ Editar" CssClass="btn btn-outline-primary btn-sm" CommandArgument='<%#Eval("IdClase") %>' OnClick="btnEditar_Click" />
+                                    
+                                                                          <br />
+
+<asp:Button ID="btnReprogramar" runat="server" Text="🔄 Reprogramar"  CssClass="btn btn-outline-warning btn-sm" CommandArgument='<%# Eval("IdClase") %>'   OnClick ="btnReprogramar_Click"  Visible='<%# (Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Vigente %>' />
+                 
+                                    
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -137,7 +144,7 @@
 
     <div class="row mt-4 mb-5">
         <div class="col-12 text-center">
-            <asp:Button ID="btnVolverHome" runat="server" Text="🏠 Volver a página principal" OnClick="btnVolverHome_Click" CssClass="btn btn-outline-primary px-4 py-2 shadow-sm" />
+           <asp:Button ID="btnReprogramar" runat="server" Text="🔄 Reprogramar" CssClass="btn btn-outline-warning btn-sm" CommandArgument='<%# Eval("IdClase") %>' OnClick="btnReprogramar_Click" Visible='<%# (Dominio.EstadoClase)Eval("Estado") == Dominio.EstadoClase.Vigente %>' />
         </div>
     </div>
 

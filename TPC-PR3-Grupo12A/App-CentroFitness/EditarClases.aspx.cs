@@ -132,5 +132,15 @@ namespace App_CentroFitness
             ddlDisciplinaFiltro.DataBind();
             ddlDisciplinaFiltro.Items.Insert(0, new ListItem("Todas", "0"));
         }
+
+
+        protected void btnReprogramar_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int idClase = int.Parse(btn.CommandArgument);
+
+            Response.Redirect("ReprogramarClase.aspx?id=" + idClase, false);
+        }
+
     }
 }

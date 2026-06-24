@@ -11,89 +11,71 @@ namespace App_CentroFitness
 {
 
 
-    public partial class EditarClases
+    public partial class ReprogramaClase
     {
 
         /// <summary>
-        /// Control txtFechaDesde.
+        /// Control txtIdClase.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaDesde;
+        protected global::System.Web.UI.WebControls.TextBox txtIdClase;
 
         /// <summary>
-        /// Control txtFechaHasta.
+        /// Control txtDisciplina.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaHasta;
+        protected global::System.Web.UI.WebControls.TextBox txtDisciplina;
 
         /// <summary>
-        /// Control ddlInstructorFiltro.
+        /// Control txtInstructor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlInstructorFiltro;
+        protected global::System.Web.UI.WebControls.TextBox txtInstructor;
 
         /// <summary>
-        /// Control ddlDisciplinaFiltro.
+        /// Control txtFechaActual.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDisciplinaFiltro;
+        protected global::System.Web.UI.WebControls.TextBox txtFechaActual;
 
         /// <summary>
-        /// Control ddlEstadoFiltro.
+        /// Control txtHoraActual.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEstadoFiltro;
+        protected global::System.Web.UI.WebControls.TextBox txtHoraActual;
 
         /// <summary>
-        /// Control btnBuscar.
+        /// Control txtNuevaFecha.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscar;
+        protected global::System.Web.UI.WebControls.TextBox txtNuevaFecha;
 
         /// <summary>
-        /// Control btnRecargar.
+        /// Control ddlNuevaHora.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRecargar;
-
-        /// <summary>
-        /// Control btnNuevaClase.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevaClase;
-
-        /// <summary>
-        /// Control repClases.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repClases;
+        protected global::System.Web.UI.WebControls.DropDownList ddlNuevaHora;
 
         /// <summary>
         /// Control btnReprogramar.
@@ -103,5 +85,14 @@ namespace App_CentroFitness
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnReprogramar;
+
+        /// <summary>
+        /// Control lblError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }
