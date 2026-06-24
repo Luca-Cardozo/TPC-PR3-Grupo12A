@@ -234,10 +234,18 @@ namespace App_CentroFitness
 
                 Recepcionista recepcionista = negocio.listar().Find(x => x.IdUsuario == idRecepcionista);
 
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
                 if (recepcionista.Activo)
+                {
                     negocio.eliminar(idRecepcionista);
+                    usuarioNegocio.enviarMailCambioEstadoCuenta(recepcionista.Email, false);
+                }
                 else
+                {
                     negocio.reactivar(idRecepcionista);
+                    usuarioNegocio.enviarMailCambioEstadoCuenta(recepcionista.Email, true);
+                }
 
                 Response.Redirect("EditarRecepcionistas.aspx", false);
             }

@@ -176,6 +176,47 @@ namespace Negocio
             service.armarCorreo(nuevoEmail, "Actualización de correo electrónico - Centro Fitness", cuerpo);
             service.enviarEmail();
         }
-        
+
+        public void enviarMailCambioEstadoCuenta(string email, bool activo)
+        {
+            EmailService service = new EmailService();
+
+            string titulo;
+            string mensajePrincipal;
+            string detalle;
+
+            if (activo)
+            {
+                titulo = "Cuenta reactivada correctamente ✅";
+                mensajePrincipal = "Te informamos que tu cuenta de Centro Fitness fue reactivada correctamente.";
+                detalle = "A partir de este momento ya podés volver a iniciar sesión en la aplicación web utilizando tu email y contraseña habituales.";
+            }
+            else
+            {
+                titulo = "Cuenta dada de baja";
+                mensajePrincipal = "Te informamos que tu cuenta de Centro Fitness fue dada de baja.";
+                detalle = "A partir de este momento ya no podrás iniciar sesión en la aplicación web. Si creés que se trata de un error, comunicate con la recepción del gimnasio.";
+            }
+            string cuerpo = @"
+            <h2>" + titulo + @"</h2>
+            <p>
+            " + mensajePrincipal + @"
+            </p>
+            <p>
+            " + detalle + @"
+            </p>
+            <p>
+            Podés acceder a la aplicación desde:
+            <br />
+            <a href='https://www.centro-fitness.com'>www.centro-fitness.com</a>
+            </p>
+            <hr />
+            <small>
+            Este es un mensaje automático generado por Centro Fitness. Por favor, no responder a este correo.
+            </small>";
+            string asunto = activo ? "Cuenta reactivada - Centro Fitness" : "Cuenta dada de baja - Centro Fitness";
+            service.armarCorreo(email, asunto, cuerpo);
+            service.enviarEmail();
+        }
     }
 }

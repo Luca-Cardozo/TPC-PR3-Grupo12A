@@ -244,13 +244,17 @@ namespace App_CentroFitness
 
                 Alumno alumno = negocio.listar().Find(x => x.IdUsuario == idAlumno);
 
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
                 if (alumno.Activo)
                 {
                     negocio.eliminar(idAlumno);
+                    usuarioNegocio.enviarMailCambioEstadoCuenta(alumno.Email, false);
                 }
                 else
                 {
                     negocio.reactivar(idAlumno);
+                    usuarioNegocio.enviarMailCambioEstadoCuenta(alumno.Email, true);
                 }
 
                 Response.Redirect("EditarAlumnos.aspx", false);

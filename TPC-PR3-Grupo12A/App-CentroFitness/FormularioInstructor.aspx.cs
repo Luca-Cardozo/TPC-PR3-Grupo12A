@@ -278,13 +278,17 @@ namespace App_CentroFitness
 
                 Instructor instructor = negocio.listar().Find(x => x.IdUsuario == idInstructor);
 
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
                 if (instructor.Activo)
                 {
                     negocio.eliminar(idInstructor);
+                    usuarioNegocio.enviarMailCambioEstadoCuenta(instructor.Email, false);
                 }
                 else
                 {
                     negocio.reactivar(idInstructor);
+                    usuarioNegocio.enviarMailCambioEstadoCuenta(instructor.Email, true);
                 }
 
                 Response.Redirect("Instructores.aspx", false);
