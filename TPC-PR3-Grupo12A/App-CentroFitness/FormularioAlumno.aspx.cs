@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
 
 namespace App_CentroFitness
 {
@@ -45,8 +47,6 @@ namespace App_CentroFitness
                             txtTelefono.Text = seleccionado.Telefono;
                             txtFechaNacimiento.Text = seleccionado.FechaNacimiento.ToString("yyyy-MM-dd");
                             txtObservaciones.Text = seleccionado.Observaciones;
-
-                            // imgAlumno.ImageUrl = "~/Images/" + seleccionado.Imagen + ".jpg";
 
                             if (seleccionado.Activo)
                             {
@@ -174,15 +174,56 @@ namespace App_CentroFitness
                 {
                     EmailService service = new EmailService();
 
-                    string cuerpo = @"<h2>¡Bienvenido a Centro Fitness!</h2>
-                                <p>Tu cuenta fue creada correctamente.</p>
-                                <p>Gracias por confiar en nosotros.</p>";
-                    service.armarCorreo(nuevo.Email, "Bienvenido a Centro Fitness", cuerpo);
+                    string cuerpo = @"
+                    <h2>¡Bienvenido a Centro Fitness! 🏋️‍♂️</h2>
+                    <p>Tu cuenta fue creada correctamente y ya podés acceder a nuestra aplicación web.</p>
+                    <p>
+                    <b>Usuario:</b> " + nuevo.Email + @"<br/>
+                    <b>Contraseña inicial:</b> 1234
+                    </p>
+                    <p>
+                    Por razones de seguridad, te recomendamos iniciar sesión y cambiar tu contraseña lo antes posible.
+                    </p>
+                    <p>
+                    Desde la sección <b>Mi Perfil</b> podrás:
+                    </p>
+                    <ul>
+                        <li>Modificar tu contraseña.</li>
+                        <li>Actualizar tu número de teléfono.</li>
+                        <li>Agregar o cambiar tu foto de perfil.</li>
+                        <li>Consultar tu información personal.</li>
+                        <li> Visualizar la información de tu suscripción vigente.</li>
+                    </ul>
+                    <p>
+                    Además, encontrarás las siguientes funcionalidades:
+                    </p>
+                    <ul>
+                        <li>
+                            <b> Disciplinas:</ b > podrás consultar todas las actividades disponibles e inscribirte en las clases que desees realizar.
+                        </li>
+                        <li>
+                            <b> Mis Reservas:</ b > podrás visualizar las reservas realizadas, consultar su información y gestionar cancelaciones cuando corresponda.
+                        </li>
+                    </ul>
+                    <p>
+                    Podés acceder a la aplicación desde:
+                    <br/>
+                    <a href='https://www.centro-fitness.com'>www.centro-fitness.com</a>
+                    </p>
+                    <p>
+                    ¡Gracias por confiar en nosotros y te deseamos muchos éxitos en tu entrenamiento! 💪
+                    </p>
+                    <hr/>
+                    <small>
+                    Este es un mensaje automático. Por favor, no responder a este correo.
+                    </small>";
 
+                    service.armarCorreo(nuevo.Email, "Bienvenido a Centro Fitness", cuerpo);
                     service.enviarEmail();
+
                     negocio.agregar(nuevo);
                 }
-                                
+
 
                 Response.Redirect("EditarAlumnos.aspx", false);
             }

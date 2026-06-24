@@ -1,11 +1,16 @@
 ﻿using Dominio;
+using Microsoft.SqlServer.Server;
+using Microsoft.Win32;
 using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
 
 namespace App_CentroFitness
 {
@@ -42,7 +47,6 @@ namespace App_CentroFitness
                             txtEmail.Text = seleccionado.Email;
                             txtTelefono.Text = seleccionado.Telefono;
                             txtFechaNacimiento.Text = seleccionado.FechaNacimiento.ToString("yyyy-MM-dd");
-                            // imgRecepcionista.ImageUrl = "~/Images/" + seleccionado.Imagen + ".jpg";
 
                             if (seleccionado.Activo)
                             {
@@ -162,6 +166,52 @@ namespace App_CentroFitness
                 }
                 else
                 {
+                    EmailService service = new EmailService();
+
+                    string cuerpo = @"
+                    <h2>¡Bienvenido a Centro Fitness! 🏋️‍♂️</h2>
+                    <p>Tu cuenta de recepcionista fue creada correctamente y ya podés acceder a nuestra aplicación web.</p>
+                    <p>
+                    <b>Usuario:</b> " + nuevo.Email + @"<br/>
+                    <b>Contraseña inicial:</b> 1234
+                    </p>
+                    <p>
+                    Por razones de seguridad, te recomendamos iniciar sesión y cambiar tu contraseña lo antes posible.
+                    </p>
+                    <p>
+                    Desde la sección <b>Mi Perfil</b> podrás:
+                    </p>
+                    <ul>
+                        <li>Modificar tu contraseña.</li>
+                        <li>Actualizar tu número de teléfono.</li>
+                        <li>Agregar o cambiar tu foto de perfil.</li>
+                        <li>Consultar tu información personal.</li>
+                    </ul>
+                    <p>
+                    Como recepcionista, tendrás acceso al <b>Panel de Administración</b>, desde donde podrás:
+                    </p>
+                    <ul>
+                        <li> Dar de alta, modificar, eliminar y reactivar alumnos.</li>
+                        <li> Gestionar las suscripciones y planes de los alumnos.</li>
+                        <li> Dar de alta, modificar, eliminar y reactivar clases.</li>
+                        <li> Registrar reservas para los alumnos.</li>
+                        <li> Consultar y administrar las reservas existentes.</li>
+                    </ul>
+                    Podés acceder a la aplicación desde:
+                    <br/>
+                    <a href='https://www.centro-fitness.com'>www.centro-fitness.com</a>
+                    </p>
+                    <p>
+                    ¡Gracias por formar parte del equipo de Centro Fitness! 💪
+                    </p>
+                    <hr/>
+                    <small>
+                    Este es un mensaje automático. Por favor, no responder a este correo.
+                    </small>";
+
+                    service.armarCorreo(nuevo.Email, "Bienvenido a Centro Fitness", cuerpo);
+                    service.enviarEmail();
+
                     negocio.agregar(nuevo);
                 }
 

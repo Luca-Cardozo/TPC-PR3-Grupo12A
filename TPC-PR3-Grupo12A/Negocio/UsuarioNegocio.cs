@@ -121,5 +121,60 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public string obtenerEmailActual(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT Email FROM Usuarios WHERE IdUsuario = @IdUsuario");
+                datos.setearParametro("@IdUsuario", idUsuario);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return datos.Lector["Email"].ToString();
+
+                return "";
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void enviarMailCambioEmail(string nuevoEmail)
+        {
+            EmailService service = new EmailService();
+
+            string cuerpo = @"
+            <h2>Actualización de correo electrónico</h2>
+
+            <p>El correo electrónico asociado a tu cuenta de Centro Fitness fue actualizado correctamente.</p>
+
+            <p>
+            A partir de este momento deberás utilizar tu nueva dirección de correo para iniciar sesión:
+            </p>
+
+            <p><b>Nuevo usuario:</b> " + nuevoEmail + @"</p>
+
+            <p>Tu contraseña actual no fue modificada y continúa siendo la misma.</p>
+
+            <p>
+            Si no realizaste este cambio o creés que se trata de un error, por favor comunicate con la recepción del gimnasio.
+            </p>
+
+            <p>
+            Podés acceder a la aplicación desde:<br/>
+            <a href='https://www.centro-fitness.com'>www.centro-fitness.com</a>
+            </p>
+
+            <hr/>
+
+            <small>Este es un mensaje automático generado por Centro Fitness. Por favor, no responder a este correo.</small>";
+
+            service.armarCorreo(nuevoEmail, "Actualización de correo electrónico - Centro Fitness", cuerpo);
+            service.enviarEmail();
+        }
     }
 }

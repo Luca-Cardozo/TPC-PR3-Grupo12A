@@ -94,6 +94,9 @@ namespace Negocio
             if (existeRecepcionista(recepcionistaModificado.DNI, recepcionistaModificado.Email, recepcionistaModificado.IdUsuario))
                 throw new Exception("Ya existe Recepcionista con ese DNI o Mail ingresado.");
 
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            string emailAnterior = usuarioNegocio.obtenerEmailActual(recepcionistaModificado.IdUsuario);
+
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -113,6 +116,11 @@ namespace Negocio
                 datos.setearParametro("@Imagen", string.IsNullOrWhiteSpace(recepcionistaModificado.Imagen) ? "default-user" : recepcionistaModificado.Imagen);
 
                 datos.ejecutarAccion();
+
+                if (!string.Equals(emailAnterior, recepcionistaModificado.Email, StringComparison.OrdinalIgnoreCase))
+                {
+                    usuarioNegocio.enviarMailCambioEmail(recepcionistaModificado.Email);
+                }
             }
             catch (Exception ex)
             {

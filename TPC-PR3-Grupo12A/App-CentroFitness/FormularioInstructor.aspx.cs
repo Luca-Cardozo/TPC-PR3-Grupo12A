@@ -33,7 +33,7 @@ namespace App_CentroFitness
                         }
                         else
                         {
-                            InstructorNegocio negocio = new InstructorNegocio();                            
+                            InstructorNegocio negocio = new InstructorNegocio();
                             lista = negocio.listar();
                         }
 
@@ -202,6 +202,51 @@ namespace App_CentroFitness
                 }
                 else
                 {
+                    EmailService service = new EmailService();
+
+                    string cuerpo = @"
+                    <h2>¡Bienvenido a Centro Fitness! 🏋️‍♂️</h2>
+                    <p>Tu cuenta de instructor fue creada correctamente y ya podés acceder a nuestra aplicación web.</p>
+                    <p>
+                    <b>Usuario:</b> " + nuevo.Email + @"<br/>
+                    <b>Contraseña inicial:</b> 1234
+                    </p>
+                    <p>
+                    Por razones de seguridad, te recomendamos iniciar sesión y cambiar tu contraseña lo antes posible.
+                    </p>
+                    <p>
+                    Desde la sección <b>Mi Perfil</b> podrás:
+                    </p>
+                    <ul>
+                        <li>Modificar tu contraseña.</li>
+                        <li>Actualizar tu número de teléfono.</li>
+                        <li>Agregar o cambiar tu foto de perfil.</li>
+                        <li>Consultar tu información personal.</li>
+                    </ul>
+                    <p>
+                    Como instructor, tendrás acceso a la sección <b>Mis Clases </b>, desde donde podrás:
+                    </p>
+                    <ul>
+                        <li> Consultar las clases que tenés asignadas.</li>
+                        <li> Visualizar los alumnos inscriptos en cada clase.</li>
+                        <li> Registrar la asistencia de los alumnos.</li>
+                        <li> Agregar observaciones o comentarios sobre cada alumno y clase.</li>
+                    </ul>
+                    Podés acceder a la aplicación desde:
+                    <br/>
+                    <a href='https://www.centro-fitness.com'>www.centro-fitness.com</a>
+                    </p>
+                    <p>
+                    ¡Gracias por formar parte del equipo de Centro Fitness! 💪
+                    </p>
+                    <hr/>
+                    <small>
+                    Este es un mensaje automático. Por favor, no responder a este correo.
+                    </small>";
+
+                    service.armarCorreo(nuevo.Email, "Bienvenido a Centro Fitness", cuerpo);
+                    service.enviarEmail();
+
                     negocio.agregar(nuevo);
                 }
 

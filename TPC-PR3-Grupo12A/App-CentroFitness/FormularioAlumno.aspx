@@ -86,10 +86,6 @@
                         <asp:TextBox runat="server" ID="txtObservaciones" CssClass="form-control" TextMode="MultiLine" Rows="4" MaxLength="500" />
                     </div>
 
-                    <%--Mostrar la imagen del alumno cargada desde Mi Perfil.
-
-<div class="text-center mb-4"><asp:Image ID="imgAlumno" runat="server" CssClass="img-fluid rounded-circle border" Width="150px" /></div> --%>
-
                     <div class="d-flex justify-content-center gap-2">
 
                         <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />

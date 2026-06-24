@@ -144,6 +144,9 @@ namespace Negocio
             if (existeInstructor(instructorModificado.DNI, instructorModificado.Email, instructorModificado.IdUsuario))
                 throw new Exception("Ya existe ese instructor.");
 
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            string emailAnterior = usuarioNegocio.obtenerEmailActual(instructorModificado.IdUsuario);
+
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -161,6 +164,11 @@ namespace Negocio
                 datos.setearParametro("@IdUsuario", instructorModificado.IdUsuario);
 
                 datos.ejecutarAccion();
+
+                if (!string.Equals(emailAnterior, instructorModificado.Email, StringComparison.OrdinalIgnoreCase))
+                {
+                    usuarioNegocio.enviarMailCambioEmail(instructorModificado.Email);
+                }
             }
             catch (Exception ex)
             {
