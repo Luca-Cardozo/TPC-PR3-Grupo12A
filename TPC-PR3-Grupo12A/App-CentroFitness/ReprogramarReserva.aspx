@@ -56,7 +56,13 @@
                         </div>
                     </div>
 
-                    <hr />
+                                        <hr />
+                    <div class="alert alert-warning">
+    <strong>Importante:</strong>
+    La reprogramación está sujeta a disponibilidad de cupos.
+
+    Si no hay opciones disponibles en este momento, puede volver a verificar más adelante ante posibles liberaciones de cupo.
+</div>
 
                     <div class="mb-3">
                         <label class="form-label">Nueva clase disponible</label>

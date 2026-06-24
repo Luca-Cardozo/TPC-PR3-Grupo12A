@@ -60,7 +60,8 @@ namespace App_CentroFitness
                 cargarClasesDisponibles(
     reserva.Clase.Disciplina.IdDisciplina,
     reserva.Clase.IdClase,
-    reserva.Alumno.IdUsuario);
+    reserva.Alumno.IdUsuario,
+     reserva.Clase.Fecha);
             }
             catch (Exception ex)
             {
@@ -112,7 +113,7 @@ namespace App_CentroFitness
             Response.Redirect("EditarReservas.aspx", false);
         }
 
-        private void cargarClasesDisponibles(int idDisciplina, int idClaseActual, int idAlumno)
+        private void cargarClasesDisponibles(int idDisciplina, int idClaseActual, int idAlumno, DateTime fechaClaseOriginal)
         {
             ClaseNegocio claseNegocio = new ClaseNegocio();
             ReservaNegocio reservaNegocio = new ReservaNegocio();
@@ -121,6 +122,8 @@ namespace App_CentroFitness
             // no se muestra la misma clase, verifico cupos, reserva 2 veces la misma clase
             lista = lista.FindAll(x =>
                 x.IdClase != idClaseActual &&
+                x.Fecha.Month == fechaClaseOriginal.Month &&
+                x.Fecha.Year == fechaClaseOriginal.Year &&
                 reservaNegocio.contarReservasVigentes(x.IdClase) < x.CupoMaximo &&
                 !reservaNegocio.existeReserva(idAlumno, x.IdClase)
             );
