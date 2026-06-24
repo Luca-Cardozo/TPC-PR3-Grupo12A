@@ -158,6 +158,7 @@ namespace Negocio
             }
 
             registrarHistorial(idUsuario, idPlan, inicio, fin, (int)TipoMovimientoSuscripcion.Alta);
+            enviarMailSuscripcion(idUsuario, plan, inicio, fin);
         }
 
         public void actualizarSuscripcion(int idUsuario, int idPlan, int mes, int anio)
@@ -200,6 +201,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
             registrarHistorial(idUsuario, idPlan, inicio, fin, (int)TipoMovimientoSuscripcion.Actualizacion);
+            enviarMailSuscripcion(idUsuario, plan, inicio, fin);
         }
 
 
@@ -234,6 +236,21 @@ namespace Negocio
 
             if (inicioSeleccionado < inicioMesActual)
                 throw new Exception("No se puede cargar una suscripción para un período anterior al mes actual.");
+        }
+
+        private void enviarMailSuscripcion(int idUsuario, Plan plan, DateTime inicio, DateTime fin)
+        {
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+            string email = usuarioNegocio.obtenerEmailActual(idUsuario);
+
+            Suscripcion suscripcion = new Suscripcion();
+            suscripcion.Plan = plan;
+            suscripcion.FechaInicio = inicio;
+            suscripcion.FechaFin = fin;
+            suscripcion.ClasesConsumidas = 0;
+
+            AlumnoNegocio alumnoNegocio = new AlumnoNegocio();
+            alumnoNegocio.enviarMailSuscripcionActualizada(email, suscripcion);
         }
     }
 }

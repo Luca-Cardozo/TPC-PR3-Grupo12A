@@ -176,5 +176,6 @@ namespace Negocio
             service.armarCorreo(nuevoEmail, "Actualización de correo electrónico - Centro Fitness", cuerpo);
             service.enviarEmail();
         }
+        
     }
 }
