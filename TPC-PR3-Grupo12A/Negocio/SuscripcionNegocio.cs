@@ -249,7 +249,8 @@ namespace Negocio
             suscripcion.FechaFin = fin;
             suscripcion.ClasesConsumidas = 0;
 
-            usuarioNegocio.enviarMailSuscripcionActualizada(email, suscripcion);
+            AlumnoNegocio alumnoNegocio = new AlumnoNegocio();
+            alumnoNegocio.enviarMailSuscripcionActualizada(email, suscripcion);
         }
     }
 }

@@ -176,62 +176,6 @@ namespace Negocio
             service.armarCorreo(nuevoEmail, "Actualización de correo electrónico - Centro Fitness", cuerpo);
             service.enviarEmail();
         }
-
-        public void enviarMailSuscripcionActualizada(string email, Suscripcion suscripcion)
-        {
-            EmailService service = new EmailService();
-
-            string cantidadClases;
-
-            if (suscripcion.Plan.CantidadClases.HasValue)
-                cantidadClases = suscripcion.Plan.CantidadClases.Value + " clases";
-            else
-                cantidadClases = "Pase Libre";
-
-            string cuerpo = @"
-            <h2>Suscripción actualizada correctamente ✅</h2>
-
-            <p>
-            Te informamos que tu suscripción de Centro Fitness fue registrada correctamente en nuestro sistema.
-            </p>
-
-            <p>
-            A continuación podés consultar el detalle de tu plan:
-            </p>
-
-            <ul>
-                <li><b>Plan:</b> " + suscripcion.Plan.Descripcion + @"</li>
-                <li><b>Cantidad de clases:</b> " + cantidadClases + @"</li>
-                <li><b>Vigencia desde:</b> " + suscripcion.FechaInicio.ToString("dd/MM/yyyy") + @"</li>
-                <li><b>Vigencia hasta:</b> " + suscripcion.FechaFin.ToString("dd/MM/yyyy") + @"</li>
-            </ul>
-
-            <p>
-            Recordá que podés consultar tu suscripción vigente en cualquier momento desde la sección <b>Mi Perfil</b> de la aplicación.
-            </p>
-
-            <p>
-            Si tu plan posee una cantidad limitada de clases, el sistema irá descontándolas automáticamente a medida que realices reservas.
-            </p>
-
-            <p>
-            Podés acceder a la aplicación desde:
-            <br />
-            <a href='https://www.centro-fitness.com'>www.centro-fitness.com</a>
-            </p>
-
-            <p>
-            ¡Gracias por elegir Centro Fitness! 💪
-            </p>
-
-            <hr />
-
-            <small>
-            Este es un mensaje automático generado por Centro Fitness. Por favor, no responder a este correo.
-            </small>";
-
-            service.armarCorreo(email, "Suscripción actualizada - Centro Fitness", cuerpo);
-            service.enviarEmail();
-        }
+        
     }
 }
