@@ -528,13 +528,39 @@ namespace Negocio
         public void cancelarClasePorCentroFitness(int idClase)
         {
             List<Reserva> reservas = listarPorClase(idClase);
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            Clase clase = claseNegocio.obtenerPorId(idClase);
 
             foreach (Reserva reserva in reservas)
             {
                 cancelar(reserva.IdReserva);
+
+                EmailService email = new EmailService();
+
+
+                string cuerpo = @"<h2>Clase cancelada</h2>
+<p>La siguiente clase fue cancelada por Centro Fitness:</p>
+
+<ul>
+<li><strong>Disciplina:</strong> " + clase.Disciplina.Nombre + @"</li>
+<li><strong>Fecha:</strong> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+<li><strong>Horario:</strong> " + clase.HoraInicio + @":00 hs</li>
+</ul>
+
+<p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
+
+<br/>
+<p>Centro Fitness</p>";
+
+                email.armarCorreo(
+                    reserva.Alumno.Email,
+                    "Cancelación de clase - Centro Fitness",
+                    cuerpo
+                );
+
+                email.enviarEmail();
             }
 
-            ClaseNegocio claseNegocio = new ClaseNegocio();
             claseNegocio.eliminar(idClase);
         }
     }

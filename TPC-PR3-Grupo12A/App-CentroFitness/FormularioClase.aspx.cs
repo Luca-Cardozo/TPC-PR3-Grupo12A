@@ -177,7 +177,8 @@ namespace App_CentroFitness
 
                 if (seleccionada.Estado == EstadoClase.Vigente)
                 {
-                    negocio.eliminar(idClase);
+                    ReservaNegocio reservaNegocio = new ReservaNegocio();
+                    reservaNegocio.cancelarClasePorCentroFitness(idClase);
                 }
                 else if (seleccionada.Estado == EstadoClase.Cancelada)
                 {
