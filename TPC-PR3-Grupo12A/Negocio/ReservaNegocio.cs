@@ -474,6 +474,69 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+
+        public List<Reserva> listarPorClase(int idClase)
+        {
+            List<Reserva> lista = new List<Reserva>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "SELECT R.IdReserva, R.FechaReserva, R.Estado, " +
+                    "U.IdUsuario AS IdAlumno, U.Nombre AS NombreAlumno, " +
+                    "U.Apellido AS ApellidoAlumno, U.Email " +
+                    "FROM Reservas R " +
+                    "INNER JOIN Usuarios U ON R.IdAlumno = U.IdUsuario " +
+                    "WHERE R.IdClase = @IdClase " +
+                    "AND R.Estado IN (1,4)");
+
+                datos.setearParametro("@IdClase", idClase);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Reserva reserva = new Reserva();
+
+                    reserva.IdReserva = (int)datos.Lector["IdReserva"];
+                    reserva.FechaReserva = (DateTime)datos.Lector["FechaReserva"];
+                    reserva.Estado = (Estado)(int)datos.Lector["Estado"];
+
+                    reserva.Alumno = new Alumno();
+                    reserva.Alumno.IdUsuario = (int)datos.Lector["IdAlumno"];
+                    reserva.Alumno.Nombre = (string)datos.Lector["NombreAlumno"];
+                    reserva.Alumno.Apellido = (string)datos.Lector["ApellidoAlumno"];
+                    reserva.Alumno.Email = (string)datos.Lector["Email"];
+
+                    lista.Add(reserva);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void cancelarClasePorCentroFitness(int idClase)
+        {
+            List<Reserva> reservas = listarPorClase(idClase);
+
+            foreach (Reserva reserva in reservas)
+            {
+                cancelar(reserva.IdReserva);
+            }
+
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            claseNegocio.eliminar(idClase);
+        }
     }
 
 }
