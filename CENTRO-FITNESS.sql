@@ -810,3 +810,19 @@ VALUES
 (43, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1);   -- ALTA      mayo  Pack 8
 
 GO
+
+-- Cambiar Asistio de la tabla Reservas a Asistencia y cambio de tipo de dato de BIT NULL a INT NULL
+-- También se agrega un CHECK por seguridad
+
+ALTER TABLE Reservas
+ALTER COLUMN Asistio INT NULL;
+
+EXEC sp_rename 'Reservas.Asistio', 'Asistencia', 'COLUMN';
+
+UPDATE Reservas
+SET Asistencia = 2
+WHERE Asistencia = 0;
+
+ALTER TABLE Reservas
+ADD CONSTRAINT CK_Reservas_Asistencia
+CHECK (Asistencia IS NULL OR Asistencia IN (1, 2));

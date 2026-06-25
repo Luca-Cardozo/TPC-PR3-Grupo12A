@@ -124,12 +124,19 @@ namespace App_CentroFitness
                 {
                     int idReserva = (int)dgvAsistencia.DataKeys[fila.RowIndex].Value;
 
-                    CheckBox chkAsistio = (CheckBox)fila.FindControl("chkAsistio");
+                    CheckBox chkPresente = (CheckBox)fila.FindControl("chkPresente");
                     TextBox txtObservaciones = (TextBox)fila.FindControl("txtObservaciones");
+
+                    EstadoAsistencia asistencia;
+
+                    if (chkPresente.Checked)
+                        asistencia = EstadoAsistencia.Presente;
+                    else
+                        asistencia = EstadoAsistencia.Ausente;
 
                     negocio.actualizarAsistencia(
                         idReserva,
-                        chkAsistio.Checked,
+                        asistencia,
                         txtObservaciones.Text.Trim()
                     );
                 }

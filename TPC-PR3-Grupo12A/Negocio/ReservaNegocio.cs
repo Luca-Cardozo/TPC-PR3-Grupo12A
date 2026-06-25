@@ -19,7 +19,7 @@ namespace Negocio
             {
 
                 datos.setearConsulta(
-                    "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistio, R.Observaciones, " +
+                    "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistencia, R.Observaciones, " +
                     "C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
                     "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
                     "U.IdUsuario AS IdAlumno, U.Nombre AS NombreAlumno, U.Apellido AS ApellidoAlumno, U.DNI, U.Email AS EmailAlumno, " +
@@ -44,7 +44,7 @@ namespace Negocio
                     res.Estado = (Estado)(int)datos.Lector["Estado"];
 
 
-                    res.Asistio = datos.Lector["Asistio"] == DBNull.Value ? (bool?)null : (bool)datos.Lector["Asistio"];
+                    res.Asistencia = datos.Lector["Asistencia"] == DBNull.Value ? (EstadoAsistencia?)null : (EstadoAsistencia)(int)datos.Lector["Asistencia"];
                     res.Observaciones = datos.Lector["Observaciones"] == DBNull.Value ? "" : (string)datos.Lector["Observaciones"];
 
 
@@ -93,7 +93,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("SELECT R.IdReserva, R.FechaReserva, R.Estado, " +
-                    "R.Asistio, R.Observaciones, C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
+                    "R.Asistencia, R.Observaciones, C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
                     "D.IdDisciplina, D.Nombre AS NombreDisciplina, U.IdUsuario, " +
                     "U.Nombre AS NombreAlumno, U.Apellido AS ApellidoAlumno " +
                     "FROM Reservas R " +
@@ -114,7 +114,7 @@ namespace Negocio
                     res.IdReserva = (int)datos.Lector["IdReserva"];
                     res.FechaReserva = (DateTime)datos.Lector["FechaReserva"];
                     res.Estado = (Estado)(int)datos.Lector["Estado"];
-                    res.Asistio = datos.Lector["Asistio"] == DBNull.Value ? (bool?)null : (bool)datos.Lector["Asistio"];
+                    res.Asistencia = datos.Lector["Asistencia"] == DBNull.Value ? (EstadoAsistencia?)null : (EstadoAsistencia)(int)datos.Lector["Asistencia"];
                     res.Observaciones = datos.Lector["Observaciones"] == DBNull.Value ? "" : (string)datos.Lector["Observaciones"];
 
                     res.Clase = new Clase();
@@ -143,7 +143,7 @@ namespace Negocio
             }
         }
 
-        public void agregar(Reserva reservaNueva)
+        public void agregar(Reserva reservaNueva, bool validarAnticipacion)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -163,6 +163,14 @@ namespace Negocio
 
                 if (clase == null)
                     throw new Exception("La clase seleccionada no existe.");
+
+                DateTime fechaHoraClase = clase.Fecha.Date.AddHours(clase.HoraInicio);
+
+                if (fechaHoraClase <= DateTime.Now)
+                    throw new Exception("No se puede reservar una clase que ya comenzó.");
+
+                if (validarAnticipacion && fechaHoraClase <= DateTime.Now.AddHours(1))
+                    throw new Exception("La reserva debe realizarse con al menos 1 hora de anticipación.");
 
                 DateTime fechaClase = clase.Fecha.Date;
                 DateTime inicioSuscripcion = suscripcion.FechaInicio.Date;
@@ -202,7 +210,7 @@ namespace Negocio
                 validarCupoDisponible(reservaNueva.Clase.IdClase);
 
                 datos = new AccesoDatos();
-                datos.setearConsulta("INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistio, Observaciones) " +
+                datos.setearConsulta("INSERT INTO Reservas (IdClase, IdAlumno, FechaReserva, Estado, Asistencia, Observaciones) " +
                                      "VALUES (@IdClase, @IdAlumno, GETDATE(), 1, NULL, @Observaciones)");
 
                 datos.setearParametro("@IdClase", reservaNueva.Clase.IdClase);
@@ -226,13 +234,12 @@ namespace Negocio
             {
 
                 datos.setearConsulta(
-                    "UPDATE Reservas SET Estado = @Estado, Asistio = @Asistio, Observaciones = @Observaciones " +
+                    "UPDATE Reservas SET Estado = @Estado, Asistencia = @Asistencia, Observaciones = @Observaciones " +
                     "WHERE IdReserva = @IdReserva");
 
                 datos.setearParametro("@Estado", (int)reservaModificada.Estado);
 
-
-                datos.setearParametro("@Asistio", (object)reservaModificada.Asistio ?? DBNull.Value);
+                datos.setearParametro("@Asistencia", reservaModificada.Asistencia.HasValue ? (object)(int)reservaModificada.Asistencia.Value : DBNull.Value);
                 datos.setearParametro("@Observaciones", string.IsNullOrWhiteSpace(reservaModificada.Observaciones) ? (object)DBNull.Value : reservaModificada.Observaciones.Trim());
                 datos.setearParametro("@IdReserva", reservaModificada.IdReserva);
 
@@ -248,18 +255,29 @@ namespace Negocio
             }
         }
 
-        public void cancelar(int idReserva)
+        public void cancelar(int idReserva, bool validarAnticipacion)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT IdAlumno FROM Reservas WHERE IdReserva = @IdReserva");
+                datos.setearConsulta("SELECT R.IdAlumno, C.Fecha, C.HoraInicio FROM Reservas R " +
+                    "INNER JOIN Clases C ON C.IdClase = R.IdClase WHERE R.IdReserva = @IdReserva");
                 datos.setearParametro("@IdReserva", idReserva);
                 datos.ejecutarLectura();
+
                 if (!datos.Lector.Read())
                     throw new Exception("Reserva no encontrada.");
+
                 int idAlumno = (int)datos.Lector["IdAlumno"];
+                DateTime fechaClase = (DateTime)datos.Lector["Fecha"];
+                int horaInicio = (int)datos.Lector["HoraInicio"];
+
+                DateTime fechaHoraClase = fechaClase.Date.AddHours(horaInicio);
+
+                if (validarAnticipacion && fechaHoraClase <= DateTime.Now.AddHours(24))
+                    throw new Exception("La reserva solo puede cancelarse con al menos 24 horas de anticipación.");
+
                 datos.cerrarConexion();
 
                 datos = new AccesoDatos();
@@ -337,7 +355,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta(
-                    "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistio, R.Observaciones, " +
+                    "SELECT R.IdReserva, R.FechaReserva, R.Estado, R.Asistencia, R.Observaciones, " +
                     "C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, " +
                     "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
                     "A.IdUsuario AS IdAlumno, A.Nombre AS NombreAlumno, A.Apellido AS ApellidoAlumno " +
@@ -358,7 +376,7 @@ namespace Negocio
                     res.IdReserva = (int)datos.Lector["IdReserva"];
                     res.FechaReserva = (DateTime)datos.Lector["FechaReserva"];
                     res.Estado = (Estado)(int)datos.Lector["Estado"];
-                    res.Asistio = datos.Lector["Asistio"] == DBNull.Value ? (bool?)null : (bool)datos.Lector["Asistio"];
+                    res.Asistencia = datos.Lector["Asistencia"] == DBNull.Value ? (EstadoAsistencia?)null : (EstadoAsistencia)(int)datos.Lector["Asistencia"];
                     res.Observaciones = datos.Lector["Observaciones"] == DBNull.Value ? "" : (string)datos.Lector["Observaciones"];
 
                     res.Clase = new Clase();
@@ -391,18 +409,19 @@ namespace Negocio
             }
         }
 
-        public void actualizarAsistencia(int idReserva, bool asistio, string observaciones)
+        public void actualizarAsistencia(int idReserva, EstadoAsistencia asistencia, string observaciones)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
                 datos.setearConsulta(
-                    "UPDATE Reservas SET Asistio = @Asistio, Observaciones = @Observaciones, Estado = 3 " +
-                    "WHERE IdReserva = @IdReserva");
+                    "UPDATE Reservas SET Asistencia = @Asistencia, Observaciones = @Observaciones, " +
+                    "Estado = @Estado WHERE IdReserva = @IdReserva");
 
-                datos.setearParametro("@Asistio", asistio);
-                datos.setearParametro("@Observaciones", observaciones ?? "");
+                datos.setearParametro("@Asistencia", (int)asistencia);
+                datos.setearParametro("@Observaciones", string.IsNullOrWhiteSpace(observaciones) ? (object)DBNull.Value : observaciones);
+                datos.setearParametro("@Estado", (int)Estado.Finalizada);
                 datos.setearParametro("@IdReserva", idReserva);
 
                 datos.ejecutarAccion();
@@ -461,7 +480,7 @@ namespace Negocio
                 validarCupoDisponible(idClaseNueva);
 
                 datos.setearConsulta(
-                    "UPDATE Reservas SET IdClase = @IdClaseNueva, Estado = 4, Asistio = NULL " +
+                    "UPDATE Reservas SET IdClase = @IdClaseNueva, Estado = 4, Asistencia = NULL " +
                     "WHERE IdReserva = @IdReserva");
 
                 datos.setearParametro("@IdClaseNueva", idClaseNueva);
@@ -533,24 +552,24 @@ namespace Negocio
 
             foreach (Reserva reserva in reservas)
             {
-                cancelar(reserva.IdReserva);
+                cancelar(reserva.IdReserva, false);
 
                 EmailService email = new EmailService();
 
 
                 string cuerpo = @"<h2>Clase cancelada</h2>
-<p>La siguiente clase fue cancelada por Centro Fitness:</p>
+                <p>La siguiente clase fue cancelada por Centro Fitness:</p>
 
-<ul>
-<li><strong>Disciplina:</strong> " + clase.Disciplina.Nombre + @"</li>
-<li><strong>Fecha:</strong> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
-<li><strong>Horario:</strong> " + clase.HoraInicio + @":00 hs</li>
-</ul>
+                <ul>
+                <li><strong>Disciplina:</strong> " + clase.Disciplina.Nombre + @"</li>
+                <li><strong>Fecha:</strong> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + clase.HoraInicio + @":00 hs</li>
+                </ul>
 
-<p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
+                <p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
 
-<br/>
-<p>Centro Fitness</p>";
+                <br/>
+                <p>Centro Fitness</p>";
 
                 email.armarCorreo(
                     reserva.Alumno.Email,

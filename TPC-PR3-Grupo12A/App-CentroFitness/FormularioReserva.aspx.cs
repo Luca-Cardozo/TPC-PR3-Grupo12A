@@ -32,10 +32,10 @@ namespace App_CentroFitness
                 Reserva reserva = new Reserva();
                 reserva.IdReserva = int.Parse(Request.QueryString["id"]);
                 reserva.Estado = (Estado)int.Parse(ddlEstado.SelectedValue);
-                if (string.IsNullOrEmpty(ddlAsistio.SelectedValue))
-                    reserva.Asistio = null;
+                if (string.IsNullOrEmpty(ddlAsistencia.SelectedValue))
+                    reserva.Asistencia = null;
                 else
-                    reserva.Asistio = bool.Parse(ddlAsistio.SelectedValue);
+                    reserva.Asistencia = (EstadoAsistencia)int.Parse(ddlAsistencia.SelectedValue);
                 reserva.Observaciones = string.IsNullOrWhiteSpace(txtObservaciones.Text) ? null : txtObservaciones.Text.Trim();
                 ReservaNegocio negocio = new ReservaNegocio();
                 negocio.modificar(reserva);
@@ -80,10 +80,10 @@ namespace App_CentroFitness
                 txtFechaClase.Text = reserva.Clase.Fecha.ToString("dd/MM/yyyy");
                 txtHorario.Text = reserva.Clase.HoraInicio.ToString() + ":00 - " + reserva.Clase.HoraFin.ToString() + ":00";
                 ddlEstado.SelectedValue = ((int)reserva.Estado).ToString();
-                if (reserva.Asistio == null)
-                    ddlAsistio.SelectedValue = "";
+                if (reserva.Asistencia == null)
+                    ddlAsistencia.SelectedValue = "";
                 else
-                    ddlAsistio.SelectedValue = reserva.Asistio.Value.ToString().ToLower();
+                    ddlAsistencia.SelectedValue = ((int)reserva.Asistencia.Value).ToString();
                 txtObservaciones.Text = reserva.Observaciones;
             }
             catch (Exception ex)
