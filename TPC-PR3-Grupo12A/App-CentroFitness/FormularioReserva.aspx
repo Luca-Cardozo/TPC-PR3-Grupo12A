@@ -58,10 +58,10 @@
 
                         <div class="mb-3">
                             <label class="form-label">Asistencia</label>
-                            <asp:DropDownList ID="ddlAsistio" runat="server" CssClass="form-select">
+                            <asp:DropDownList ID="ddlAsistencia" runat="server" CssClass="form-select">
                                 <asp:ListItem Text="Sin definir" Value="" />
-                                <asp:ListItem Text="Asistió" Value="true" />
-                                <asp:ListItem Text="No asistió" Value="false" />
+                                <asp:ListItem Text="Presente" Value="1" />
+                                <asp:ListItem Text="Ausente" Value="2" />
                             </asp:DropDownList>
                         </div>
 

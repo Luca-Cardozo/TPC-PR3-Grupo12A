@@ -53,11 +53,11 @@
                     </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="Asistió">
+                <asp:TemplateField HeaderText="Presente">
                     <ItemStyle CssClass="text-center" />
                     <ItemTemplate>
-                        <asp:CheckBox ID="chkAsistio" runat="server"
-                            Checked='<%# Eval("Asistio") != null && (bool)Eval("Asistio") %>' />
+                        <asp:CheckBox ID="chkPresente" runat="server"
+                            Checked='<%# Eval("Asistencia") != null && (int)Eval("Asistencia") == 1 %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
 
