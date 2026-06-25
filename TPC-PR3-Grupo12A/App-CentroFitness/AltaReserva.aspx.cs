@@ -13,16 +13,15 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (!Seguridad.esAdmin(Session) && !Seguridad.esRecepcionista(Session))
+            {
+                Response.Redirect("AccesoDenegado.aspx", false);
+                return;
+            }
+
             if (!IsPostBack)
             {
-                //if (Session["usuario"] == null)
-                //{
-                //    Response.Redirect("Login.aspx", false);
-                //    return;
-                //}
-
-                //Usuario usuario = (Usuario)Session["usuario"];
-
                 cargarDisciplinas();
                 cargarInstructores();
                 cargarAlumnos();

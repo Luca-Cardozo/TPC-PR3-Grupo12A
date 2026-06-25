@@ -44,10 +44,6 @@
                                     <a class="dropdown-item" href="Instructores.aspx">Instructores</a>
                                 </li>
 
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-
                                 <li id="liMisClases" runat="server">
                                     <a class="dropdown-item" href="MisClases.aspx">Mis Clases</a>
                                 </li>
@@ -58,39 +54,40 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="liAdministracion" runat="server">
                             <a class="nav-link dropdown-toggle"
                                 href="#"
                                 role="button"
                                 data-bs-toggle="dropdown">Administración</a>
 
                             <ul class="dropdown-menu">
-                                <li>
+                                
+                                <li id="liAdminPlanes" runat="server">
+                                    <a class="dropdown-item" href="EditarPlanes.aspx">Planes</a>
+                                </li>
+
+                                <li id="liAdminDisciplinas" runat="server">
                                     <a class="dropdown-item" href="EditarDisciplinas.aspx">Disciplinas</a>
                                 </li>
 
-                                <li>
+                                <li id="liAdminInstructores" runat="server">
                                     <a class="dropdown-item" href="EditarInstructores.aspx">Instructores</a>
                                 </li>
 
-                                <li>
-                                    <a class="dropdown-item" href="EditarAlumnos.aspx">Alumnos</a>
-                                </li>
-
-                                <li>
+                                <li id="liAdminRecepcionistas" runat="server">
                                     <a class="dropdown-item" href="EditarRecepcionistas.aspx">Recepcionistas</a>
                                 </li>
 
-                                <li>
+                                <li id="liAdminAlumnos" runat="server">
+                                    <a class="dropdown-item" href="EditarAlumnos.aspx">Alumnos</a>
+                                </li>
+
+                                <li id="liAdminClases" runat="server">
                                     <a class="dropdown-item" href="EditarClases.aspx">Clases</a>
                                 </li>
 
-                                <li>
+                                <li id="liAdminReservas" runat="server">
                                     <a class="dropdown-item" href="EditarReservas.aspx">Reservas</a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="EditarPlanes.aspx">Planes</a>
                                 </li>
 
                             </ul>

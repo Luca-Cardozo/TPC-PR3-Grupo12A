@@ -13,6 +13,13 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (!Seguridad.esAdmin(Session) && !Seguridad.esRecepcionista(Session))
+            {
+                Response.Redirect("AccesoDenegado.aspx", false);
+                return;
+            }
+
             if (!IsPostBack)
             {
                 if (Request.QueryString["id"] != null)
@@ -27,6 +34,11 @@ namespace App_CentroFitness
                     txtInstructor.Text = clase.Instructor.Nombre + " " + clase.Instructor.Apellido;
                     txtFechaActual.Text = clase.Fecha.ToString("dd/MM/yyyy");
                     txtHoraActual.Text = clase.HoraInicio + ":00";
+                }
+                else
+                {
+                    Response.Redirect("EditarClases.aspx", false);
+                    return;
                 }
             }
 

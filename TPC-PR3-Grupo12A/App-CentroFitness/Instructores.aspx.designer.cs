@@ -11,7 +11,7 @@ namespace App_CentroFitness
 {
 
 
-    public partial class ListadoInstructores
+    public partial class Instructores
     {
 
         /// <summary>

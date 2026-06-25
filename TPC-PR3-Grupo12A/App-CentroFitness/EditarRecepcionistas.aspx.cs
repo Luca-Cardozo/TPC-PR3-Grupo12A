@@ -10,9 +10,15 @@ using System.Web.UI.WebControls;
 namespace App_CentroFitness
 {
     public partial class EditarRecepcionistas : System.Web.UI.Page
-    {
+    {        
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esAdmin(Session))
+            {
+                Response.Redirect("AccesoDenegado.aspx", false);
+                return;
+            }
+
             if (!IsPostBack)
             {
                 try

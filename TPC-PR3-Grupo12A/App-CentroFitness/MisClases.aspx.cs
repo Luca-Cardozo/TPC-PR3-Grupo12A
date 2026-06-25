@@ -13,21 +13,15 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esInstructor(Session))
+            {
+                Response.Redirect("AccesoDenegado.aspx", false);
+                return;
+            }
+
             if (!IsPostBack)
             {
-                if (Session["usuario"] == null)
-                {
-                    Response.Redirect("Login.aspx", false);
-                    return;
-                }
-
-                Usuario usuario = (Usuario)Session["usuario"];
-
-                if (usuario.Rol != Rol.Instructor)
-                {
-                    Response.Write("<script>alert('Debe ser instructor para acceder a esta sección.');window.location='Home.aspx';</script>");
-                    return;
-                }
+                Usuario usuario = Seguridad.usuarioActual(Session);
 
                 lblTitulo.Text = "Bienvenido/a " + usuario.Nombre;
 

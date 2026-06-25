@@ -16,11 +16,6 @@ namespace App_CentroFitness
         {
             if (!IsPostBack)
             {
-                if (Session["usuario"] == null)
-                {
-                    Response.Redirect("Login.aspx", false);
-                    return;
-                }
                 cargarPerfil();
             }
         }

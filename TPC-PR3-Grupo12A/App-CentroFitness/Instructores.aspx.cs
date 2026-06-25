@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace App_CentroFitness
 {
-    public partial class ListadoInstructores : System.Web.UI.Page
+    public partial class Instructores : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
