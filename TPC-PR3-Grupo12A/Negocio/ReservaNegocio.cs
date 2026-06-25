@@ -563,6 +563,35 @@ namespace Negocio
 
             claseNegocio.eliminar(idClase);
         }
+
+
+
+        public void trasladarReservas(int idClaseOriginal, int idClaseNueva)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "UPDATE Reservas " +
+                    "SET IdClase = @IdClaseNueva " +
+                    "WHERE IdClase = @IdClaseOriginal " +
+                    "AND Estado = 1");
+
+                datos.setearParametro("@IdClaseNueva", idClaseNueva);
+                datos.setearParametro("@IdClaseOriginal", idClaseOriginal);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 
 }

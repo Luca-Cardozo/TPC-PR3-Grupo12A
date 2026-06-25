@@ -354,5 +354,31 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void cambiarEstadoClase(int idClase, EstadoClase estado)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "UPDATE Clases " +
+                    "SET Estado = @Estado " +
+                    "WHERE IdClase = @IdClase");
+
+                datos.setearParametro("@Estado", (int)estado);
+                datos.setearParametro("@IdClase", idClase);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
