@@ -96,21 +96,12 @@ namespace App_CentroFitness
         protected global::System.Web.UI.WebControls.Repeater repClases;
 
         /// <summary>
-        /// Control btnReprogramar.
+        /// Control btnVolverHome.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReprogramar;
-
-        /// <summary>
-        /// Control btnVer.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVer;
+        protected global::System.Web.UI.WebControls.Button btnVolverHome;
     }
 }
