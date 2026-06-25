@@ -143,7 +143,7 @@ namespace Negocio
             }
         }
 
-        public void agregar(Reserva reservaNueva)
+        public void agregar(Reserva reservaNueva, bool validarAnticipacion)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -163,6 +163,14 @@ namespace Negocio
 
                 if (clase == null)
                     throw new Exception("La clase seleccionada no existe.");
+
+                DateTime fechaHoraClase = clase.Fecha.Date.AddHours(clase.HoraInicio);
+
+                if (fechaHoraClase <= DateTime.Now)
+                    throw new Exception("No se puede reservar una clase que ya comenzó.");
+
+                if (validarAnticipacion && fechaHoraClase <= DateTime.Now.AddHours(1))
+                    throw new Exception("La reserva debe realizarse con al menos 1 hora de anticipación.");
 
                 DateTime fechaClase = clase.Fecha.Date;
                 DateTime inicioSuscripcion = suscripcion.FechaInicio.Date;

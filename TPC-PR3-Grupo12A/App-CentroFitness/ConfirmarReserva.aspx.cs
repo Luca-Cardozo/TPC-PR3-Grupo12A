@@ -98,7 +98,7 @@ namespace App_CentroFitness
                 reserva.Clase = new Clase();
                 reserva.Clase.IdClase = idClase;
 
-                reservaNegocio.agregar(reserva);
+                reservaNegocio.agregar(reserva, true);
 
                 lblMensaje.CssClass = "text-success text-center d-block mt-3";
                 lblMensaje.Text = "Reserva realizada con éxito ✔. Serás redirigido en 3 segundos...";

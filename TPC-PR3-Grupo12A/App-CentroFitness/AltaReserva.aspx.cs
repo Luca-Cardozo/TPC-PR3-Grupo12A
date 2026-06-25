@@ -180,7 +180,7 @@ namespace App_CentroFitness
                 nueva.Observaciones = txtObservaciones.Text.Trim();
 
                 ReservaNegocio negocio = new ReservaNegocio();
-                negocio.agregar(nueva);
+                negocio.agregar(nueva, false);
 
                 Response.Write("<script>alert('Reserva registrada correctamente');" +
                                "window.location='EditarReservas.aspx';</script>");
