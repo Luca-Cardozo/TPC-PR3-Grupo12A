@@ -114,7 +114,7 @@ namespace App_CentroFitness
 
                 ReservaNegocio negocio = new ReservaNegocio();
                 Reserva reserva = negocio.listar().Find(x => x.IdReserva == idReserva);
-                negocio.cancelar(idReserva);
+                negocio.cancelar(idReserva, true);
 
                 EmailService email = new EmailService();
 

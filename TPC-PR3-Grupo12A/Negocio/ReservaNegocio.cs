@@ -247,18 +247,29 @@ namespace Negocio
             }
         }
 
-        public void cancelar(int idReserva)
+        public void cancelar(int idReserva, bool validarAnticipacion)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT IdAlumno FROM Reservas WHERE IdReserva = @IdReserva");
+                datos.setearConsulta("SELECT R.IdAlumno, C.Fecha, C.HoraInicio FROM Reservas R " +
+                    "INNER JOIN Clases C ON C.IdClase = R.IdClase WHERE R.IdReserva = @IdReserva");
                 datos.setearParametro("@IdReserva", idReserva);
                 datos.ejecutarLectura();
+
                 if (!datos.Lector.Read())
                     throw new Exception("Reserva no encontrada.");
+
                 int idAlumno = (int)datos.Lector["IdAlumno"];
+                DateTime fechaClase = (DateTime)datos.Lector["Fecha"];
+                int horaInicio = (int)datos.Lector["HoraInicio"];
+
+                DateTime fechaHoraClase = fechaClase.Date.AddHours(horaInicio);
+
+                if (validarAnticipacion && fechaHoraClase <= DateTime.Now.AddHours(24))
+                    throw new Exception("La reserva solo puede cancelarse con al menos 24 horas de anticipación.");
+
                 datos.cerrarConexion();
 
                 datos = new AccesoDatos();
@@ -533,7 +544,7 @@ namespace Negocio
 
             foreach (Reserva reserva in reservas)
             {
-                cancelar(reserva.IdReserva);
+                cancelar(reserva.IdReserva, false);
 
                 EmailService email = new EmailService();
 
