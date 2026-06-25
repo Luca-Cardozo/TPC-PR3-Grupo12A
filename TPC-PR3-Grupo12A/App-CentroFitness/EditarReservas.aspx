@@ -96,10 +96,20 @@
                         <asp:BoundField HeaderText="Observaciones" DataField="Observaciones" />
                         <asp:TemplateField HeaderText="Acción">
                             <ItemTemplate>
-                                <asp:Button ID="btnEditar" runat="server" Text="✏️ Editar" CssClass="btn btn-primary btn-sm" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnEditar_Click" />
-                                <asp:Button ID="btnReprogramar" runat="server" Text="🔄 Reprogramar" CssClass="btn btn-info btn-sm" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnReprogramar_Click" />  
-   
+                                <asp:Button ID="btnEditar" runat="server" Text="✏️ Editar" CssClass="btn btn-primary btn-sm" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnEditar_Click"
+                                    Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' />
 
+
+                                <br />
+
+                                <asp:Button ID="btnReprogramar" runat="server" Text="🔄 Reprogramar" CssClass="btn btn-info btn-sm" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnReprogramar_Click"
+                                    Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' />
+
+
+                                <br />
+
+                                <asp:Button ID="btnVer" runat="server" Text="👁 Ver" CssClass="btn btn-secondary btn-sm"
+                                    CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnVer_Click" Visible='<%# (Dominio.Estado)Eval("Estado") != Dominio.Estado.Vigente %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
