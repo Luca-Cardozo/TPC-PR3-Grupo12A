@@ -442,7 +442,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("SELECT COUNT(*) FROM Reservas " +
-                    "WHERE IdClase = @IdClase AND Estado IN (1, 4)");
+                    "WHERE IdClase = @IdClase AND Estado = 1 ");
                 datos.setearParametro("@IdClase", idClase);
                 return datos.ejecutarAccionScalar();
             }
@@ -461,29 +461,18 @@ namespace Negocio
                 throw new Exception("No hay cupos disponibles para esta clase.");
         }
 
-
-
-        public void reprogramar(int idReserva, int idClaseNueva)
+        private void marcarReservaReprogramada(int idReserva)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                Reserva reserva = listar().Find(x => x.IdReserva == idReserva);
-
-                if (reserva == null)
-                    throw new Exception("No se encontró la reserva.");
-
-                if (existeReserva(reserva.Alumno.IdUsuario, idClaseNueva))
-                    throw new Exception("El alumno ya tiene una reserva vigente para esa clase.");
-
-                validarCupoDisponible(idClaseNueva);
-
                 datos.setearConsulta(
-                    "UPDATE Reservas SET IdClase = @IdClaseNueva, Estado = 4, Asistencia = NULL " +
+                    "UPDATE Reservas " +
+                    "SET Estado = @Estado, Asistencia = NULL " +
                     "WHERE IdReserva = @IdReserva");
 
-                datos.setearParametro("@IdClaseNueva", idClaseNueva);
+                datos.setearParametro("@Estado", (int)Estado.Reprogramada);
                 datos.setearParametro("@IdReserva", idReserva);
 
                 datos.ejecutarAccion();
@@ -492,6 +481,42 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+
+        public void reprogramar(int idReserva, int idClaseNueva)
+        {
+            Reserva reserva = listar().Find(x => x.IdReserva == idReserva);
+
+            if (reserva == null)
+                throw new Exception("No se encontró la reserva.");
+
+            if (existeReserva(reserva.Alumno.IdUsuario, idClaseNueva))
+                throw new Exception("El alumno ya tiene una reserva vigente para esa clase.");
+            DateTime fechaHoraClase = reserva.Clase.Fecha.AddHours(reserva.Clase.HoraInicio);
+
+            if (DateTime.Now >= fechaHoraClase.AddHours(-24))
+                throw new Exception("La reserva solo puede reprogramarse con al menos 24 horas de anticipación al inicio de la clase.");
+
+            validarCupoDisponible(idClaseNueva);
+
+            marcarReservaReprogramada(idReserva);
+
+            SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
+            suscripcionNegocio.disminuirClasesConsumidas(reserva.Alumno.IdUsuario);
+            Reserva nueva = new Reserva();
+
+            nueva.Alumno = reserva.Alumno;
+
+            nueva.Clase = new Clase();
+            nueva.Clase.IdClase = idClaseNueva;
+
+            nueva.Observaciones = reserva.Observaciones;
+
+            agregar(nueva, false);
+
+
+
         }
 
 
@@ -509,7 +534,7 @@ namespace Negocio
                     "FROM Reservas R " +
                     "INNER JOIN Usuarios U ON R.IdAlumno = U.IdUsuario " +
                     "WHERE R.IdClase = @IdClase " +
-                    "AND R.Estado IN (1,4)");
+                    "AND R.Estado = 1 ");
 
                 datos.setearParametro("@IdClase", idClase);
 

@@ -86,6 +86,25 @@ namespace App_CentroFitness
                 else
                     ddlAsistencia.SelectedValue = ((int)reserva.Asistencia.Value).ToString();
                 txtObservaciones.Text = reserva.Observaciones;
+
+
+                if (reserva.Estado == Estado.Vigente)
+                {
+                    lblTitulo.Text = "Editar Reserva";
+                }
+                else
+                {
+                    lblTitulo.Text = "Consulta de Reserva";
+
+                    ddlEstado.Enabled = false;
+                    ddlAsistencia.Enabled = false;
+                    txtObservaciones.Enabled = false;
+
+                    btnGuardar.Visible = false;
+                }
+
+
+
             }
             catch (Exception ex)
             {

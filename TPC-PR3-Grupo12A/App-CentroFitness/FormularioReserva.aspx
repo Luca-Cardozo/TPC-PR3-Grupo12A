@@ -12,7 +12,9 @@
                 <div class="card shadow-sm">
 
                     <div class="card-header text-center">
-                        <h4 class="mb-0">Editar Reserva</h4>
+                                       <h4 class="mb-0">
+    <asp:Label ID="lblTitulo" runat="server"  Text="Editar Reserva" /> 
+</h4>
                     </div>
 
                     <div class="card-body">
