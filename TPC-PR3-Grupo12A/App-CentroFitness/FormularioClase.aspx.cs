@@ -248,20 +248,30 @@ namespace App_CentroFitness
 
                     ddlDisciplina.SelectedValue = seleccionada.Disciplina.IdDisciplina.ToString();
 
-                    btnEliminar.Visible = true;
 
                     if (seleccionada.Estado == EstadoClase.Vigente)
                     {
+                        lblTitulo.Text = "Editar Clase";
+                        btnAceptar.Visible = true;
+                        btnEliminar.Visible = true;
+
                         btnEliminar.Text = "Eliminar";
                         btnEliminar.CssClass = "btn btn-danger";
                         btnEliminar.OnClientClick = "return confirm('¿Está seguro de cancelar esta clase?');";
                     }
-                    else if (seleccionada.Estado == EstadoClase.Cancelada)
+                    else
                     {
-                        btnEliminar.Text = "Reactivar";
-                        btnEliminar.CssClass = "btn btn-success";
-                        btnEliminar.OnClientClick = "return confirm('¿Está seguro de reactivar esta clase?');";
+                        lblTitulo.Text = "Consulta de Clase";
+                        ddlInstructor.Enabled = false;
+                        ddlDisciplina.Enabled = false;
+                        txtFecha.Enabled = false;
+                        ddlHora.Enabled = false;
+                        txtCupoMaximo.Enabled = false;
+
+                        btnAceptar.Visible = false;
+                        btnEliminar.Visible = false;
                     }
+
                 }
             }
             catch (Exception ex)

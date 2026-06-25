@@ -70,6 +70,8 @@
                                 <label class="form-label">Nueva fecha</label>
 
                                 <asp:TextBox ID="txtNuevaFecha"  runat="server"  CssClass="form-control"  TextMode="Date" />
+
+                                <asp:RequiredFieldValidator runat="server"  ControlToValidate="txtNuevaFecha" ErrorMessage="Debe ingresar una nueva fecha."   CssClass="text-danger" />
 </div>
 
                             <div class="col-md-6 mb-3">
@@ -98,7 +100,7 @@
                                     <asp:ListItem Text="22:00" Value="22" />
 
                                 </asp:DropDownList>
-
+<asp:RequiredFieldValidator   runat="server"  ControlToValidate="ddlNuevaHora"   InitialValue="0"    ErrorMessage="Debe seleccionar una nueva hora."  CssClass="text-danger" />
                             </div>
 
                         </div>

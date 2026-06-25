@@ -77,7 +77,45 @@ namespace App_CentroFitness
                 claseNegocio.cambiarEstadoClase(
                     claseOriginal.IdClase,
                     EstadoClase.Reprogramada);
+                List<Reserva> reservas = reservaNegocio.listarPorClase(nuevaClase.IdClase);
 
+                foreach (Reserva reserva in reservas)
+                {
+                    EmailService email = new EmailService();
+
+                    string cuerpo = @"<h2>Clase reprogramada</h2>
+
+<p>Le informamos que, por razones operativas, fue necesario modificar la programación de una de nuestras clases.</p>
+
+<p><strong>Clase original</strong></p>
+
+<ul>
+<li><strong>Disciplina:</strong> " + claseOriginal.Disciplina.Nombre + @"</li>
+
+<li><strong>Fecha:</strong> " + claseOriginal.Fecha.ToString("dd/MM/yyyy") + @"</li>
+<li><strong>Horario:</strong> " + claseOriginal.HoraInicio + @":00 hs</li>
+</ul>
+
+<p><strong>Nueva programación</strong></p>
+
+<ul>
+<li><strong>Fecha:</strong> " + nuevaClase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+<li><strong>Horario:</strong> " + nuevaClase.HoraInicio + @":00 hs</li>
+</ul>
+
+<p>Su reserva fue trasladada automáticamente a la nueva clase.</p>
+
+<br/>
+
+<p>Centro Fitness</p>";
+
+                    email.armarCorreo(
+                        reserva.Alumno.Email,
+                        "Reprogramación de clase - Centro Fitness",
+                        cuerpo);
+
+                    email.enviarEmail();
+                }
                 Response.Redirect("EditarClases.aspx", false);
             }
             catch (Exception ex)

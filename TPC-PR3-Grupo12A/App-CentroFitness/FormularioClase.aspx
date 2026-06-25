@@ -15,7 +15,9 @@
                 <div class="card shadow-sm border-0 rounded-4">
 
                     <div class="card-header bg-white border-bottom">
-                        <h3 class="mb-0 text-center">Gestión de Clases</h3>
+                                                <h3 class="mb-0 text-center">
+    <asp:Label ID="lblTitulo" runat="server" Text="Gestión de Clases"></asp:Label>
+</h3>
                     </div>
 
                     <div class="card-body p-4">

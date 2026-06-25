@@ -141,6 +141,12 @@ namespace App_CentroFitness
 
             Response.Redirect("ReprogramarClase.aspx?id=" + idClase, false);
         }
+        protected void btnVer_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int idClase = int.Parse(btn.CommandArgument);
 
+            Response.Redirect("FormularioClase.aspx?id=" + idClase, false);
+        }
     }
 }
