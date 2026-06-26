@@ -826,3 +826,24 @@ WHERE Asistencia = 0;
 ALTER TABLE Reservas
 ADD CONSTRAINT CK_Reservas_Asistencia
 CHECK (Asistencia IS NULL OR Asistencia IN (1, 2));
+
+-- =============================================
+-- Tabla: HistorialCancelaciones (por si se necesitan hacer reportes en el futuro)
+-- =============================================
+CREATE TABLE HistorialCancelaciones
+(
+    IdHistorial INT IDENTITY(1,1) PRIMARY KEY,
+
+    IdReserva INT NOT NULL,
+    IdAlumno INT NOT NULL,
+
+    FechaClase DATE NOT NULL,
+
+    FechaCancelacion DATETIME NOT NULL DEFAULT GETDATE(),
+
+    TipoCancelacion INT NOT NULL,
+    -- 1 = Alumno
+    -- 2 = Centro Fitness
+     Motivo VARCHAR(200) NULL
+);
+GO
