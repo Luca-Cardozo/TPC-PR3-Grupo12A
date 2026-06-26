@@ -288,6 +288,36 @@ namespace Negocio
             service.armarCorreo(email, "Suscripción actualizada - Centro Fitness", cuerpo);
             service.enviarEmail();
         }
+
+        public void enviarMailRecordatorioClase(string email, string nombreAlumno, Clase clase)
+        {
+            EmailService service = new EmailService();
+
+            string cuerpo = @"
+            <h2>Recordatorio de clase 🏋️‍♂️</h2>
+            <p>Hola " + nombreAlumno + @",</p>
+            <p>
+            Te recordamos que tenés una reserva vigente para la siguiente clase:
+            </p>
+            <ul>
+                <li><b>Disciplina:</b> " + clase.Disciplina.Nombre + @"</li>
+                <li><b>Instructor:</b> " + clase.Instructor.Nombre + " " + clase.Instructor.Apellido + @"</li>
+                <li><b>Fecha:</b> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><b>Horario:</b> " + clase.HoraInicio + @":00 - " + clase.HoraFin + @":00 hs</li>
+            </ul>
+            <p>
+            ¡Te esperamos! 💪
+            </p>
+            <hr />
+            <small>
+            Este es un mensaje automático generado por Centro Fitness. Por favor, no responder a este correo.
+            </small>";
+
+            service.armarCorreo(email, "Recordatorio de clase - Centro Fitness", cuerpo);
+            service.enviarEmail();
+        }
+
+
     }
 }
 

@@ -89,7 +89,7 @@ namespace App_CentroFitness
                 claseNegocio.cambiarEstadoClase(
                     claseOriginal.IdClase,
                     EstadoClase.Reprogramada);
-                List<Reserva> reservas = reservaNegocio.listarPorClase(nuevaClase.IdClase);
+                List<Reserva> reservas = reservaNegocio.listarVigentesPorClase(nuevaClase.IdClase);
 
                 foreach (Reserva reserva in reservas)
                 {

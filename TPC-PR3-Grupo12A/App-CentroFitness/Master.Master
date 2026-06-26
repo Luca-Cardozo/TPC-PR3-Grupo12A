@@ -27,29 +27,28 @@
                     <ul class="navbar-nav ms-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link" href="Home.aspx">Inicio</a>
+                            <a class="nav-link" href="Home.aspx">🏠 Inicio</a>
                         </li>
 
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Clases
-                            </a>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">🏋️ Clases</a>
 
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="Disciplinas.aspx">Disciplinas</a>
+                                    <a class="dropdown-item" href="Disciplinas.aspx">💪 Disciplinas</a>
                                 </li>
 
                                 <li>
-                                    <a class="dropdown-item" href="Instructores.aspx">Instructores</a>
+                                    <a class="dropdown-item" href="Instructores.aspx">👨‍🏫 Instructores</a>
                                 </li>
 
                                 <li id="liMisClases" runat="server">
-                                    <a class="dropdown-item" href="MisClases.aspx">Mis Clases</a>
+                                    <a class="dropdown-item" href="MisClases.aspx">📋 Mis Clases</a>
                                 </li>
 
                                 <li id="liMisReservas" runat="server">
-                                    <a class="dropdown-item" href="MisReservas.aspx">Mis Reservas</a>
+                                    <a class="dropdown-item" href="MisReservas.aspx">📝 Mis Reservas</a>
                                 </li>
                             </ul>
                         </li>
@@ -58,51 +57,55 @@
                             <a class="nav-link dropdown-toggle"
                                 href="#"
                                 role="button"
-                                data-bs-toggle="dropdown">Administración</a>
+                                data-bs-toggle="dropdown">⚙️ Administración</a>
 
                             <ul class="dropdown-menu">
-                                
+
                                 <li id="liAdminPlanes" runat="server">
-                                    <a class="dropdown-item" href="EditarPlanes.aspx">Planes</a>
+                                    <a class="dropdown-item" href="EditarPlanes.aspx">💳 Planes</a>
                                 </li>
 
                                 <li id="liAdminDisciplinas" runat="server">
-                                    <a class="dropdown-item" href="EditarDisciplinas.aspx">Disciplinas</a>
+                                    <a class="dropdown-item" href="EditarDisciplinas.aspx">💪 Disciplinas</a>
                                 </li>
 
                                 <li id="liAdminInstructores" runat="server">
-                                    <a class="dropdown-item" href="EditarInstructores.aspx">Instructores</a>
+                                    <a class="dropdown-item" href="EditarInstructores.aspx">👨‍🏫 Instructores</a>
                                 </li>
 
                                 <li id="liAdminRecepcionistas" runat="server">
-                                    <a class="dropdown-item" href="EditarRecepcionistas.aspx">Recepcionistas</a>
+                                    <a class="dropdown-item" href="EditarRecepcionistas.aspx">🧑‍ Recepcionistas</a>
                                 </li>
 
                                 <li id="liAdminAlumnos" runat="server">
-                                    <a class="dropdown-item" href="EditarAlumnos.aspx">Alumnos</a>
+                                    <a class="dropdown-item" href="EditarAlumnos.aspx">🎓 Alumnos</a>
                                 </li>
 
                                 <li id="liAdminClases" runat="server">
-                                    <a class="dropdown-item" href="EditarClases.aspx">Clases</a>
+                                    <a class="dropdown-item" href="EditarClases.aspx">🏋️ Clases</a>
                                 </li>
 
                                 <li id="liAdminReservas" runat="server">
-                                    <a class="dropdown-item" href="EditarReservas.aspx">Reservas</a>
+                                    <a class="dropdown-item" href="EditarReservas.aspx">📝Reservas</a>
+                                </li>
+
+                                <li id="liEnviarRecordatorios" runat="server">
+                                    <a class="dropdown-item" href="EnviarRecordatorios.aspx">📧 Enviar Recordatorios</a>
                                 </li>
 
                             </ul>
                         </li>
 
                         <li class="nav-item" id="liLogin" runat="server">
-                            <a class="nav-link" href="Login.aspx">Login</a>
+                            <a class="nav-link" href="Login.aspx">🔑 Login</a>
                         </li>
 
                         <li class="nav-item" id="liLogout" runat="server">
-                            <a class="nav-link" href="Logout.aspx">Logout</a>
+                            <a class="nav-link" href="Logout.aspx">🚪 Logout</a>
                         </li>
 
                         <li class="nav-item" id="liPerfil" runat="server">
-                            <a class="nav-link" href="MiPerfil.aspx">Mi Perfil</a>
+                            <a class="nav-link" href="MiPerfil.aspx">👤 Mi Perfil</a>
                         </li>
 
                     </ul>

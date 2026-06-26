@@ -520,7 +520,7 @@ namespace Negocio
         }
 
 
-        public List<Reserva> listarPorClase(int idClase)
+        public List<Reserva> listarVigentesPorClase(int idClase)
         {
             List<Reserva> lista = new List<Reserva>();
             AccesoDatos datos = new AccesoDatos();
@@ -571,7 +571,7 @@ namespace Negocio
 
         public void cancelarClasePorCentroFitness(int idClase)
         {
-            List<Reserva> reservas = listarPorClase(idClase);
+            List<Reserva> reservas = listarVigentesPorClase(idClase);
             ClaseNegocio claseNegocio = new ClaseNegocio();
             Clase clase = claseNegocio.obtenerPorId(idClase);
 

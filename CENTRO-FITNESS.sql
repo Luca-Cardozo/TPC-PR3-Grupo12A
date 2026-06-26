@@ -826,3 +826,17 @@ WHERE Asistencia = 0;
 ALTER TABLE Reservas
 ADD CONSTRAINT CK_Reservas_Asistencia
 CHECK (Asistencia IS NULL OR Asistencia IN (1, 2));
+
+
+-- =============================================
+-- Tabla: RecordatoriosClases (para registrar y manejar el envío de mails recordando las reservas de los alumnos que tenga clases el día siguiente)
+-- =============================================
+
+CREATE TABLE RecordatoriosClases (
+    IdRecordatorio INT IDENTITY(1,1) PRIMARY KEY,
+    IdClase INT NOT NULL,
+    FechaEnvio DATETIME NOT NULL DEFAULT GETDATE(),
+    CantidadEnviada INT NOT NULL,
+    CONSTRAINT FK_RecordatoriosClases_Clases
+        FOREIGN KEY (IdClase) REFERENCES Clases(IdClase)
+);

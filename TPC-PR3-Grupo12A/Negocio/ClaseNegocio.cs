@@ -109,6 +109,56 @@ namespace Negocio
             }
         }
 
+
+        public List<Clase> listarVigentesPorFecha(DateTime fecha)
+        {
+            List<Clase> lista = new List<Clase>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, C.Estado, " +
+                    "D.IdDisciplina, D.Nombre AS DisciplinaNombre, " +
+                    "U.IdUsuario AS IdInstructor, U.Nombre AS InstructorNombre, U.Apellido AS InstructorApellido " +
+                    "FROM Clases C " +
+                    "INNER JOIN Disciplinas D ON D.IdDisciplina = C.IdDisciplina " +
+                    "INNER JOIN Usuarios U ON U.IdUsuario = C.IdInstructor " +
+                    "WHERE C.Estado = 1 AND C.Fecha = @Fecha " +
+                    "ORDER BY C.HoraInicio");
+
+                datos.setearParametro("@Fecha", fecha);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Clase aux = new Clase();
+
+                    aux.IdClase = (int)datos.Lector["IdClase"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.HoraInicio = (int)datos.Lector["HoraInicio"];
+                    aux.CupoMaximo = (int)datos.Lector["CupoMaximo"];
+                    aux.Estado = (EstadoClase)(int)datos.Lector["Estado"];
+
+                    aux.Disciplina = new Disciplina();
+                    aux.Disciplina.IdDisciplina = (int)datos.Lector["IdDisciplina"];
+                    aux.Disciplina.Nombre = (string)datos.Lector["DisciplinaNombre"];
+
+                    aux.Instructor = new Instructor();
+                    aux.Instructor.IdUsuario = (int)datos.Lector["IdInstructor"];
+                    aux.Instructor.Nombre = (string)datos.Lector["InstructorNombre"];
+                    aux.Instructor.Apellido = (string)datos.Lector["InstructorApellido"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public Clase obtenerPorId(int idClase)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -380,5 +430,62 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public bool tieneRecordatorioEnviado(int idClase)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT 1 FROM RecordatoriosClases WHERE IdClase = @IdClase");
+                datos.setearParametro("@IdClase", idClase);
+                datos.ejecutarLectura();
+                return datos.Lector.Read();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public DateTime? obtenerFechaUltimoRecordatorio(int idClase)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT MAX(FechaEnvio) FROM RecordatoriosClases WHERE IdClase = @IdClase");
+                datos.setearParametro("@IdClase", idClase);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read() && datos.Lector[0] != DBNull.Value)
+                    return (DateTime)datos.Lector[0];
+
+                return null;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void registrarRecordatorio(int idClase, int cantidadEnviada)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO RecordatoriosClases (IdClase, CantidadEnviada) " +
+                    "VALUES (@IdClase, @CantidadEnviada)");
+                datos.setearParametro("@IdClase", idClase);
+                datos.setearParametro("@CantidadEnviada", cantidadEnviada);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

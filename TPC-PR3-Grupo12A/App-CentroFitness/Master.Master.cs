@@ -56,6 +56,7 @@ namespace App_CentroFitness
             liAdminClases.Visible = false;
             liAdminReservas.Visible = false;
             liAdminPlanes.Visible = false;
+            liEnviarRecordatorios.Visible = false;
 
             lblUsuarioLogueado.Text = "";
 
@@ -82,6 +83,7 @@ namespace App_CentroFitness
                 liAdminAlumnos.Visible = true;
                 liAdminClases.Visible = true;
                 liAdminReservas.Visible = true;
+                liEnviarRecordatorios.Visible = true;
             }
             else if (usuario.Rol == Rol.Administrador)
             {
@@ -94,6 +96,7 @@ namespace App_CentroFitness
                 liAdminClases.Visible = true;
                 liAdminReservas.Visible = true;
                 liAdminPlanes.Visible = true;
+                liEnviarRecordatorios.Visible = true;
             }
         }
     }

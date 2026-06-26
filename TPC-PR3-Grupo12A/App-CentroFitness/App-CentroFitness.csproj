@@ -76,6 +76,7 @@
     <Content Include="EditarPlanes.aspx" />
     <Content Include="EditarRecepcionistas.aspx" />
     <Content Include="EditarReservas.aspx" />
+    <Content Include="EnviarRecordatorios.aspx" />
     <Content Include="FormularioAlumno.aspx" />
     <Content Include="FormularioClase.aspx" />
     <Content Include="FormularioDisciplina.aspx" />
@@ -174,6 +175,13 @@
     </Compile>
     <Compile Include="EditarReservas.aspx.designer.cs">
       <DependentUpon>EditarReservas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EnviarRecordatorios.aspx.cs">
+      <DependentUpon>EnviarRecordatorios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EnviarRecordatorios.aspx.designer.cs">
+      <DependentUpon>EnviarRecordatorios.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormularioAlumno.aspx.cs">
       <DependentUpon>FormularioAlumno.aspx</DependentUpon>
