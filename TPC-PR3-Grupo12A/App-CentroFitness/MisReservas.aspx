@@ -82,20 +82,13 @@
                                 <p class="mb-2">🕐<strong>Horario: </strong><%# Eval("Clase.HoraInicio") %>:00 - <%# Eval("Clase.HoraFin") %>:00 hs</p>
                                 <p class="mb-0 text-muted">Reserva realizada: <%# Eval("FechaReserva", "{0:dd/MM/yyyy HH:mm}") %></p>
 
+
+                                <asp:Button ID="btnCancelar" runat="server" Text="❌ Cancelar reserva" CssClass="btn btn-outline-danger" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnCancelar_Click" Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' />
                             </div>
 
                         </div>
 
-                        <asp:Button
-                            ID="btnCancelar"
-                            runat="server"
-                            Text="❌ Cancelar reserva"
-                            CssClass="btn btn-outline-danger btn-sm mt-2"
-                            CommandArgument='<%# Eval("IdReserva") %>'
-                            OnClick="btnCancelar_Click"
-                            OnClientClick="return confirm('¿Seguro que deseas cancelar esta reserva?');"
-                            Visible='<%# (int)Eval("Estado") == 1 || (int)Eval("Estado") == 4 %>' />
-
+                       
                     </ItemTemplate>
                 </asp:Repeater>
 

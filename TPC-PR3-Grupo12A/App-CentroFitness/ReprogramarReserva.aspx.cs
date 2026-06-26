@@ -153,11 +153,20 @@ namespace App_CentroFitness
             {
                 Clase clase = lista.Find(x => x.IdClase.ToString() == item.Value);
 
+
+                int cuposDisponibles = clase.CupoMaximo - reservaNegocio.contarReservasVigentes(clase.IdClase);
+
+                string textoCupo = cuposDisponibles == 1
+                    ? "1 cupo disponible"
+                    : cuposDisponibles + " cupos disponibles";
+
+
                 item.Text =
                     clase.Instructor.Nombre + " " +
                     clase.Instructor.Apellido + " - " +
                     clase.Fecha.ToString("dd/MM/yyyy") + " - " +
-                    clase.HoraInicio + ":00";
+                    clase.HoraInicio + ":00"+
+                    " (" + textoCupo + ")";
             }
         }
 
