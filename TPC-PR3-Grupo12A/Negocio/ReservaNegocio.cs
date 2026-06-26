@@ -254,8 +254,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
-        public void cancelar(int idReserva, bool validarAnticipacion)
+        public void cancelar(int idReserva, bool validarAnticipacion, TipoCancelacion tipoCancelacion)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -285,6 +284,13 @@ namespace Negocio
                 datos.setearParametro("@IdReserva", idReserva);
                 datos.ejecutarAccion();
 
+
+                registrarHistorialCancelacion(
+                        idReserva,
+                        idAlumno,
+                        fechaClase,
+                        (int)tipoCancelacion,
+                                           "");
                 SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
                 suscripcionNegocio.disminuirClasesConsumidas(idAlumno);
             }
@@ -297,6 +303,17 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void cancelar(int idReserva, bool validarAnticipacion)
+        {
+            cancelar(idReserva, validarAnticipacion, TipoCancelacion.CentroFitness);
+        }
+
+
+
+
+
+
+
 
         public void reactivar(int idAlumno, int idClase)
         {
@@ -577,7 +594,7 @@ namespace Negocio
 
             foreach (Reserva reserva in reservas)
             {
-                cancelar(reserva.IdReserva, false);
+                cancelar(reserva.IdReserva, false, TipoCancelacion.CentroFitness);
 
                 EmailService email = new EmailService();
 
@@ -630,6 +647,37 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        public enum TipoCancelacion
+        {
+            Alumno = 1,
+            CentroFitness = 2
+        }
+
+        private void registrarHistorialCancelacion(int idReserva, int idAlumno, DateTime fechaClase, int tipoCancelacion, string motivo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "INSERT INTO HistorialCancelaciones (IdReserva, IdAlumno, FechaClase, TipoCancelacion, Motivo) " +
+                    "VALUES (@IdReserva, @IdAlumno, @FechaClase, @TipoCancelacion, @Motivo)");
+
+                datos.setearParametro("@IdReserva", idReserva);
+                datos.setearParametro("@IdAlumno", idAlumno);
+                datos.setearParametro("@FechaClase", fechaClase);
+                datos.setearParametro("@TipoCancelacion", tipoCancelacion);
+                datos.setearParametro("@Motivo", motivo);
+
+                datos.ejecutarAccion();
             }
             finally
             {

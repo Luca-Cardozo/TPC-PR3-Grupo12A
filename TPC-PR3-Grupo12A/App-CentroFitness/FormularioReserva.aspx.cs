@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static Negocio.ReservaNegocio;
 
 namespace App_CentroFitness
 {
@@ -39,7 +40,17 @@ namespace App_CentroFitness
                     reserva.Asistencia = (EstadoAsistencia)int.Parse(ddlAsistencia.SelectedValue);
                 reserva.Observaciones = string.IsNullOrWhiteSpace(txtObservaciones.Text) ? null : txtObservaciones.Text.Trim();
                 ReservaNegocio negocio = new ReservaNegocio();
-                negocio.modificar(reserva);
+                if (reserva.Estado == Estado.Cancelada)
+                {
+                    negocio.cancelar(
+                        reserva.IdReserva,
+                        false,
+                        TipoCancelacion.Alumno);
+                }
+                else
+                {
+                    negocio.modificar(reserva);
+                }
                 Response.Write("<script>alert('Reserva actualizada correctamente.');" +
                                "window.location='EditarReservas.aspx';</script>");
             }

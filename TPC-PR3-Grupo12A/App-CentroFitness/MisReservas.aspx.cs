@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static Negocio.ReservaNegocio;
 
 namespace App_CentroFitness
 {
@@ -104,7 +105,7 @@ namespace App_CentroFitness
 
                 ReservaNegocio negocio = new ReservaNegocio();
                 Reserva reserva = negocio.listar().Find(x => x.IdReserva == idReserva);
-                negocio.cancelar(idReserva, true);
+                negocio.cancelar(idReserva, true, TipoCancelacion.Alumno);
 
                 EmailService email = new EmailService();
 
