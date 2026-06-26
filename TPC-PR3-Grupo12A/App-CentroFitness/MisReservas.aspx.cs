@@ -109,11 +109,23 @@ namespace App_CentroFitness
 
                 EmailService email = new EmailService();
 
-                string cuerpo = @"<h2>Reserva cancelada correctamente</h2>
-                          <p>Tu reserva fue cancelada exitosamente.</p>
-                         
-                          <br/>
-                          <p>Centro Fitness</p>";
+                string cuerpo = @"<h2>Reserva cancelada</h2>
+
+<p>Su reserva fue cancelada correctamente.</p>
+
+<p><strong>Detalle de la reserva cancelada</strong></p>
+
+<ul>
+<li><strong>Disciplina:</strong> " + reserva.Clase.Disciplina.Nombre + @"</li>
+<li><strong>Fecha:</strong> " + reserva.Clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+<li><strong>Horario:</strong> " + reserva.Clase.HoraInicio + @":00 hs</li>
+</ul>
+
+<p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
+
+<br/>
+
+<p>Centro Fitness</p>";
 
                 email.armarCorreo(
                     reserva.Alumno.Email,

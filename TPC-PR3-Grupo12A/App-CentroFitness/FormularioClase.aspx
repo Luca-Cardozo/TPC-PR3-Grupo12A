@@ -95,9 +95,9 @@
 
                         <div class="d-flex justify-content-center gap-2 mt-4 flex-wrap">
 
-                            <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
-                            <a href="EditarClases.aspx" class="btn btn-secondary">Cancelar</a>
-                            <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
+                            <asp:Button Text="Guardar cambios" ID="btnAceptar" CssClass="btn btn-primary" runat="server" OnClick="btnAceptar_Click" />
+                            <a href="EditarClases.aspx" class="btn btn-secondary">Volver</a>
+                            <asp:Button Text="Cancelar clase" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
 
                         </div>
 

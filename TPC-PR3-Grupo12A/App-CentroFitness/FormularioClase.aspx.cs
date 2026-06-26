@@ -262,7 +262,7 @@ namespace App_CentroFitness
                         btnAceptar.Visible = true;
                         btnEliminar.Visible = true;
 
-                        btnEliminar.Text = "Eliminar";
+                        btnEliminar.Text = "Cancelar clase";
                         btnEliminar.CssClass = "btn btn-danger";
                         btnEliminar.OnClientClick = "return confirm('¿Está seguro de cancelar esta clase?');";
                     }

@@ -86,15 +86,38 @@ namespace App_CentroFitness
 
                 Reserva reserva = negocio.listar().Find(x => x.IdReserva == idReserva);
                 negocio.reprogramar(idReserva, idNuevaClase);
-
+                ClaseNegocio claseNegocio = new ClaseNegocio();
+                Clase nuevaClase = claseNegocio.obtenerPorId(idNuevaClase);
 
                 EmailService email = new EmailService();
 
-                string cuerpo = @"<h2>Reserva reprogramada correctamente</h2>
-                          <p>Tu clase fue reprogramada exitosamente.</p>
-                          <p>Te esperamos en tu próxima actividad.</p>
-                          <br/>
-                          <p>Centro Fitness</p>";
+                string cuerpo = @"<h2>Reserva reprogramada</h2>
+
+<p>Su solicitud de reprogramación fue realizada correctamente.</p>
+
+<p><strong>Clase anterior</strong></p>
+
+<ul>
+<li><strong>Disciplina:</strong> " + reserva.Clase.Disciplina.Nombre + @"</li>
+<li><strong>Fecha:</strong> " + reserva.Clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+<li><strong>Horario:</strong> " + reserva.Clase.HoraInicio + @":00 hs</li>
+</ul>
+
+<p><strong>Nueva clase</strong></p>
+
+<ul>
+<li><strong>Disciplina:</strong> " + nuevaClase.Disciplina.Nombre + @"</li>
+<li><strong>Fecha:</strong> " + nuevaClase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+<li><strong>Horario:</strong> " + nuevaClase.HoraInicio + @":00 hs</li>
+</ul>
+
+<p>Su reserva fue actualizada correctamente y mantiene el mismo consumo de clases de su plan.</p>
+
+<br/>
+
+<p>¡Lo esperamos!</p>
+
+<p>Centro Fitness</p>";
 
                 email.armarCorreo(
                     reserva.Alumno.Email,
