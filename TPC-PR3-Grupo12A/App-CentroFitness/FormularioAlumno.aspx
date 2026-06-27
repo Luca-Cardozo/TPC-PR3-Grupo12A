@@ -35,6 +35,10 @@
                             <label class="form-label">Estado</label>
                             <asp:TextBox ID="txtEstado" runat="server" CssClass="form-control" Enabled="false" />
                         </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Inasistencias del mes</label>
+                            <asp:TextBox ID="txtInasistenciasMes" runat="server" CssClass="form-control" Enabled="false" />
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -97,7 +101,6 @@
                         <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
                 </div>
-
 
             </div>
 

@@ -55,6 +55,11 @@ namespace App_CentroFitness
                             txtFechaNacimiento.Text = seleccionado.FechaNacimiento.ToString("yyyy-MM-dd");
                             txtObservaciones.Text = seleccionado.Observaciones;
 
+                            AlumnoNegocio alumnoNegocio = new AlumnoNegocio();
+                            int inasistencias = alumnoNegocio.contarInasistenciasMes(seleccionado.IdUsuario);
+
+                            txtInasistenciasMes.Text = inasistencias.ToString();
+
                             if (seleccionado.Activo)
                             {
                                 btnEliminar.Text = "Eliminar";

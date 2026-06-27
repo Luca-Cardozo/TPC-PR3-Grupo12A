@@ -177,6 +177,24 @@ namespace App_CentroFitness
         protected global::System.Web.UI.WebControls.Panel pnlSinSuscripcion;
 
         /// <summary>
+        /// Control pnlInasistencias.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlInasistencias;
+
+        /// <summary>
+        /// Control lblInasistenciasMes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInasistenciasMes;
+
+        /// <summary>
         /// Control txtPasswordActual.
         /// </summary>
         /// <remarks>

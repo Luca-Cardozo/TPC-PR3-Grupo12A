@@ -177,6 +177,17 @@
 
                         </div>
 
+                        <hr />
+
+                        <asp:Panel ID="pnlInasistencias" runat="server" Visible="false">
+
+                            <div class="alert alert-warning mt-3">
+                                <strong>Inasistencias del mes:</strong>
+                                <asp:Label ID="lblInasistenciasMes" runat="server" />
+                            </div>
+
+                        </asp:Panel>
+
 
                         <hr />
 

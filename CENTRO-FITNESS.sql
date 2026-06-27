@@ -861,3 +861,23 @@ CREATE TABLE HistorialCancelaciones
      Motivo VARCHAR(200) NULL
 );
 GO
+
+
+-- =============================================
+-- Tabla: HistorialInasistencias  (por si se necesitan hacer penalizaciones en el futuro)
+-- =============================================
+
+CREATE TABLE HistorialInasistencias (
+    IdInasistencia INT IDENTITY(1,1) PRIMARY KEY,
+    IdAlumno INT NOT NULL,
+    IdReserva INT NOT NULL,
+    FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+
+    CONSTRAINT FK_HistorialInasistencias_Alumno
+        FOREIGN KEY (IdAlumno) REFERENCES Usuarios(IdUsuario),
+
+    CONSTRAINT FK_HistorialInasistencias_Reserva
+        FOREIGN KEY (IdReserva) REFERENCES Reservas(IdReserva)
+);
+ALTER TABLE HistorialInasistencias
+ADD CONSTRAINT UQ_HistorialInasistencias_Reserva UNIQUE (IdReserva);

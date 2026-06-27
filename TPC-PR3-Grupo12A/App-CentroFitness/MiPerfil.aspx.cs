@@ -35,8 +35,16 @@ namespace App_CentroFitness
             if (usuario.Rol == Rol.Alumno)
             {
                 pnlObservaciones.Visible = true;
+                pnlInasistencias.Visible = true;
+
                 Alumno alumno = (Alumno)usuario;
                 txtObservaciones.Text = alumno.Observaciones;
+
+                AlumnoNegocio alumnoNegocio = new AlumnoNegocio();
+                int inasistencias = alumnoNegocio.contarInasistenciasMes(alumno.IdUsuario);
+
+                lblInasistenciasMes.Text = inasistencias + " en el mes actual";
+
                 cargarSuscripcionAlumno(alumno);
             }
         }

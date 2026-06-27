@@ -317,6 +317,31 @@ namespace Negocio
             service.enviarEmail();
         }
 
+        public int contarInasistenciasMes(int idAlumno)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM HistorialInasistencias " +
+                    "WHERE IdAlumno = @IdAlumno " +
+                    "AND MONTH(FechaRegistro) = MONTH(GETDATE()) " +
+                    "AND YEAR(FechaRegistro) = YEAR(GETDATE())");
+
+                datos.setearParametro("@IdAlumno", idAlumno);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0];
+
+                return 0;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

@@ -244,6 +244,8 @@ namespace Negocio
                 datos.setearParametro("@IdReserva", reservaModificada.IdReserva);
 
                 datos.ejecutarAccion();
+
+                sincronizarHistorialInasistencia(reservaModificada.IdReserva, reservaModificada.Asistencia);
             }
             catch (Exception ex)
             {
@@ -284,6 +286,7 @@ namespace Negocio
                 datos.setearParametro("@IdReserva", idReserva);
                 datos.ejecutarAccion();
 
+                sincronizarHistorialInasistencia(idReserva, null);
 
                 registrarHistorialCancelacion(
                         idReserva,
@@ -307,13 +310,6 @@ namespace Negocio
         {
             cancelar(idReserva, validarAnticipacion, TipoCancelacion.CentroFitness);
         }
-
-
-
-
-
-
-
 
         public void reactivar(int idAlumno, int idClase)
         {
@@ -442,6 +438,8 @@ namespace Negocio
                 datos.setearParametro("@IdReserva", idReserva);
 
                 datos.ejecutarAccion();
+
+                sincronizarHistorialInasistencia(idReserva, asistencia);
             }
             catch (Exception ex)
             {
@@ -493,6 +491,8 @@ namespace Negocio
                 datos.setearParametro("@IdReserva", idReserva);
 
                 datos.ejecutarAccion();
+
+                sincronizarHistorialInasistencia(idReserva, null);
             }
             finally
             {
@@ -684,6 +684,39 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        private void sincronizarHistorialInasistencia(int idReserva, EstadoAsistencia? asistencia)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                if (asistencia == EstadoAsistencia.Ausente)
+                {
+                    datos.setearConsulta("IF NOT EXISTS (SELECT 1 FROM HistorialInasistencias WHERE IdReserva = @IdReserva) " +
+                        "BEGIN " +
+                        "INSERT INTO HistorialInasistencias (IdAlumno, IdReserva) " +
+                        "SELECT IdAlumno, IdReserva FROM Reservas WHERE IdReserva = @IdReserva " +
+                        "END");
+
+                    datos.setearParametro("@IdReserva", idReserva);
+                }
+                else
+                {
+                    datos.setearConsulta(
+                        "DELETE FROM HistorialInasistencias WHERE IdReserva = @IdReserva");
+
+                    datos.setearParametro("@IdReserva", idReserva);
+                }
+
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 
 }
