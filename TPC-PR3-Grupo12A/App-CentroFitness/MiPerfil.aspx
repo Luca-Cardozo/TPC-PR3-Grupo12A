@@ -49,6 +49,8 @@
 
                     <div class="card-body">
 
+                        <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger d-block text-center" Visible="false" />
+
                         <div class="row">
 
                             <div class="col-md-4 text-center mb-4">
@@ -221,10 +223,6 @@
                         <div class="d-flex justify-content-between mt-4">
                             <asp:Button ID="btnVolverHome" runat="server" Text="🏠 Volver al inicio" CssClass="btn btn-outline-secondary" OnClick="btnVolverHome_Click" />
                             <asp:Button ID="btnGuardar" runat="server" Text="Guardar cambios" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-                        </div>
-
-                        <div>
-                            <asp:Label ID="lblError" runat="server" CssClass="text-danger fw-bold" Visible="false" />
                         </div>
 
                     </div>

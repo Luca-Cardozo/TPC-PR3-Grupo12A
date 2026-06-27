@@ -83,7 +83,7 @@
                                 <p class="mb-0 text-muted">Reserva realizada: <%# Eval("FechaReserva", "{0:dd/MM/yyyy HH:mm}") %></p>
 
 
-                                <asp:Button ID="btnCancelar" runat="server" Text="❌ Cancelar reserva" CssClass="btn btn-outline-danger" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnCancelar_Click" Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' />
+                                <asp:Button ID="btnCancelar" runat="server" Text="❌ Cancelar reserva" CssClass="btn btn-outline-danger" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnCancelar_Click" Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' OnClientClick="return confirm('¿Está seguro que desea cancelar esta reserva?');" />
                             </div>
 
                         </div>

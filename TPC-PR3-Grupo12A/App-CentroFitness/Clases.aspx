@@ -11,6 +11,43 @@
             <p class="text-muted">Seleccione una clase para realizar la reserva.</p>
         </div>
 
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+
+                <h5 class="mb-3">🔎 Filtrar clases</h5>
+
+                <div class="row g-3 align-items-end justify-content-center">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha desde</label>
+                        <asp:TextBox ID="txtFechaDesde" runat="server" TextMode="Date" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Fecha hasta</label>
+                        <asp:TextBox ID="txtFechaHasta" runat="server" TextMode="Date" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Disponibilidad</label>
+                        <asp:DropDownList ID="ddlDisponibilidad" runat="server" CssClass="form-select">
+                            <asp:ListItem Text="Todas" Value="0" />
+                            <asp:ListItem Text="Solo con cupo disponible" Value="1" />
+                        </asp:DropDownList>
+                    </div>
+
+                    <div class="col-md-3 d-flex gap-2">
+                        <asp:Button ID="btnFiltrar" runat="server" Text="Buscar" CssClass="btn btn-primary w-50" OnClick="btnFiltrar_Click" />
+                        <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-outline-secondary w-50" OnClick="btnLimpiar_Click" />
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
         <asp:Label ID="lblSinClases" runat="server" Visible="false" CssClass="alert alert-info d-block text-center">
             No hay clases disponibles para la disciplina seleccionada.
         </asp:Label>
@@ -31,11 +68,11 @@
                                     <%# Eval("CuposDisponibles") %> / <%# Eval("CupoMaximo") %>
                                 </p>
                                 <div class="text-center">
-                                    <asp:Button ID="btnSeleccionar" 
-                                        runat="server" 
-                                        Text='<%# (int)Eval("CuposDisponibles") > 0 ? "✅ Reservar clase" : "❌ Clase completa" %>' 
-                                        CssClass="btn btn-success px-4" 
-                                        CommandArgument='<%# Eval("IdClase") %>' 
+                                    <asp:Button ID="btnSeleccionar"
+                                        runat="server"
+                                        Text='<%# (int)Eval("CuposDisponibles") > 0 ? "✅ Reservar clase" : "❌ Clase completa" %>'
+                                        CssClass="btn btn-success px-4"
+                                        CommandArgument='<%# Eval("IdClase") %>'
                                         OnClick="btnSeleccionar_Click"
                                         Enabled='<%# (int)Eval("CuposDisponibles") > 0 %>' />
                                 </div>

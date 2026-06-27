@@ -124,7 +124,20 @@ namespace App_CentroFitness
                     usuario.Imagen = nombreArchivo;
                 }
 
-                bool cambiaPassword = !string.IsNullOrWhiteSpace(txtNuevaPassword.Text);
+                bool completoAlguno = !string.IsNullOrWhiteSpace(txtPasswordActual.Text) ||
+                                    !string.IsNullOrWhiteSpace(txtNuevaPassword.Text) ||
+                                    !string.IsNullOrWhiteSpace(txtConfirmarPassword.Text);
+
+                bool completoTodos = !string.IsNullOrWhiteSpace(txtPasswordActual.Text) &&
+                                    !string.IsNullOrWhiteSpace(txtNuevaPassword.Text) &&
+                                    !string.IsNullOrWhiteSpace(txtConfirmarPassword.Text);
+
+                if (completoAlguno && !completoTodos)
+                {
+                    throw new Exception("Para cambiar la contraseña debe completar los tres campos.");
+                }
+
+                bool cambiaPassword = completoTodos;
 
                 if (cambiaPassword)
                 {
@@ -143,20 +156,25 @@ namespace App_CentroFitness
 
                 negocio.modificarPerfil(usuario);
 
+                if (cambiaPassword)
+                {
+                    negocio.enviarMailPasswordModificada(usuario);
+                }
+
                 Session["usuario"] = usuario;
 
-                lblError.Text = "Perfil actualizado correctamente. Redirigiendo al HOME...";
+                lblError.Text = "Perfil actualizado correctamente. Redirigiendo al inicio...";
 
-                lblError.CssClass = "text-success fw-bold";
+                lblError.CssClass = "alert alert-success d-block text-center";
 
                 lblError.Visible = true;
 
-                Response.AddHeader("REFRESH", "3;URL=Home.aspx");
+                ScriptManager.RegisterStartupScript(this, GetType(), "redirect", "setTimeout(function(){ window.location='Home.aspx'; }, 3000);", true);
             }
             catch (Exception ex)
             {
                 lblError.Text = ex.Message;
-                lblError.CssClass = "text-danger fw-bold";
+                lblError.CssClass = "alert alert-danger d-block text-center";
                 lblError.Visible = true;
             }
         }

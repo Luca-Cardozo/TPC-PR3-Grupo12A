@@ -218,5 +218,22 @@ namespace Negocio
             service.armarCorreo(email, asunto, cuerpo);
             service.enviarEmail();
         }
+
+        public void enviarMailPasswordModificada(Usuario usuario)
+        {
+            EmailService service = new EmailService();
+
+            string cuerpo =
+                "<h2>Contraseña actualizada correctamente</h2>" +
+                "<p>Te informamos que la contraseña de tu cuenta en Centro Fitness fue modificada exitosamente.</p>" +
+                "<p>A partir de este momento deberás utilizar tu nueva contraseña para iniciar sesión.</p>" +
+                "<br/>" +
+                "<p>Si no realizaste este cambio, comunicate con recepción o administración a la brevedad.</p>" +
+                "<br/>" +
+                "<p>Centro Fitness</p>";
+
+            service.armarCorreo(usuario.Email, "Cambio de contraseña - Centro Fitness", cuerpo);
+            service.enviarEmail();
+        }
     }
 }
