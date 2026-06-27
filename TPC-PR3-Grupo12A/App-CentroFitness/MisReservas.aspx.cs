@@ -111,21 +111,21 @@ namespace App_CentroFitness
 
                 string cuerpo = @"<h2>Reserva cancelada</h2>
 
-<p>Su reserva fue cancelada correctamente.</p>
+                <p>Su reserva fue cancelada correctamente.</p>
 
-<p><strong>Detalle de la reserva cancelada</strong></p>
+                <p><strong>Detalle de la reserva cancelada</strong></p>
 
-<ul>
-<li><strong>Disciplina:</strong> " + reserva.Clase.Disciplina.Nombre + @"</li>
-<li><strong>Fecha:</strong> " + reserva.Clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
-<li><strong>Horario:</strong> " + reserva.Clase.HoraInicio + @":00 hs</li>
-</ul>
+                <ul>
+                <li><strong>Disciplina:</strong> " + reserva.Clase.Disciplina.Nombre + @"</li>
+                <li><strong>Fecha:</strong> " + reserva.Clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + reserva.Clase.HoraInicio + @":00 hs</li>
+                </ul>
 
-<p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
+                <p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
 
-<br/>
+                <br/>
 
-<p>Centro Fitness</p>";
+                <p>Centro Fitness</p>";
 
                 email.armarCorreo(
                     reserva.Alumno.Email,
@@ -142,6 +142,52 @@ namespace App_CentroFitness
             catch (Exception ex)
             {
                 Response.Write("<script>alert('Error al cancelar: " + ex.Message + "');</script>");
+            }
+        }
+
+        public string obtenerClaseBadgeEstado(object estadoObj)
+        {
+            Estado estado = (Estado)estadoObj;
+
+            switch (estado)
+            {
+                case Estado.Vigente:
+                    return "badge bg-success px-3 py-2";
+
+                case Estado.Cancelada:
+                    return "badge bg-danger px-3 py-2";
+
+                case Estado.Finalizada:
+                    return "badge bg-secondary px-3 py-2";
+
+                case Estado.Reprogramada:
+                    return "badge bg-warning text-dark px-3 py-2";
+
+                default:
+                    return "badge bg-light text-dark px-3 py-2";
+            }
+        }
+
+        public string obtenerTextoEstado(object estadoObj)
+        {
+            Estado estado = (Estado)estadoObj;
+
+            switch (estado)
+            {
+                case Estado.Vigente:
+                    return "Vigente";
+
+                case Estado.Cancelada:
+                    return "Cancelada";
+
+                case Estado.Finalizada:
+                    return "Finalizada";
+
+                case Estado.Reprogramada:
+                    return "Reprogramada";
+
+                default:
+                    return "Sin estado";
             }
         }
     }

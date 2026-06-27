@@ -33,15 +33,6 @@ namespace App_CentroFitness
         protected global::System.Web.UI.WebControls.DropDownList ddlClases;
 
         /// <summary>
-        /// Control btnBuscarClase.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscarClase;
-
-        /// <summary>
         /// Control btnLimpiar.
         /// </summary>
         /// <remarks>
@@ -58,6 +49,15 @@ namespace App_CentroFitness
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblInfoClase;
+
+        /// <summary>
+        /// Control pnlAsistencia.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAsistencia;
 
         /// <summary>
         /// Control dgvAsistencia.

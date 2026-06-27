@@ -16,24 +16,14 @@
 
                         <h4 class="text-center mb-4">🔎 Filtrar reservas</h4>
 
-                        <div class="row g-3 justify-content-center">
+                        <div class="row g-3 justify-content-center mb-2">
 
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <label class="form-label">Disciplina</label>
                                 <asp:DropDownList ID="ddlDisciplinaFiltro" runat="server" CssClass="form-select" />
                             </div>
 
-                            <div class="col-md-3">
-                                <label class="form-label">Desde</label>
-                                <asp:TextBox ID="txtDesde" runat="server" TextMode="Date" CssClass="form-control" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Hasta</label>
-                                <asp:TextBox ID="txtHasta" runat="server" TextMode="Date" CssClass="form-control" />
-                            </div>
-
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <label class="form-label">Estado</label>
                                 <asp:DropDownList ID="ddlEstadoFiltro" runat="server" CssClass="form-select">
                                     <asp:ListItem Text="Todos" Value="0" />
@@ -42,6 +32,20 @@
                                     <asp:ListItem Text="Finalizadas" Value="3" />
                                     <asp:ListItem Text="Reprogramadas" Value="4" />
                                 </asp:DropDownList>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-3 justify-content-center">
+
+                            <div class="col-md-5">
+                                <label class="form-label">Desde</label>
+                                <asp:TextBox ID="txtDesde" runat="server" TextMode="Date" CssClass="form-control" />
+                            </div>
+
+                            <div class="col-md-5">
+                                <label class="form-label">Hasta</label>
+                                <asp:TextBox ID="txtHasta" runat="server" TextMode="Date" CssClass="form-control" />
                             </div>
 
                         </div>
@@ -73,7 +77,7 @@
 
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h5 class="mb-0 fw-bold"><%# Eval("Clase.Disciplina.Nombre") %></h5>
-                                    <span class="badge bg-secondary px-3 py-2"><%# Eval("Estado") %></span>
+                                    <span class='<%# obtenerClaseBadgeEstado(Eval("Estado")) %>'><%# obtenerTextoEstado(Eval("Estado")) %></span>
                                 </div>
 
                                 <hr class="my-2" />
@@ -83,12 +87,12 @@
                                 <p class="mb-0 text-muted">Reserva realizada: <%# Eval("FechaReserva", "{0:dd/MM/yyyy HH:mm}") %></p>
 
 
-                                <asp:Button ID="btnCancelar" runat="server" Text="❌ Cancelar reserva" CssClass="btn btn-outline-danger" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnCancelar_Click" Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' OnClientClick="return confirm('¿Está seguro que desea cancelar esta reserva?');" />
+                                <asp:Button ID="btnCancelar" runat="server" Text="❌ Cancelar reserva" CssClass="btn btn-outline-danger mt-3" CommandArgument='<%# Eval("IdReserva") %>' OnClick="btnCancelar_Click" Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' OnClientClick="return confirm('¿Está seguro que desea cancelar esta reserva?');" />
                             </div>
 
                         </div>
 
-                       
+
                     </ItemTemplate>
                 </asp:Repeater>
 

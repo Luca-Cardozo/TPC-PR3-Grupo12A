@@ -20,13 +20,7 @@
                 <div class="row g-3 align-items-end justify-content-center">
                     <div class="col-md-7">
                         <label class="form-label">Clase</label>
-                        <asp:DropDownList ID="ddlClases" runat="server" CssClass="form-select" />
-                    </div>
-
-                    <div class="col-md-2">
-                        <asp:Button ID="btnBuscarClase" runat="server" Text="Buscar"
-                            CssClass="btn btn-primary w-100"
-                            OnClick="btnBuscarClase_Click" />
+                        <asp:DropDownList ID="ddlClases" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlClases_SelectedIndexChanged" />
                     </div>
 
                     <div class="col-md-2">
@@ -40,49 +34,62 @@
         </div>
 
         <asp:Label ID="lblInfoClase" runat="server"
-            CssClass="alert alert-info d-block text-center" />
+            CssClass="alert alert-info d-block text-center"
+            Visible="false" />
 
-        <asp:GridView ID="dgvAsistencia" runat="server" CssClass="table table-hover shadow-sm" AutoGenerateColumns="false" DataKeyNames="IdReserva">
-            <HeaderStyle CssClass="table-dark text-center" />
+        <asp:Panel ID="pnlAsistencia" runat="server" Visible="false">
 
-            <Columns>
-                <asp:TemplateField HeaderText="Alumno">
-                    <ItemStyle CssClass="text-center" />
-                    <ItemTemplate>
-                        <%# Eval("Alumno.Nombre") %> <%# Eval("Alumno.Apellido") %>
-                    </ItemTemplate>
-                </asp:TemplateField>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
 
-                <asp:TemplateField HeaderText="Presente">
-                    <ItemStyle CssClass="text-center" />
-                    <ItemTemplate>
-                        <asp:CheckBox ID="chkPresente" runat="server"
-                            Checked='<%# Eval("Asistencia") != null && (int)Eval("Asistencia") == 1 %>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
+                    <h5 class="mb-4 border-bottom pb-2">📋 Registro de asistencia</h5>
 
-                <asp:TemplateField HeaderText="Observaciones">
-                    <ItemTemplate>
-                        <asp:TextBox ID="txtObservaciones" runat="server"
-                            Text='<%# Eval("Observaciones") %>'
-                            CssClass="form-control" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
+                    <asp:GridView ID="dgvAsistencia" runat="server"
+                        CssClass="table table-hover table-striped align-middle shadow-sm"
+                        AutoGenerateColumns="false"
+                        DataKeyNames="IdReserva">
 
-        <div class="text-end mt-3 mb-4">
-            <asp:Button ID="btnGuardarAsistencia" runat="server" Text="Guardar asistencia" CssClass="btn btn-success" OnClick="btnGuardarAsistencia_Click" />
-        </div>
+                        <HeaderStyle CssClass="table-dark text-center" />
 
-    </div>
+                        <Columns>
+                            <asp:TemplateField HeaderText="Alumno">
+                                <ItemStyle CssClass="text-center" />
+                                <ItemTemplate>
+                                    <%# Eval("Alumno.Nombre") %> <%# Eval("Alumno.Apellido") %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-        </div>
-    </div>
+                            <asp:TemplateField HeaderText="Presente">
+                                <ItemStyle CssClass="text-center" />
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkPresente" runat="server"
+                                        Checked='<%# Eval("Asistencia") != null && (int)Eval("Asistencia") == 1 %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
 
-    <div class="row justify-content-center g-3">
+                            <asp:TemplateField HeaderText="Observaciones">
+                                <ItemTemplate>
+                                    <asp:TextBox ID="txtObservaciones" runat="server"
+                                        Text='<%# Eval("Observaciones") %>'
+                                        CssClass="form-control"
+                                        placeholder="Observaciones del alumno..." />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+
+                    <div class="text-end mt-3">
+                        <asp:Button ID="btnGuardarAsistencia" runat="server"
+                            Text="💾 Guardar asistencia"
+                            CssClass="btn btn-success px-4"
+                            OnClick="btnGuardarAsistencia_Click" />
+                    </div>
+
+                </div>
+            </div>
+
+        </asp:Panel>
+
     </div>
 
 

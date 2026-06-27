@@ -27,8 +27,7 @@ namespace App_CentroFitness
 
                 cargarClasesInstructor(usuario.IdUsuario);
 
-                dgvAsistencia.Visible = false;
-                btnGuardarAsistencia.Visible = false;
+                pnlAsistencia.Visible = false;
                 lblInfoClase.Visible = false;
             }
         }
@@ -90,24 +89,14 @@ namespace App_CentroFitness
                 lblInfoClase.Visible = true;
             }
 
-            dgvAsistencia.Visible = true;
-            btnGuardarAsistencia.Visible = true;
+            pnlAsistencia.Visible = true;
         }
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
-            ddlClases.SelectedIndex = 0;
-            dgvAsistencia.Visible = false;
-            btnGuardarAsistencia.Visible = false;
-            lblInfoClase.Visible = false;
+            limpiarPantalla();
         }
-        protected void btnBuscarClase_Click(object sender, EventArgs e)
-        {
-            if (ddlClases.SelectedValue == "0")
-                return;
 
-            cargarAsistencia();
-        }
         protected void btnGuardarAsistencia_Click(object sender, EventArgs e)
         {
             try
@@ -134,7 +123,7 @@ namespace App_CentroFitness
                         txtObservaciones.Text.Trim()
                     );
                 }
-                
+
                 int idClase = int.Parse(ddlClases.SelectedValue);
 
                 if (dgvAsistencia.Rows.Count > 0)
@@ -153,6 +142,25 @@ namespace App_CentroFitness
                 lblInfoClase.CssClass = "alert alert-danger d-block text-center";
                 lblInfoClase.Visible = true;
             }
+        }
+
+        protected void ddlClases_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlClases.SelectedValue == "0")
+            {
+                limpiarPantalla();
+                return;
+            }
+            cargarAsistencia();
+        }
+
+        private void limpiarPantalla()
+        {
+            ddlClases.SelectedIndex = 0;
+            pnlAsistencia.Visible = false;
+            lblInfoClase.Visible = false;
+            dgvAsistencia.DataSource = null;
+            dgvAsistencia.DataBind();
         }
     }
 }
