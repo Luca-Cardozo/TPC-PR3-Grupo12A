@@ -69,6 +69,7 @@
     <Content Include="AltaReserva.aspx" />
     <Content Include="Clases.aspx" />
     <Content Include="ConfirmarReserva.aspx" />
+    <Content Include="Contacto.aspx" />
     <Content Include="Disciplinas.aspx" />
     <Content Include="EditarClases.aspx" />
     <Content Include="EditarDisciplinas.aspx" />
@@ -126,6 +127,13 @@
     </Compile>
     <Compile Include="ConfirmarReserva.aspx.designer.cs">
       <DependentUpon>ConfirmarReserva.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contacto.aspx.cs">
+      <DependentUpon>Contacto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contacto.aspx.designer.cs">
+      <DependentUpon>Contacto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Disciplinas.aspx.cs">
       <DependentUpon>Disciplinas.aspx</DependentUpon>

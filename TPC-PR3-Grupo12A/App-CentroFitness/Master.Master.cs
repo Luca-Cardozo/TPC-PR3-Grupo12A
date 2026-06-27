@@ -16,7 +16,7 @@ namespace App_CentroFitness
             imgAvatar.ImageUrl = "~/Images/default-user.jpg";
 
             bool paginaPublica = Page is Home || Page is Login || Page is Disciplinas 
-                || Page is Instructores || Page is AccesoDenegado || Page is Logout;
+                || Page is Instructores || Page is AccesoDenegado || Page is Logout || Page is Contacto;
 
             if (!paginaPublica && !Seguridad.sesionActiva(Session["usuario"]))
             {
