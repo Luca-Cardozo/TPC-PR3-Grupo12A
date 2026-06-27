@@ -169,6 +169,13 @@ namespace Negocio
 
             if (actual == null)
                 throw new Exception("El alumno no posee una suscripción cargada. Debe dar de alta una primero.");
+            DateTime hoy = DateTime.Today;
+
+            if (mes == hoy.Month && anio == hoy.Year)
+            {
+                throw new Exception("No puede modificarse el plan de una suscripción correspondiente al período vigente. Debe seleccionar un período posterior.");
+            }
+
 
             Plan plan = new PlanNegocio().listar().Find(x => x.IdPlan == idPlan);
 
