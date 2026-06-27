@@ -57,7 +57,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <asp:GridView ID="dgvAlumnos" runat="server" DataKeyNames="IdUsuario"
-                        CssClass="table table-striped table-hover" AutoGenerateColumns="false">
+                        CssClass="table table-striped table-hover" AutoGenerateColumns="false" AllowPaging="true"  PageSize="8"
+    OnPageIndexChanging="dgvAlumnos_PageIndexChanging">
                         <Columns>
                             <asp:BoundField DataField="IdUsuario" HeaderText="ID" />
 

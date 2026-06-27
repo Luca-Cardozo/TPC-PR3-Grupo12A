@@ -65,7 +65,7 @@ namespace App_CentroFitness
                 lista = lista.FindAll(x => x.Activo);
             else if (estado == 2)
                 lista = lista.FindAll(x => !x.Activo);
-
+            Session["listaAlumnosFiltrada"] = lista;
             dgvAlumnos.DataSource = lista;
             dgvAlumnos.DataBind();
         }
@@ -85,7 +85,7 @@ namespace App_CentroFitness
             AlumnoNegocio negocio = new AlumnoNegocio();
 
             Session["listaAlumnos"] = negocio.listar();
-
+            Session["listaAlumnosFiltrada"] = Session["listaAlumnos"];
             dgvAlumnos.DataSource = Session["listaAlumnos"];
             dgvAlumnos.DataBind();
         }
@@ -102,6 +102,14 @@ namespace App_CentroFitness
             Button btn = (Button)sender;
             string id = btn.CommandArgument;
             Response.Redirect("FormularioSuscripcion.aspx?id=" + id, false);
+        }
+
+        protected void dgvAlumnos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            dgvAlumnos.PageIndex = e.NewPageIndex;
+
+            dgvAlumnos.DataSource = Session["listaAlumnosFiltrada"];
+            dgvAlumnos.DataBind();
         }
     }
 }

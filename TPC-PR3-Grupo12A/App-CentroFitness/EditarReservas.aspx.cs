@@ -37,7 +37,10 @@ namespace App_CentroFitness
         {
             ReservaNegocio negocio = new ReservaNegocio();
             List<Reserva> lista = negocio.listar();
+
             Session["listaReservas"] = lista;
+            Session["listaReservasFiltrada"] = lista;
+
             dgvReservas.DataSource = lista;
             dgvReservas.DataBind();
         }
@@ -104,7 +107,7 @@ namespace App_CentroFitness
             {
                 lista = lista.FindAll(x => (int)x.Estado == estado);
             }
-
+            Session["listaReservasFiltrada"] = lista;
             dgvReservas.DataSource = lista;
             dgvReservas.DataBind();
         }
@@ -148,6 +151,14 @@ namespace App_CentroFitness
             int id = int.Parse(btn.CommandArgument);
 
             Response.Redirect("FormularioReserva.aspx?id=" + id, false);
+        }
+
+        protected void dgvReservas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            dgvReservas.PageIndex = e.NewPageIndex;
+
+            dgvReservas.DataSource = Session["listaReservasFiltrada"];
+            dgvReservas.DataBind();
         }
     }
 }

@@ -83,7 +83,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-9">
 
-                <asp:GridView ID="dgvReservas" runat="server" DataKeyNames="IdReserva" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-hover shadow-sm">
+                <asp:GridView ID="dgvReservas" runat="server" DataKeyNames="IdReserva" AutoGenerateColumns="false" CssClass="table table-striped table-bordered table-hover shadow-sm"  AllowPaging="true" PageSize="8"
+    OnPageIndexChanging="dgvReservas_PageIndexChanging">
 
                     <Columns>
                         <asp:BoundField HeaderText="DNI" DataField="Alumno.DNI" />

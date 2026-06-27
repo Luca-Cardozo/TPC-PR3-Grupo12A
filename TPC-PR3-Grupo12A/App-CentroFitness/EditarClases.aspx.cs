@@ -116,6 +116,14 @@ namespace App_CentroFitness
         {
             ClaseNegocio negocio = new ClaseNegocio();
             List<Clase> lista = negocio.listar();
+            //ordena en pantalla
+            lista = lista
+            .OrderBy(x => x.Estado == EstadoClase.Vigente ? 0 :
+               x.Estado == EstadoClase.Reprogramada ? 1 :
+               x.Estado == EstadoClase.Cancelada ? 2 : 3)
+                .ThenBy(x => x.Fecha)
+                .ThenBy(x => x.HoraInicio)
+                .ToList();
             Session["listaClases"] = lista;
             repClases.DataSource = lista;
             repClases.DataBind();
