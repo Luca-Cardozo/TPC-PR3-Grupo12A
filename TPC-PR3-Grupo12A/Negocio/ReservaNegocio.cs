@@ -270,7 +270,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT R.IdAlumno, C.Fecha, C.HoraInicio FROM Reservas R " +
+                datos.setearConsulta("SELECT R.IdAlumno, R.Estado, C.Fecha, C.HoraInicio FROM Reservas R " +
                     "INNER JOIN Clases C ON C.IdClase = R.IdClase WHERE R.IdReserva = @IdReserva");
                 datos.setearParametro("@IdReserva", idReserva);
                 datos.ejecutarLectura();
@@ -281,6 +281,10 @@ namespace Negocio
                 int idAlumno = (int)datos.Lector["IdAlumno"];
                 DateTime fechaClase = (DateTime)datos.Lector["Fecha"];
                 int horaInicio = (int)datos.Lector["HoraInicio"];
+                Estado estadoReserva = (Estado)(int)datos.Lector["Estado"];
+
+                if (estadoReserva != Estado.Vigente)
+                    throw new Exception("Solo se pueden cancelar reservas vigentes.");
 
                 DateTime fechaHoraClase = fechaClase.Date.AddHours(horaInicio);
 
@@ -516,6 +520,9 @@ namespace Negocio
             if (reserva == null)
                 throw new Exception("No se encontró la reserva.");
 
+            if (reserva.Estado != Estado.Vigente)
+                throw new Exception("Solo se pueden reprogramar reservas vigentes.");
+
             if (existeReserva(reserva.Alumno.IdUsuario, idClaseNueva))
                 throw new Exception("El alumno ya tiene una reserva vigente para esa clase.");
             DateTime fechaHoraClase = reserva.Clase.Fecha.AddHours(reserva.Clase.HoraInicio);
@@ -523,25 +530,30 @@ namespace Negocio
             if (DateTime.Now >= fechaHoraClase.AddHours(-24))
                 throw new Exception("La reserva solo puede reprogramarse con al menos 24 horas de anticipación al inicio de la clase.");
 
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            Clase claseNueva = claseNegocio.obtenerPorId(idClaseNueva);
+
+            if (claseNueva == null)
+                throw new Exception("La clase nueva no existe.");
+
+            if (claseNueva.Estado != EstadoClase.Vigente)
+                throw new Exception("La clase nueva no se encuentra vigente.");
+
             validarCupoDisponible(idClaseNueva);
 
-            marcarReservaReprogramada(idReserva);
-
             SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
-            suscripcionNegocio.disminuirClasesConsumidas(reserva.Alumno.IdUsuario);
+            suscripcionNegocio.validarClaseDentroDeSuscripcion(reserva.Alumno.IdUsuario, claseNueva);
+
             Reserva nueva = new Reserva();
-
             nueva.Alumno = reserva.Alumno;
-
             nueva.Clase = new Clase();
             nueva.Clase.IdClase = idClaseNueva;
-
             nueva.Observaciones = reserva.Observaciones;
 
+            marcarReservaReprogramada(idReserva);
+            suscripcionNegocio.disminuirClasesConsumidas(reserva.Alumno.IdUsuario);
+
             agregar(nueva, false);
-
-
-
         }
 
 
