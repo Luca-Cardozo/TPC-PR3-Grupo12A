@@ -14,7 +14,7 @@ namespace App_CentroFitness
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (!Seguridad.esAdmin(Session) && !Seguridad.esRecepcionista(Session))
             {
                 Response.Redirect("AccesoDenegado.aspx", false);
@@ -34,25 +34,40 @@ namespace App_CentroFitness
                 Reserva reserva = new Reserva();
                 reserva.IdReserva = int.Parse(Request.QueryString["id"]);
                 reserva.Estado = (Estado)int.Parse(ddlEstado.SelectedValue);
+                if (reserva.Estado == Estado.Reprogramada)
+                    throw new Exception("Para reprogramar una reserva debe usar la opción Reprogramar.");
                 if (string.IsNullOrEmpty(ddlAsistencia.SelectedValue))
                     reserva.Asistencia = null;
                 else
                     reserva.Asistencia = (EstadoAsistencia)int.Parse(ddlAsistencia.SelectedValue);
                 reserva.Observaciones = string.IsNullOrWhiteSpace(txtObservaciones.Text) ? null : txtObservaciones.Text.Trim();
+
                 ReservaNegocio negocio = new ReservaNegocio();
+
+                Reserva reservaActual = negocio.listar().Find(x => x.IdReserva == reserva.IdReserva);
+
+                DateTime fechaHoraClase = reservaActual.Clase.Fecha.Date.AddHours(reservaActual.Clase.HoraInicio);
+
+                if (reserva.Estado == Estado.Finalizada && fechaHoraClase > DateTime.Now)
+                {
+                    throw new Exception("No se puede finalizar una reserva de una clase que todavía no ocurrió.");
+                }
+
                 if (reserva.Estado == Estado.Cancelada)
                 {
-                    negocio.cancelar(
-                        reserva.IdReserva,
-                        false,
-                        TipoCancelacion.Alumno);
+                    negocio.cancelar(reserva.IdReserva, false, TipoCancelacion.CentroFitness);
+
+                    negocio.enviarMailCancelacionReserva(reservaActual);
+
+                    Response.Write("<script>alert('Reserva cancelada correctamente.');" +
+                               "window.location='EditarReservas.aspx';</script>");
                 }
                 else
                 {
                     negocio.modificar(reserva);
-                }
-                Response.Write("<script>alert('Reserva actualizada correctamente.');" +
+                    Response.Write("<script>alert('Reserva modificada correctamente.');" +
                                "window.location='EditarReservas.aspx';</script>");
+                }
             }
             catch (Exception ex)
             {

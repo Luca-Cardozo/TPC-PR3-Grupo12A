@@ -34,6 +34,11 @@ namespace App_CentroFitness
                     txtInstructor.Text = clase.Instructor.Nombre + " " + clase.Instructor.Apellido;
                     txtFechaActual.Text = clase.Fecha.ToString("dd/MM/yyyy");
                     txtHoraActual.Text = clase.HoraInicio + ":00";
+
+                    ReservaNegocio reservaNegocio = new ReservaNegocio();
+                    int reservasVigentes = reservaNegocio.contarReservasVigentes(clase.IdClase);
+
+                    txtReservasVigentes.Text = reservasVigentes + " / " + clase.CupoMaximo;
                 }
                 else
                 {
@@ -54,18 +59,30 @@ namespace App_CentroFitness
 
                 Clase claseOriginal = claseNegocio.obtenerPorId(idClaseOriginal);
 
-                DateTime nuevaFecha = DateTime.Parse(txtNuevaFecha.Text);
+                if (claseOriginal == null)
+                    throw new Exception("No se encontró la clase original.");
 
-                if (nuevaFecha <= claseOriginal.Fecha)
-                {
-                    throw new Exception("La nueva fecha debe ser posterior a la fecha original.");
-                }
+                if (string.IsNullOrWhiteSpace(txtNuevaFecha.Text))
+                    throw new Exception("Debe ingresar una nueva fecha.");
+
+                if (ddlNuevaHora.SelectedValue == "0")
+                    throw new Exception("Debe seleccionar una nueva hora.");
+
+                DateTime nuevaFecha = DateTime.Parse(txtNuevaFecha.Text);
                 int nuevaHora = int.Parse(ddlNuevaHora.SelectedValue);
 
+                DateTime nuevaFechaHora = nuevaFecha.Date.AddHours(nuevaHora);
+                DateTime fechaHoraOriginal = claseOriginal.Fecha.Date.AddHours(claseOriginal.HoraInicio);
+
+                if (nuevaFechaHora <= DateTime.Now)
+                    throw new Exception("La nueva fecha y hora no pueden ser anteriores al momento actual.");
+
+                if (nuevaFechaHora <= fechaHoraOriginal)
+                    throw new Exception("La nueva fecha y hora debe ser posterior a la programación original.");
+
                 if (claseNegocio.existeClase(nuevaFecha, nuevaHora))
-                {
                     throw new Exception("Ya existe una clase programada en ese horario.");
-                }
+
 
                 Clase nuevaClase = new Clase();
 
@@ -89,46 +106,8 @@ namespace App_CentroFitness
                 claseNegocio.cambiarEstadoClase(
                     claseOriginal.IdClase,
                     EstadoClase.Reprogramada);
-                List<Reserva> reservas = reservaNegocio.listarVigentesPorClase(nuevaClase.IdClase);
 
-                foreach (Reserva reserva in reservas)
-                {
-                    EmailService email = new EmailService();
-
-                    string cuerpo = @"<h2>Clase reprogramada</h2>
-
-<p>Le informamos que, por razones operativas, fue necesario modificar la programación de una de nuestras clases.</p>
-
-<p><strong>Clase original</strong></p>
-
-<ul>
-<li><strong>Disciplina:</strong> " + claseOriginal.Disciplina.Nombre + @"</li>
-
-<li><strong>Fecha:</strong> " + claseOriginal.Fecha.ToString("dd/MM/yyyy") + @"</li>
-<li><strong>Horario:</strong> " + claseOriginal.HoraInicio + @":00 hs</li>
-</ul>
-
-<p><strong>Nueva programación</strong></p>
-
-<ul>
-<li><strong>Fecha:</strong> " + nuevaClase.Fecha.ToString("dd/MM/yyyy") + @"</li>
-<li><strong>Horario:</strong> " + nuevaClase.HoraInicio + @":00 hs</li>
-</ul>
-
-<p>Su reserva fue trasladada automáticamente a la nueva clase.</p>
-
-<br/>
-
-<p>Centro Fitness</p>";
-
-                    email.armarCorreo(
-                        reserva.Alumno.Email,
-                        "Reprogramación de clase - Centro Fitness",
-                        cuerpo);
-
-                    email.enviarEmail();
-                }
-                Response.Redirect("EditarClases.aspx", false);
+                Response.Write("<script>alert('Clase reprogramada correctamente');window.location='EditarClases.aspx';</script>");
             }
             catch (Exception ex)
             {

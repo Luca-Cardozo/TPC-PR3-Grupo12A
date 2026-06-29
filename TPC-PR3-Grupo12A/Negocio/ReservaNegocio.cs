@@ -622,6 +622,8 @@ namespace Negocio
                 email.enviarEmail();
             }
 
+            enviarMailInstructorCancelacionClase(clase);
+
             claseNegocio.eliminar(idClase);
         }
 
@@ -629,6 +631,39 @@ namespace Negocio
 
         public void trasladarReservas(int idClaseOriginal, int idClaseNueva)
         {
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
+
+            Clase claseOriginal = claseNegocio.obtenerPorId(idClaseOriginal);
+            Clase claseNueva = claseNegocio.obtenerPorId(idClaseNueva);
+
+            if (claseOriginal == null)
+                throw new Exception("No se encontró la clase original.");
+
+            if (claseNueva == null)
+                throw new Exception("No se encontró la clase nueva.");
+
+            if (claseNueva.Estado != EstadoClase.Vigente)
+                throw new Exception("La clase nueva no se encuentra vigente.");
+
+            List<Reserva> reservas = listarVigentesPorClase(idClaseOriginal);
+
+            if (reservas.Count > 0)
+            {
+                int reservasActualesClaseNueva = contarReservasVigentes(idClaseNueva);
+
+                if (reservasActualesClaseNueva + reservas.Count > claseNueva.CupoMaximo)
+                    throw new Exception("La clase nueva no tiene cupo suficiente para trasladar todas las reservas.");
+
+                foreach (Reserva reserva in reservas)
+                {
+                    if (existeReserva(reserva.Alumno.IdUsuario, idClaseNueva))
+                        throw new Exception("El alumno " + reserva.Alumno.Nombre + " " + reserva.Alumno.Apellido + " ya tiene una reserva vigente para la clase nueva.");
+
+                    suscripcionNegocio.validarClaseDentroDeSuscripcion(reserva.Alumno.IdUsuario, claseNueva);
+                }
+            }
+
             AccesoDatos datos = new AccesoDatos();
 
             try
@@ -652,6 +687,7 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+            enviarMailsReprogramacionClase(reservas, claseOriginal, claseNueva);
         }
 
 
@@ -715,6 +751,142 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        private void enviarMailsReprogramacionClase(List<Reserva> reservas, Clase claseOriginal, Clase claseNueva)
+        {
+            foreach (Reserva reserva in reservas)
+            {
+                EmailService email = new EmailService();
+
+                string cuerpo = @"
+                <h2>Clase reprogramada</h2>
+
+                <p>Te informamos que una clase en la que tenías reserva fue reprogramada.</p>
+
+                <p><strong>Clase original:</strong></p>
+                <ul>
+                    <li><strong>Disciplina:</strong> " + claseOriginal.Disciplina.Nombre + @"</li>
+                    <li><strong>Fecha:</strong> " + claseOriginal.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                    <li><strong>Horario:</strong> " + claseOriginal.HoraInicio + @":00 hs</li>
+                </ul>
+
+                <p><strong>Nueva clase:</strong></p>
+                <ul>
+                    <li><strong>Disciplina:</strong> " + claseNueva.Disciplina.Nombre + @"</li>
+                    <li><strong>Fecha:</strong> " + claseNueva.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                    <li><strong>Horario:</strong> " + claseNueva.HoraInicio + @":00 hs</li>
+                </ul>
+
+                <p>Tu reserva fue trasladada automáticamente.</p>
+
+                <br/>
+                <p>Centro Fitness</p>";
+
+                email.armarCorreo(
+                    reserva.Alumno.Email,
+                    "Reprogramación de clase - Centro Fitness",
+                    cuerpo);
+
+                email.enviarEmail();
+            }
+
+            enviarMailInstructorReprogramacion(claseOriginal, claseNueva);
+        }
+
+        private void enviarMailInstructorReprogramacion(Clase claseOriginal, Clase claseNueva)
+        {
+            if (claseNueva.Instructor == null || string.IsNullOrWhiteSpace(claseNueva.Instructor.Email))
+                return;
+
+            EmailService email = new EmailService();
+
+            string cuerpo = @"
+            <h2>Clase reprogramada</h2>
+
+            <p>Te informamos que una de tus clases fue reprogramada.</p>
+
+            <p><strong>Clase original:</strong></p>
+            <ul>
+                <li><strong>Disciplina:</strong> " + claseOriginal.Disciplina.Nombre + @"</li>
+                <li><strong>Fecha:</strong> " + claseOriginal.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + claseOriginal.HoraInicio + @":00 hs</li>
+            </ul>
+
+            <p><strong>Nueva clase:</strong></p>
+            <ul>
+                <li><strong>Disciplina:</strong> " + claseNueva.Disciplina.Nombre + @"</li>
+                <li><strong>Fecha:</strong> " + claseNueva.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + claseNueva.HoraInicio + @":00 hs</li>
+            </ul>
+
+            <p>Centro Fitness</p>";
+
+            email.armarCorreo(
+                claseNueva.Instructor.Email,
+                "Reprogramación de clase asignada - Centro Fitness",
+                cuerpo);
+
+            email.enviarEmail();
+        }
+
+        private void enviarMailInstructorCancelacionClase(Clase clase)
+        {
+            if (clase.Instructor == null || string.IsNullOrWhiteSpace(clase.Instructor.Email))
+                return;
+
+            EmailService email = new EmailService();
+
+            string cuerpo = @"
+            <h2>Clase cancelada</h2>
+
+            <p>Te informamos que la siguiente clase asignada fue cancelada:</p>
+
+            <ul>
+                <li><strong>Disciplina:</strong> " + clase.Disciplina.Nombre + @"</li>
+                <li><strong>Fecha:</strong> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + clase.HoraInicio + @":00 hs</li>
+            </ul>
+
+            <p>Los alumnos inscriptos fueron notificados automáticamente.</p>
+
+            <br/>
+            <p>Centro Fitness</p>";
+
+            email.armarCorreo(
+                clase.Instructor.Email,
+                "Cancelación de clase asignada - Centro Fitness",
+                cuerpo);
+
+            email.enviarEmail();
+        }
+
+        public void enviarMailCancelacionReserva(Reserva reserva)
+        {
+            EmailService email = new EmailService();
+
+            string cuerpo = @"<h2>Reserva cancelada</h2>
+
+            <p>La siguiente reserva fue cancelada correctamente:</p>
+
+            <ul>
+            <li><strong>Disciplina:</strong> " + reserva.Clase.Disciplina.Nombre + @"</li>
+            <li><strong>Fecha:</strong> " + reserva.Clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+            <li><strong>Horario:</strong> " + reserva.Clase.HoraInicio + @":00 hs</li>
+            </ul>
+
+            <p>El cupo correspondiente fue reintegrado automáticamente a su plan.</p>
+
+            <br/>
+
+            <p>Centro Fitness</p>";
+
+            email.armarCorreo(
+                reserva.Alumno.Email,
+                "Cancelación de reserva - Centro Fitness",
+                cuerpo);
+
+            email.enviarEmail();
         }
 
     }

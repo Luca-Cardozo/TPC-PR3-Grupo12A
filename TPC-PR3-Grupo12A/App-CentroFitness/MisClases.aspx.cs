@@ -192,12 +192,7 @@ namespace App_CentroFitness
 
             List<Clase> clases = claseNegocio.listarVigentesPorInstructor(idInstructor);
 
-            clases = clases
-                .FindAll(x => x.Fecha.Date >= hoy && x.Fecha.Date <= maniana)
-                .OrderBy(x => x.Fecha)
-                .ThenBy(x => x.HoraInicio)
-                .Take(8)
-                .ToList();
+            clases = clases.FindAll(x => x.Fecha.Date >= hoy && x.Fecha.Date <= maniana);
 
             foreach (Clase clase in clases)
             {

@@ -15,10 +15,13 @@
                 <div class="card shadow-sm border-0 rounded-4">
 
                     <div class="card-header bg-white border-bottom">
-                                                <h3 class="mb-0 text-center">
-    <asp:Label ID="lblTitulo" runat="server" Text="Gestión de Clases"></asp:Label>
-</h3>
+                        <h3 class="mb-0 text-center">
+                            <asp:Label ID="lblTitulo" runat="server" Text="Gestión de Clases"></asp:Label>
+                        </h3>
                     </div>
+
+                    <asp:Label ID="lblError" runat="server" Visible="false" CssClass="alert alert-danger d-block text-center" />
+
 
                     <div class="card-body p-4">
 
@@ -86,10 +89,18 @@
 
                                 <label class="form-label">Cupo máximo</label>
                                 <asp:TextBox ID="txtCupoMaximo" runat="server" CssClass="form-control" TextMode="Number" />
-                                <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCupoMaximo" ErrorMessage="Debe ingresar un cupo" CssClass="text-danger" />
-                                <asp:RangeValidator runat="server" ControlToValidate="txtCupoMaximo" MinimumValue="1" MaximumValue="15" Type="Integer" ErrorMessage="El cupo debe estar entre 1 y 15" CssClass="text-danger" />
+                                <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCupoMaximo" ErrorMessage="Debe ingresar un cupo" CssClass="text-danger" Display="Dynamic" />
+                                <asp:RangeValidator runat="server" ControlToValidate="txtCupoMaximo" MinimumValue="1" MaximumValue="15" Type="Integer" ErrorMessage="El cupo debe estar entre 1 y 15" CssClass="text-danger" Display="Dynamic" />
 
                             </div>
+
+                            <asp:Panel ID="pnlReservasVigentes" runat="server" Visible="false" CssClass="col-md-6 mb-3">
+                                <label class="form-label">Reservas vigentes</label>
+                                <asp:TextBox ID="txtReservasVigentes"
+                                    runat="server"
+                                    CssClass="form-control bg-light text-muted"
+                                    ReadOnly="true" />
+                            </asp:Panel>
 
                         </div>
 
@@ -99,10 +110,6 @@
                             <a href="EditarClases.aspx" class="btn btn-secondary">Volver</a>
                             <asp:Button Text="Cancelar clase" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
 
-                        </div>
-
-                        <div class="d-flex justify-content-center gap-2">
-                            <asp:Label ID="lblError" runat="server" Visible="false" CssClass="text-danger fw-bold" />
                         </div>
 
                     </div>

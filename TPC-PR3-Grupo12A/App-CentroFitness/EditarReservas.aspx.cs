@@ -160,5 +160,28 @@ namespace App_CentroFitness
             dgvReservas.DataSource = Session["listaReservasFiltrada"];
             dgvReservas.DataBind();
         }
+
+        public string obtenerClaseBadgeEstado(object estadoObj)
+        {
+            Estado estado = (Estado)estadoObj;
+
+            switch (estado)
+            {
+                case Estado.Vigente:
+                    return "badge bg-success px-3 py-2";
+
+                case Estado.Cancelada:
+                    return "badge bg-danger px-3 py-2";
+
+                case Estado.Finalizada:
+                    return "badge bg-secondary px-3 py-2";
+
+                case Estado.Reprogramada:
+                    return "badge bg-warning text-dark px-3 py-2";
+
+                default:
+                    return "badge bg-light text-dark px-3 py-2";
+            }
+        }
     }
 }

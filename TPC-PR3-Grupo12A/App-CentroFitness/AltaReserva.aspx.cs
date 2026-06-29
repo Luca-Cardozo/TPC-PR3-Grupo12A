@@ -171,6 +171,9 @@ namespace App_CentroFitness
                 if (Session["idClaseSeleccionada"] == null)
                     throw new Exception("Seleccione una clase.");
 
+                int idAlumno = int.Parse(ddlAlumno.SelectedValue);
+                int idClase = (int)Session["idClaseSeleccionada"];
+
                 Reserva nueva = new Reserva();
                 nueva.Alumno = new Alumno();
                 nueva.Alumno.IdUsuario = int.Parse(ddlAlumno.SelectedValue);
@@ -180,6 +183,34 @@ namespace App_CentroFitness
 
                 ReservaNegocio negocio = new ReservaNegocio();
                 negocio.agregar(nueva, false);
+
+                AlumnoNegocio alumnoNegocio = new AlumnoNegocio();
+                Alumno alumno = alumnoNegocio.listar().Find(x => x.IdUsuario == idAlumno);
+
+                ClaseNegocio claseNegocio = new ClaseNegocio();
+                Clase clase = claseNegocio.obtenerPorId(idClase);
+
+                EmailService email = new EmailService();
+
+                string cuerpo = @"<h2>Reserva confirmada</h2>
+
+                <p>Tu reserva fue registrada correctamente por recepción/administración.</p>
+
+                <ul>
+                <li><strong>Disciplina:</strong> " + clase.Disciplina.Nombre + @"</li>
+                <li><strong>Instructor:</strong> " + clase.Instructor.Nombre + " " + clase.Instructor.Apellido + @"</li>
+                <li><strong>Fecha:</strong> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + clase.HoraInicio + @":00 hs</li>
+                </ul>
+
+                <p>¡Te esperamos!</p>
+
+                <br/>
+
+                <p>Centro Fitness</p>";
+
+                email.armarCorreo(alumno.Email, "Reserva confirmada - Centro Fitness", cuerpo);
+                email.enviarEmail();
 
                 Response.Write("<script>alert('Reserva registrada correctamente');" +
                                "window.location='EditarReservas.aspx';</script>");

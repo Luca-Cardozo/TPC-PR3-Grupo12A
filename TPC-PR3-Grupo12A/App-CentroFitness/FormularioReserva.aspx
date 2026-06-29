@@ -12,10 +12,13 @@
                 <div class="card shadow-sm">
 
                     <div class="card-header text-center">
-                                       <h4 class="mb-0">
-    <asp:Label ID="lblTitulo" runat="server"  Text="Editar Reserva" /> 
-</h4>
+                        <h4 class="mb-0">
+                            <asp:Label ID="lblTitulo" runat="server" Text="Editar Reserva" />
+                        </h4>
                     </div>
+
+                    <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-danger d-block text-center" />
+
 
                     <div class="card-body">
 
@@ -76,10 +79,6 @@
                         <div class="d-flex justify-content-between mt-4">
                             <asp:Button ID="btnGuardar" runat="server" Text="💾 Guardar cambios" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
                             <asp:Button ID="btnVolver" runat="server" Text="↩ Volver" CssClass="btn btn-secondary" OnClick="btnVolver_Click" />
-                        </div>
-
-                        <div class="text-center mt-3">
-                            <asp:Label ID="lblMensaje" runat="server" CssClass="text-success fw-bold" />
                         </div>
 
                     </div>

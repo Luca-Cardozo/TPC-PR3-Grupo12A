@@ -168,7 +168,8 @@ namespace Negocio
                 datos.setearConsulta(
                     "SELECT C.IdClase, C.Fecha, C.HoraInicio, C.CupoMaximo, C.Estado, " +
                     "D.IdDisciplina, D.Nombre AS NombreDisciplina, " +
-                    "U.IdUsuario AS IdInstructor, U.Nombre AS NombreInstructor, U.Apellido AS ApellidoInstructor " +
+                    "U.IdUsuario AS IdInstructor, U.Nombre AS NombreInstructor, " +
+                    "U.Apellido AS ApellidoInstructor, U.Email AS EmailInstructor " +
                     "FROM Clases C " +
                     "INNER JOIN Disciplinas D ON C.IdDisciplina = D.IdDisciplina " +
                     "INNER JOIN Usuarios U ON C.IdInstructor = U.IdUsuario " +
@@ -196,6 +197,7 @@ namespace Negocio
                     clase.Instructor.IdUsuario = (int)datos.Lector["IdInstructor"];
                     clase.Instructor.Nombre = (string)datos.Lector["NombreInstructor"];
                     clase.Instructor.Apellido = (string)datos.Lector["ApellidoInstructor"];
+                    clase.Instructor.Email = (string)datos.Lector["EmailInstructor"];
 
                     return clase;
                 }

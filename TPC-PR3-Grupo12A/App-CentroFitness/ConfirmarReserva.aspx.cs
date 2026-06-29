@@ -71,7 +71,7 @@ namespace App_CentroFitness
                 if (clase.Estado != EstadoClase.Vigente || fechaHora <= DateTime.Now)
                     throw new Exception("La clase ya no está disponible.");
 
-                
+
                 ReservaNegocio reservaNegocio = new ReservaNegocio();
 
                 int reservas = reservaNegocio.contarReservasVigentes(idClase);
@@ -91,10 +91,37 @@ namespace App_CentroFitness
 
                 reservaNegocio.agregar(reserva, true);
 
+                EmailService email = new EmailService();
+
+                string cuerpo = @"<h2>Reserva confirmada</h2>
+
+                <p>Tu reserva fue registrada correctamente.</p>
+
+                <ul>
+                <li><strong>Disciplina:</strong> " + clase.Disciplina.Nombre + @"</li>
+                <li><strong>Instructor:</strong> " + clase.Instructor.Nombre + " " + clase.Instructor.Apellido + @"</li>
+                <li><strong>Fecha:</strong> " + clase.Fecha.ToString("dd/MM/yyyy") + @"</li>
+                <li><strong>Horario:</strong> " + clase.HoraInicio + @":00 hs</li>
+                </ul>
+
+                <p>¡Te esperamos!</p>
+
+                <br/>
+
+                <p>Centro Fitness</p>";
+
+                email.armarCorreo(
+                    usuario.Email,
+                    "Reserva confirmada - Centro Fitness",
+                    cuerpo);
+
+                email.enviarEmail();
+
                 lblMensaje.CssClass = "text-success text-center d-block mt-3";
                 lblMensaje.Text = "Reserva realizada con éxito ✔. Serás redirigido en 3 segundos...";
 
                 btnConfirmar.Enabled = false;
+                btnCancelar.Enabled = false;
 
                 Response.AddHeader("REFRESH", "3;URL=MisReservas.aspx");
             }

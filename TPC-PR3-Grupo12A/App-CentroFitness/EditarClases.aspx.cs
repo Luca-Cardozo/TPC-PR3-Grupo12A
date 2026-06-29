@@ -116,6 +116,15 @@ namespace App_CentroFitness
         {
             ClaseNegocio negocio = new ClaseNegocio();
             List<Clase> lista = negocio.listar();
+
+            ReservaNegocio reservaNegocio = new ReservaNegocio();
+
+            foreach (Clase clase in lista)
+            {
+                clase.CantidadReservas = reservaNegocio.contarReservasVigentes(clase.IdClase);
+                clase.CuposDisponibles = clase.CupoMaximo - clase.CantidadReservas;
+            }
+
             //ordena en pantalla
             lista = lista
             .OrderBy(x => x.Estado == EstadoClase.Vigente ? 0 :
@@ -123,7 +132,7 @@ namespace App_CentroFitness
                x.Estado == EstadoClase.Cancelada ? 2 : 3)
                 .ThenBy(x => x.Fecha)
                 .ThenBy(x => x.HoraInicio)
-                .ToList();
+                .ToList();         
             Session["listaClases"] = lista;
             repClases.DataSource = lista;
             repClases.DataBind();

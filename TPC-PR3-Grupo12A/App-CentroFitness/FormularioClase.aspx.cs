@@ -28,11 +28,13 @@ namespace App_CentroFitness
 
                 if (Request.QueryString["id"] != null)
                 {
+                    lblTitulo.Text = "Editar Clase";
                     int idClase = int.Parse(Request.QueryString["id"]);
                     cargarClase(idClase);
                 }
                 else
                 {
+                    lblTitulo.Text = "Nueva Clase";
                     ClaseNegocio negocio = new ClaseNegocio();
                     txtIdClase.Text = negocio.obtenerProximoId().ToString();
                     btnEliminar.Visible = false;
@@ -154,14 +156,33 @@ namespace App_CentroFitness
                     Clase claseActual = ((List<Clase>)Session["listaClases"]).Find(x => x.IdClase == nueva.IdClase);
                     nueva.Estado = claseActual.Estado;
 
+                    ReservaNegocio reservaNegocio = new ReservaNegocio();
+                    int reservasVigentes = reservaNegocio.contarReservasVigentes(nueva.IdClase);
+
+                    bool cambioDatosClase =
+                            claseActual.Disciplina.IdDisciplina != nueva.Disciplina.IdDisciplina ||
+                            claseActual.Instructor.IdUsuario != nueva.Instructor.IdUsuario ||
+                            claseActual.Fecha.Date != nueva.Fecha.Date ||
+                            claseActual.HoraInicio != nueva.HoraInicio;
+
+                    if (reservasVigentes > 0 && cambioDatosClase)
+                    {
+                        throw new Exception("No se puede modificar fecha, horario, instructor o disciplina de una clase con reservas vigentes. Use la opción Reprogramar clase.");
+                    }
+
+                    if (reservasVigentes > 0 && nueva.CupoMaximo < reservasVigentes)
+                    {
+                        throw new Exception("El cupo máximo no puede ser menor a la cantidad de reservas vigentes.");
+                    }
+
                     negocio.modificar(nueva);
+                    Response.Write("<script>alert('Clase modificada correctamente');window.location='EditarClases.aspx';</script>");
                 }
                 else
                 {
                     negocio.agregar(nueva);
+                    Response.Write("<script>alert('Clase agregada correctamente');window.location='EditarClases.aspx';</script>");
                 }
-
-                Response.Redirect("EditarClases.aspx", false);
             }
             catch (Exception ex)
             {
@@ -186,13 +207,13 @@ namespace App_CentroFitness
                 {
                     ReservaNegocio reservaNegocio = new ReservaNegocio();
                     reservaNegocio.cancelarClasePorCentroFitness(idClase);
+                    Response.Write("<script>alert('Clase cancelada correctamente');window.location='EditarClases.aspx';</script>");
                 }
                 else if (seleccionada.Estado == EstadoClase.Cancelada)
                 {
                     negocio.reactivar(idClase);
+                    Response.Write("<script>alert('Clase reactivada correctamente');window.location='EditarClases.aspx';</script>");
                 }
-
-                Response.Redirect("EditarClases.aspx", false);
             }
             catch (Exception ex)
             {
@@ -246,6 +267,12 @@ namespace App_CentroFitness
                     txtFecha.Text = seleccionada.Fecha.ToString("yyyy-MM-dd");
 
                     txtCupoMaximo.Text = seleccionada.CupoMaximo.ToString();
+
+                    ReservaNegocio reservaNegocio = new ReservaNegocio();
+                    int reservasVigentes = reservaNegocio.contarReservasVigentes(seleccionada.IdClase);
+
+                    txtReservasVigentes.Text = reservasVigentes + " / " + seleccionada.CupoMaximo;
+                    pnlReservasVigentes.Visible = true;
 
                     ddlHora.SelectedValue = seleccionada.HoraInicio.ToString();
 
