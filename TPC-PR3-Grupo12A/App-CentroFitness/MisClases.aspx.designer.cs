@@ -24,6 +24,33 @@ namespace App_CentroFitness
         protected global::System.Web.UI.WebControls.Label lblTitulo;
 
         /// <summary>
+        /// Control pnlProximasClases.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlProximasClases;
+
+        /// <summary>
+        /// Control rptProximasClases.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptProximasClases;
+
+        /// <summary>
+        /// Control lblSinProximasClases.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSinProximasClases;
+
+        /// <summary>
         /// Control ddlClases.
         /// </summary>
         /// <remarks>

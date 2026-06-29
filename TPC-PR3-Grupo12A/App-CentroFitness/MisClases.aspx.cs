@@ -26,6 +26,7 @@ namespace App_CentroFitness
                 lblTitulo.Text = "Bienvenido/a " + usuario.Nombre;
 
                 cargarClasesInstructor(usuario.IdUsuario);
+                cargarProximasClases(usuario.IdUsuario);
 
                 pnlAsistencia.Visible = false;
                 lblInfoClase.Visible = false;
@@ -61,7 +62,7 @@ namespace App_CentroFitness
 
             ddlClases.Items.Insert(0, new ListItem("Seleccione una clase", "0"));
         }
-        
+
         private void cargarAsistencia()
         {
             Usuario usuario = (Usuario)Session["usuario"];
@@ -82,26 +83,28 @@ namespace App_CentroFitness
                 dgvAsistencia.DataSource = null;
                 dgvAsistencia.DataBind();
 
+                pnlProximasClases.Visible = false;
                 pnlAsistencia.Visible = false;
+
                 return;
             }
             dgvAsistencia.DataSource = reservasClase;
             dgvAsistencia.DataBind();
 
-           
-                Reserva primera = reservasClase[0];
 
-                lblInfoClase.Text =
-                    primera.Clase.Disciplina.Nombre + " - " +
-                    primera.Clase.Fecha.ToString("dd/MM/yyyy") + " - " +
-                    primera.Clase.HoraInicio + ":00 a " +
-                    primera.Clase.HoraFin + ":00 | Reservados: " +
-                    reservasClase.Count + "/" + primera.Clase.CupoMaximo;
+            Reserva primera = reservasClase[0];
+
+            lblInfoClase.Text =
+                primera.Clase.Disciplina.Nombre + " - " +
+                primera.Clase.Fecha.ToString("dd/MM/yyyy") + " - " +
+                primera.Clase.HoraInicio + ":00 a " +
+                primera.Clase.HoraFin + ":00 | Reservados: " +
+                reservasClase.Count + "/" + primera.Clase.CupoMaximo;
 
             lblInfoClase.CssClass = "alert alert-info d-block text-center";
             lblInfoClase.Visible = true;
-            
 
+            pnlProximasClases.Visible = false;
             pnlAsistencia.Visible = true;
         }
 
@@ -172,8 +175,39 @@ namespace App_CentroFitness
             ddlClases.SelectedIndex = 0;
             pnlAsistencia.Visible = false;
             lblInfoClase.Visible = false;
+
             dgvAsistencia.DataSource = null;
             dgvAsistencia.DataBind();
+
+            pnlProximasClases.Visible = true;
+        }
+
+        private void cargarProximasClases(int idInstructor)
+        {
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            ReservaNegocio reservaNegocio = new ReservaNegocio();
+
+            DateTime hoy = DateTime.Today;
+            DateTime maniana = DateTime.Today.AddDays(1);
+
+            List<Clase> clases = claseNegocio.listarVigentesPorInstructor(idInstructor);
+
+            clases = clases
+                .FindAll(x => x.Fecha.Date >= hoy && x.Fecha.Date <= maniana)
+                .OrderBy(x => x.Fecha)
+                .ThenBy(x => x.HoraInicio)
+                .Take(8)
+                .ToList();
+
+            foreach (Clase clase in clases)
+            {
+                clase.CantidadReservas = reservaNegocio.contarReservasVigentes(clase.IdClase);
+            }
+
+            rptProximasClases.DataSource = clases;
+            rptProximasClases.DataBind();
+
+            lblSinProximasClases.Visible = clases.Count == 0;
         }
     }
 }

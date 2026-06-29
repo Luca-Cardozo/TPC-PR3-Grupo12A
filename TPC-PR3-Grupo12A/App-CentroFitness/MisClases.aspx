@@ -12,14 +12,57 @@
             <asp:Label ID="lblTitulo" runat="server" CssClass="text-muted fs-5" />
         </div>
 
+        <asp:Panel ID="pnlProximasClases" runat="server">
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+
+                    <h5 class="mb-4 border-bottom pb-2">📅 Clases de hoy y mañana</h5>
+
+                    <asp:Repeater ID="rptProximasClases" runat="server">
+                        <ItemTemplate>
+
+                            <div class="border rounded p-3 mb-3 bg-light">
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><%# Eval("Disciplina.Nombre") %></h5>
+                                    <span class="badge bg-primary px-3 py-2">
+                                        <%# Eval("Fecha", "{0:dd/MM/yyyy}") %>
+                                    </span>
+                                </div>
+
+                                <div class="text-muted mt-2">
+                                    🕐 <%# Eval("HoraInicio") %>:00 - <%# Eval("HoraFin") %>:00 hs
+                                </div>
+
+                                <div class="text-muted">
+                                    👥 Reservas: <%# Eval("CantidadReservas") %> / <%# Eval("CupoMaximo") %>
+                                </div>
+
+                            </div>
+
+                        </ItemTemplate>
+                    </asp:Repeater>
+
+                    <asp:Label ID="lblSinProximasClases" runat="server"
+                        Text="No tenés próximas clases vigentes asignadas."
+                        CssClass="alert alert-info d-block text-center mb-0"
+                        Visible="false" />
+
+                </div>
+            </div>
+
+        </asp:Panel>
+
+
         <div class="card shadow-sm mb-4">
             <div class="card-body">
 
-                <h5 class="mb-4 border-bottom pb-2">Seleccionar clase</h5>
+                <h5 class="mb-4 border-bottom pb-2">📋 Tomar asistencia</h5>
 
                 <div class="row g-3 align-items-end justify-content-center">
                     <div class="col-md-7">
-                        <label class="form-label">Clase</label>
+                        <label class="form-label">Seleccione una clase para registrar asistencia</label>
                         <asp:DropDownList ID="ddlClases" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlClases_SelectedIndexChanged" />
                     </div>
 
