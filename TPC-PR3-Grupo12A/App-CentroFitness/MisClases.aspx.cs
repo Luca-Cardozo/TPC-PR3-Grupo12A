@@ -41,27 +41,27 @@ namespace App_CentroFitness
 
         private void cargarClasesInstructor(int idInstructor)
         {
-            ReservaNegocio negocio = new ReservaNegocio();
-            List<Reserva> reservas = negocio.listarVigentesPorInstructor(idInstructor);
+            ClaseNegocio negocio = new ClaseNegocio();
+            List<Clase> clases = negocio.listarVigentesPorInstructor(idInstructor);
 
-            var clases = reservas
-                .GroupBy(r => r.Clase.IdClase)
-                .Select(g => new
-                {
-                    IdClase = g.First().Clase.IdClase,
-                    Descripcion = g.First().Clase.Disciplina.Nombre + " - " +
-                                  g.First().Clase.Fecha.ToString("dd/MM/yyyy") + " - " +
-                                  g.First().Clase.HoraInicio + ":00"
-                })
-                .ToList();
+            var mostrarClases = clases
+                 .Select(c => new
+                 {
+                     IdClase = c.IdClase,
+                     Descripcion = c.Disciplina.Nombre + " - " +
+                          c.Fecha.ToString("dd/MM/yyyy") + " - " +
+                          c.HoraInicio + ":00"
+                 })
+        .ToList();
 
-            ddlClases.DataSource = clases;
+            ddlClases.DataSource = mostrarClases;
             ddlClases.DataTextField = "Descripcion";
             ddlClases.DataValueField = "IdClase";
             ddlClases.DataBind();
 
-            ddlClases.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Seleccione una clase", "0"));
+            ddlClases.Items.Insert(0, new ListItem("Seleccione una clase", "0"));
         }
+        
         private void cargarAsistencia()
         {
             Usuario usuario = (Usuario)Session["usuario"];
@@ -72,11 +72,23 @@ namespace App_CentroFitness
 
             List<Reserva> reservasClase = reservas.FindAll(x => x.Clase.IdClase == idClase);
 
+
+            if (reservasClase.Count == 0)
+            {
+                lblInfoClase.Text = "La clase seleccionada aún no posee alumnos inscriptos.";
+                lblInfoClase.CssClass = "alert alert-warning d-block text-center";
+                lblInfoClase.Visible = true;
+
+                dgvAsistencia.DataSource = null;
+                dgvAsistencia.DataBind();
+
+                pnlAsistencia.Visible = false;
+                return;
+            }
             dgvAsistencia.DataSource = reservasClase;
             dgvAsistencia.DataBind();
 
-            if (reservasClase.Count > 0)
-            {
+           
                 Reserva primera = reservasClase[0];
 
                 lblInfoClase.Text =
@@ -86,8 +98,9 @@ namespace App_CentroFitness
                     primera.Clase.HoraFin + ":00 | Reservados: " +
                     reservasClase.Count + "/" + primera.Clase.CupoMaximo;
 
-                lblInfoClase.Visible = true;
-            }
+            lblInfoClase.CssClass = "alert alert-info d-block text-center";
+            lblInfoClase.Visible = true;
+            
 
             pnlAsistencia.Visible = true;
         }
