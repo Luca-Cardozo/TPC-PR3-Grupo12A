@@ -42,6 +42,11 @@ namespace App_CentroFitness
                     reserva.Asistencia = (EstadoAsistencia)int.Parse(ddlAsistencia.SelectedValue);
                 reserva.Observaciones = string.IsNullOrWhiteSpace(txtObservaciones.Text) ? null : txtObservaciones.Text.Trim();
 
+                if (reserva.Estado != Estado.Finalizada && reserva.Asistencia.HasValue)
+                {
+                    throw new Exception("Solo se puede registrar asistencia en reservas finalizadas.");
+                }
+
                 ReservaNegocio negocio = new ReservaNegocio();
 
                 Reserva reservaActual = negocio.listar().Find(x => x.IdReserva == reserva.IdReserva);
