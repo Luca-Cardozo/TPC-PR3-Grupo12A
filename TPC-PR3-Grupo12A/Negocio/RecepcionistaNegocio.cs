@@ -20,7 +20,7 @@ namespace Negocio
                 datos.setearConsulta(
                     "SELECT IdUsuario, Nombre, Apellido, Email, Password, DNI, Telefono, " +
                     "FechaNacimiento, Imagen, Rol, Activo " +
-                    "FROM Usuarios WHERE Rol = 2");
+                    "FROM Usuarios WHERE Rol = 2 ORDER BY Apellido, Nombre");
 
                 datos.ejecutarLectura();
 

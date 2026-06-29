@@ -155,6 +155,15 @@ namespace App_CentroFitness
                     return;
                 }
 
+                DateTime fechaNacimiento = DateTime.Parse(fecNac);
+
+                if (fechaNacimiento.Date > DateTime.Today)
+                {
+                    lblError.Text = "La fecha de nacimiento no puede ser posterior a la fecha actual.";
+                    lblError.Visible = true;
+                    return;
+                }
+
                 int? idAlumno = null;
 
                 if (Request.QueryString["id"] != null)
@@ -174,13 +183,15 @@ namespace App_CentroFitness
                 nuevo.Email = email;
                 nuevo.DNI = dni;
                 nuevo.Telefono = tel;
-                nuevo.FechaNacimiento = DateTime.Parse(fecNac);
+                nuevo.FechaNacimiento = fechaNacimiento;
                 nuevo.Observaciones = txtObservaciones.Text.Trim();
+                nuevo.Imagen = "default-user";
 
                 if (Request.QueryString["id"] != null)
                 {
                     nuevo.IdUsuario = int.Parse(Request.QueryString["id"]);
                     negocio.modificar(nuevo);
+                    Response.Write("<script>alert('Alumno modificado correctamente');window.location='EditarAlumnos.aspx';</script>");
                 }
                 else
                 {
@@ -234,10 +245,8 @@ namespace App_CentroFitness
                     service.enviarEmail();
 
                     negocio.agregar(nuevo);
+                    Response.Write("<script>alert('Alumno agregado correctamente');window.location='EditarAlumnos.aspx';</script>");
                 }
-
-
-                Response.Redirect("EditarAlumnos.aspx", false);
             }
             catch (Exception ex)
             {
@@ -262,14 +271,14 @@ namespace App_CentroFitness
                 {
                     negocio.eliminar(idAlumno);
                     usuarioNegocio.enviarMailCambioEstadoCuenta(alumno.Email, false);
+                    Response.Write("<script>alert('Alumno eliminado correctamente');window.location='EditarAlumnos.aspx';</script>");
                 }
                 else
                 {
                     negocio.reactivar(idAlumno);
                     usuarioNegocio.enviarMailCambioEstadoCuenta(alumno.Email, true);
+                    Response.Write("<script>alert('Alumno reactivado correctamente');window.location='EditarAlumnos.aspx';</script>");
                 }
-
-                Response.Redirect("EditarAlumnos.aspx", false);
             }
             catch (Exception ex)
             {

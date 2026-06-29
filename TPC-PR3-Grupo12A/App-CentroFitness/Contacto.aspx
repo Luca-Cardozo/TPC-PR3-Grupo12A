@@ -24,7 +24,7 @@
 
                         <p class="mb-3">
                             <strong>📍 Dirección:</strong><br />
-                            Calle False 123, Springfield                       
+                            Calle Falsa 123, Springfield                       
                         </p>
 
                         <p class="mb-3">
@@ -62,6 +62,7 @@
                             <li>Horarios de clases.</li>
                             <li>Alta de alumnos y suscripciones.</li>
                             <li>Reservas, cancelaciones y reprogramaciones.</li>
+                            <li>Soy instructor, quiero dar clases aquí.</li>
                         </ul>
 
                         <div class="alert alert-info mt-4 mb-0">

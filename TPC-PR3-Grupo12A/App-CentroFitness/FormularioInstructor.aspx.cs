@@ -26,6 +26,8 @@ namespace App_CentroFitness
                 cargarDisciplinas();
                 if (Request.QueryString["id"] != null)
                 {
+                    lblTitulo.Text = "Editar Instructor";
+
                     int idSeleccionado = int.Parse(Request.QueryString["id"]);
 
                     btnEliminar.Visible = true;
@@ -87,6 +89,8 @@ namespace App_CentroFitness
                 }
                 else
                 {
+                    lblTitulo.Text = "Nuevo Instructor";
+
                     InstructorNegocio negocio = new InstructorNegocio();
                     txtIdUsuario.Text = negocio.obtenerProximoId().ToString();
                 }
@@ -170,6 +174,16 @@ namespace App_CentroFitness
                     return;
                 }
 
+                DateTime fechaNacimiento = DateTime.Parse(fecNac);
+
+                if (fechaNacimiento.Date > DateTime.Today)
+                {
+                    lblError.Text = "La fecha de nacimiento no puede ser posterior a la fecha actual.";
+                    lblError.Visible = true;
+                    return;
+                }
+
+
                 // Validar la selección de al menos una disciplina
                 bool selecciono = cblDisciplinas.Items.Cast<ListItem>().Any(x => x.Selected);
 
@@ -199,13 +213,15 @@ namespace App_CentroFitness
                 nuevo.Email = txtEmail.Text;
                 nuevo.DNI = txtDni.Text;
                 nuevo.Telefono = txtTelefono.Text;
-                nuevo.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Text);
+                nuevo.FechaNacimiento = fechaNacimiento;
+                nuevo.Imagen = "default-user";
 
                 if (Request.QueryString["id"] != null)
                 {
                     nuevo.IdUsuario = int.Parse(Request.QueryString["id"]);
                     negocio.modificar(nuevo);
                     negocio.eliminarDisciplinasInstructor(nuevo.IdUsuario);
+                    Response.Write("<script>alert('Instructor modificado correctamente');window.location='EditarInstructores.aspx';</script>");
                 }
                 else
                 {
@@ -255,6 +271,8 @@ namespace App_CentroFitness
                     service.enviarEmail();
 
                     negocio.agregar(nuevo);
+
+                    Response.Write("<script>alert('Instructor agregado correctamente');window.location='EditarInstructores.aspx';</script>");
                 }
 
                 foreach (ListItem item in cblDisciplinas.Items)
@@ -264,8 +282,6 @@ namespace App_CentroFitness
                         negocio.agregarDisciplinaInstructor(nuevo.IdUsuario, int.Parse(item.Value));
                     }
                 }
-
-                Response.Redirect("Instructores.aspx", false);
             }
             catch (Exception ex)
             {
@@ -291,14 +307,14 @@ namespace App_CentroFitness
                 {
                     negocio.eliminar(idInstructor);
                     usuarioNegocio.enviarMailCambioEstadoCuenta(instructor.Email, false);
+                    Response.Write("<script>alert('Instructor eliminado correctamente');window.location='EditarInstructores.aspx';</script>");
                 }
                 else
                 {
                     negocio.reactivar(idInstructor);
                     usuarioNegocio.enviarMailCambioEstadoCuenta(instructor.Email, true);
+                    Response.Write("<script>alert('Instructor reactivado correctamente');window.location='EditarInstructores.aspx';</script>");
                 }
-
-                Response.Redirect("Instructores.aspx", false);
             }
             catch (Exception ex)
             {

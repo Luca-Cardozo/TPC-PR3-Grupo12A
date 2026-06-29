@@ -10,70 +10,78 @@
             <h1>Administración de Planes</h1>
         </div>
 
-        <div class="row justify-content-center mb-4">
-            <div class="row mb-4 align-items-end justify-content-center">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
-                <div class="col-md-4">
+        <asp:UpdatePanel ID="upPlanes" runat="server">
+            <ContentTemplate>
 
-                    <label class="form-label">Estado</label>
+                <div class="row justify-content-center mb-4">
+                    <div class="row mb-4 align-items-end justify-content-center">
 
-                    <asp:DropDownList ID="ddlEstadoFiltro"
-                        runat="server"
-                        CssClass="form-select"
-                        AutoPostBack="true"
-                        OnSelectedIndexChanged="ddlEstadoFiltro_SelectedIndexChanged">
+                        <div class="col-md-4">
 
-                        <asp:ListItem Text="Todos" Value="0" />
-                        <asp:ListItem Text="Activos" Value="1" />
-                        <asp:ListItem Text="Inactivos" Value="2" />
+                            <label class="form-label">Estado</label>
 
-                    </asp:DropDownList>
+                            <asp:DropDownList ID="ddlEstadoFiltro"
+                                runat="server"
+                                CssClass="form-select"
+                                AutoPostBack="true"
+                                OnSelectedIndexChanged="ddlEstadoFiltro_SelectedIndexChanged">
+
+                                <asp:ListItem Text="Todos" Value="0" />
+                                <asp:ListItem Text="Activos" Value="1" />
+                                <asp:ListItem Text="Inactivos" Value="2" />
+
+                            </asp:DropDownList>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-5 d-grid">
+                            <a href="FormularioPlan.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Plan
+                            </a>
+                        </div>
+                    </div>
+
+                    <asp:GridView ID="dgvPlanes" runat="server" DataKeyNames="IdPlan" CssClass="table table-striped table-hover table-bordered shadow-sm" AutoGenerateColumns="false">
+                        <Columns>
+
+                            <asp:BoundField DataField="IdPlan" HeaderText="ID" />
+
+                            <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
+
+                            <asp:TemplateField HeaderText="Cantidad de clases">
+                                <ItemTemplate>
+                                    <%# Eval("CantidadClases") == null ? "Libre" : Eval("CantidadClases") + " clases" %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+                            <asp:BoundField DataField="DuracionMeses" HeaderText="Duración (meses)" />
+
+                            <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
+
+                            <asp:CheckBoxField DataField="Activo" HeaderText="Activo" />
+
+                            <asp:TemplateField HeaderText="Acción">
+                                <ItemStyle CssClass="text-center" />
+                                <ItemTemplate>
+                                    <asp:Button ID="btnEditarPlan" runat="server"
+                                        Text="✏️ Ver/Editar"
+                                        CssClass="btn btn-primary btn-sm"
+                                        CommandArgument='<%# Eval("IdPlan") %>'
+                                        OnClick="btnEditarPlan_Click" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+                        </Columns>
+                    </asp:GridView>
 
                 </div>
 
-            </div>
-
-            <div class="row justify-content-center mb-4">
-                <div class="col-md-5 d-grid">
-                    <a href="FormularioPlan.aspx" class="btn btn-success btn-lg p-3">➕ Agregar Plan
-                        </a>
-                </div>
-            </div>
-
-            <asp:GridView ID="dgvPlanes" runat="server" DataKeyNames="IdPlan" CssClass="table table-striped table-hover table-bordered shadow-sm" AutoGenerateColumns="false">
-                <Columns>
-
-                    <asp:BoundField DataField="IdPlan" HeaderText="ID" />
-
-                    <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
-
-                    <asp:TemplateField HeaderText="Cantidad de clases">
-                        <ItemTemplate>
-                            <%# Eval("CantidadClases") == null ? "Libre" : Eval("CantidadClases") + " clases" %>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:BoundField DataField="DuracionMeses" HeaderText="Duración (meses)" />
-
-                    <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
-
-                    <asp:CheckBoxField DataField="Activo" HeaderText="Activo" />
-
-                    <asp:TemplateField HeaderText="Acción">
-                        <ItemStyle CssClass="text-center" />
-                        <ItemTemplate>
-                            <asp:Button ID="btnEditarPlan" runat="server"
-                                Text="✏️ Ver/Editar"
-                                CssClass="btn btn-primary btn-sm"
-                                CommandArgument='<%# Eval("IdPlan") %>'
-                                OnClick="btnEditarPlan_Click" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                </Columns>
-            </asp:GridView>
-
-        </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
         <div class="row mt-4 mb-5">
             <div class="col-12 text-center">

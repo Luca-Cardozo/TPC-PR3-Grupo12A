@@ -26,7 +26,7 @@ namespace Negocio
                     "D.Activa FROM Usuarios U " +
                     "INNER JOIN DisciplinasXInstructores DI ON DI.IdInstructor = U.IdUsuario " +
                     "INNER JOIN Disciplinas D ON D.IdDisciplina = DI.IdDisciplina " +
-                    "WHERE Rol = 3");
+                    "WHERE Rol = 3 ORDER BY U.Apellido, U.Nombre");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {

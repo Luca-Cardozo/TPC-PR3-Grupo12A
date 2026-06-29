@@ -19,7 +19,7 @@ namespace Negocio
 
             try
             {
-                string consulta = "SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas";
+                string consulta = "SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas ORDER BY Nombre";
                 if (soloActivas)
                 {
                     consulta += " WHERE Activa = 1";

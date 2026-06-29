@@ -45,7 +45,11 @@
 
                 <div class="card shadow p-4">
 
-                    <h2 class="text-center mb-4">Editar Disciplina </h2>
+                    <h2 class="text-center mb-4">
+                        <asp:Label ID="lblTitulo" runat="server" />
+                    </h2>
+
+                    <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger d-block text-center" Visible="false" />
 
                     <div class="mb-3">
                         <label for="txtIdDisciplina" class="form-label">Id</label>
@@ -80,10 +84,6 @@
                         <a href="EditarDisciplinas.aspx" class="btn btn-secondary">Cancelar</a>
                         <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" Visible="false" OnClick="btnEliminar_Click" OnClientClick="return confirmarEliminacion();" />
 
-                    </div>
-
-                    <div class="d-flex justify-content-center gap-2">
-                        <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
 
                 </div>

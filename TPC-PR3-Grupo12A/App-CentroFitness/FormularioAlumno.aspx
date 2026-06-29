@@ -21,8 +21,10 @@
                 <div class="card shadow p-4">
 
                     <h2 class="text-center mb-4">
-                        <asp:Label ID="lblTitulo" runat="server" /></h2>
+                        <asp:Label ID="lblTitulo" runat="server" />
+                    </h2>
 
+                    <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger d-block text-center" Visible="false" />
 
                     <%--Acá va el formulario de registro--%>
 
@@ -96,9 +98,6 @@
                         <a href="EditarAlumnos.aspx" class="btn btn-secondary">Cancelar</a>
                         <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-outline-danger" runat="server" OnClick="btnEliminar_Click" />
 
-                    </div>
-                    <div class="d-flex justify-content-center gap-2 mt-3">
-                        <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
                     </div>
                 </div>
 

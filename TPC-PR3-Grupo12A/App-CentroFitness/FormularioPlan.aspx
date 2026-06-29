@@ -28,6 +28,8 @@
                         <asp:Label ID="lblTitulo" runat="server" />
                     </h2>
 
+                    <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger d-block text-center" Visible="false" />
+
                     <div class="row">
 
                         <div class="col-md-6 mb-3">
@@ -81,10 +83,6 @@
                         <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
                         <a href="EditarPlanes.aspx" class="btn btn-secondary">Cancelar</a>
                         <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-outline-danger" OnClick="btnEliminar_Click" />
-                    </div>
-
-                    <div class="d-flex justify-content-center gap-2 mt-3">
-                        <asp:Label ID="lblError" runat="server" CssClass="text-danger fw-bold" Visible="false" />
                     </div>
 
                 </div>

@@ -27,6 +27,8 @@ namespace App_CentroFitness
 
                 if (Request.QueryString["id"] != null)
                 {
+                    lblTitulo.Text = "Editar Disciplina";
+
                     int idSeleccionado = int.Parse(Request.QueryString["id"]);
 
                     btnEliminar.Visible = true;
@@ -82,6 +84,8 @@ namespace App_CentroFitness
                 }
                 else
                 {
+                    lblTitulo.Text = "Nueva Disciplina";
+
                     DisciplinaNegocio negocio = new DisciplinaNegocio();
                     txtIdDisciplina.Text = negocio.obtenerProximoId().ToString();
                 }
@@ -140,6 +144,7 @@ namespace App_CentroFitness
                     }
 
                     negocio.modificar(nueva);
+                    Response.Write("<script>alert('Disciplina modificada correctamente');window.location='EditarDisciplinas.aspx';</script>");
                 }
                 else
                 {
@@ -154,10 +159,9 @@ namespace App_CentroFitness
 
                     string ruta = Server.MapPath("~/Images/");
                     txtImagen.PostedFile.SaveAs(Path.Combine(ruta, nueva.Imagen + ".jpg"));
+
+                    Response.Write("<script>alert('Disciplina agregada correctamente');window.location='EditarDisciplinas.aspx';</script>");
                 }
-
-                Response.Redirect("Disciplinas.aspx", false);
-
             }
             catch (Exception ex)
             {
@@ -185,13 +189,13 @@ namespace App_CentroFitness
                         return;
                     }
                     negocio.eliminar(idDisciplina);
+                    Response.Write("<script>alert('Disciplina eliminada correctamente');window.location='EditarDisciplinas.aspx';</script>");
                 }
                 else
                 {
                     negocio.reactivar(idDisciplina);
+                    Response.Write("<script>alert('Disciplina reactivada correctamente');window.location='EditarDisciplinas.aspx';</script>");
                 }
-
-                Response.Redirect("Disciplinas.aspx", false);
             }
             catch (Exception ex)
             {

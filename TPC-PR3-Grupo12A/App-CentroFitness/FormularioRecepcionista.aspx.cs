@@ -145,6 +145,15 @@ namespace App_CentroFitness
                     return;
                 }
 
+                DateTime fechaNacimiento = DateTime.Parse(fecNac);
+
+                if (fechaNacimiento.Date > DateTime.Today)
+                {
+                    lblError.Text = "La fecha de nacimiento no puede ser posterior a la fecha actual.";
+                    lblError.Visible = true;
+                    return;
+                }
+
                 int? idRecepcionista = null;
 
                 if (Request.QueryString["id"] != null)
@@ -162,13 +171,14 @@ namespace App_CentroFitness
                 nuevo.Email = email;
                 nuevo.DNI = dni;
                 nuevo.Telefono = tel;
-                nuevo.FechaNacimiento = DateTime.Parse(fecNac);
+                nuevo.FechaNacimiento = fechaNacimiento;
                 nuevo.Imagen = "default-user";
 
                 if (Request.QueryString["id"] != null)
                 {
                     nuevo.IdUsuario = int.Parse(Request.QueryString["id"]);
                     negocio.modificar(nuevo);
+                    Response.Write("<script>alert('Recepcionista modificado correctamente');window.location='EditarRecepcionistas.aspx';</script>");
                 }
                 else
                 {
@@ -219,9 +229,9 @@ namespace App_CentroFitness
                     service.enviarEmail();
 
                     negocio.agregar(nuevo);
-                }
 
-                Response.Redirect("EditarRecepcionistas.aspx", false);
+                    Response.Write("<script>alert('Recepcionista agregado correctamente');window.location='EditarRecepcionistas.aspx';</script>");
+                }
             }
             catch (Exception ex)
             {
@@ -246,14 +256,14 @@ namespace App_CentroFitness
                 {
                     negocio.eliminar(idRecepcionista);
                     usuarioNegocio.enviarMailCambioEstadoCuenta(recepcionista.Email, false);
+                    Response.Write("<script>alert('Recepcionista eliminado correctamente');window.location='EditarRecepcionistas.aspx';</script>");
                 }
                 else
                 {
                     negocio.reactivar(idRecepcionista);
                     usuarioNegocio.enviarMailCambioEstadoCuenta(recepcionista.Email, true);
+                    Response.Write("<script>alert('Recepcionista reactivado correctamente');window.location='EditarRecepcionistas.aspx';</script>");
                 }
-
-                Response.Redirect("EditarRecepcionistas.aspx", false);
             }
             catch (Exception ex)
             {

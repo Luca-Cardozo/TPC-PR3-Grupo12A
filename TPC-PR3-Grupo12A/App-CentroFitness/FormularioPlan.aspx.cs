@@ -142,13 +142,13 @@ namespace App_CentroFitness
                 {
                     plan.IdPlan = int.Parse(Request.QueryString["id"]);
                     negocio.modificar(plan);
+                    Response.Write("<script>alert('Plan modificado correctamente');window.location='EditarPlanes.aspx';</script>");
                 }
                 else
                 {
                     negocio.agregar(plan);
+                    Response.Write("<script>alert('Plan agregado correctamente');window.location='EditarPlanes.aspx';</script>");
                 }
-
-                Response.Redirect("EditarPlanes.aspx", false);
             }
             catch (Exception ex)
             {
@@ -173,11 +173,15 @@ namespace App_CentroFitness
                     throw new Exception("No se encontró el plan seleccionado.");
 
                 if (seleccionado.Activo)
+                {
                     negocio.eliminar(idPlan);
+                    Response.Write("<script>alert('Plan eliminado correctamente');window.location='EditarPlanes.aspx';</script>");
+                }
                 else
+                {
                     negocio.reactivar(idPlan);
-
-                Response.Redirect("EditarPlanes.aspx", false);
+                    Response.Write("<script>alert('Plan reactivado correctamente');window.location='EditarPlanes.aspx';</script>");
+                }
             }
             catch (Exception ex)
             {
