@@ -116,7 +116,7 @@ namespace Negocio
             DateTime finConGracia = suscripcion.FechaFin.Date.AddDays(5);
 
             if (fechaClase < inicio || fechaClase > finConGracia)
-                throw new Exception("La clase seleccionada no corresponde al período de la suscripción vigente.");
+                throw new Exception("La clase seleccionada no corresponde al período de la suscripción vigente del/los alumno/s.");
         }
 
         public void altaSuscripcion(int idUsuario, int idPlan, int mes, int anio)

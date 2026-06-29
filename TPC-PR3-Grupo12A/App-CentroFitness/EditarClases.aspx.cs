@@ -11,6 +11,13 @@ namespace App_CentroFitness
 {
     public partial class EditarClases : System.Web.UI.Page
     {
+        // Para usar la paginación
+        private int PaginaActual
+        {
+            get { return ViewState["PaginaActual"] != null ? (int)ViewState["PaginaActual"] : 0; }
+            set { ViewState["PaginaActual"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Seguridad.esAdmin(Session) && !Seguridad.esRecepcionista(Session))
@@ -93,8 +100,9 @@ namespace App_CentroFitness
                 lista = lista.FindAll(x => x.Estado == EstadoClase.Reprogramada);
             }
 
-            repClases.DataSource = lista;
-            repClases.DataBind();
+            Session["listaClasesFiltrada"] = lista;
+            PaginaActual = 0;
+            mostrarClasesPaginadas(lista);
         }
 
         protected void btnRecargar_Click(object sender, EventArgs e)
@@ -132,10 +140,11 @@ namespace App_CentroFitness
                x.Estado == EstadoClase.Cancelada ? 2 : 3)
                 .ThenBy(x => x.Fecha)
                 .ThenBy(x => x.HoraInicio)
-                .ToList();         
+                .ToList();
             Session["listaClases"] = lista;
-            repClases.DataSource = lista;
-            repClases.DataBind();
+            Session["listaClasesFiltrada"] = lista;
+            PaginaActual = 0;
+            mostrarClasesPaginadas(lista);
         }
         private void cargarFiltros()
         {
@@ -170,6 +179,50 @@ namespace App_CentroFitness
             int idClase = int.Parse(btn.CommandArgument);
 
             Response.Redirect("FormularioClase.aspx?id=" + idClase, false);
+        }
+
+        private void mostrarClasesPaginadas(List<Clase> lista)
+        {
+            PagedDataSource paged = new PagedDataSource();
+            paged.DataSource = lista;
+            paged.AllowPaging = true;
+            paged.PageSize = 8;
+
+            if (lista.Count == 0)
+            {
+                repClases.DataSource = lista;
+                repClases.DataBind();
+
+                btnAnterior.Enabled = false;
+                btnSiguiente.Enabled = false;
+                lblPagina.Text = "Sin resultados";
+                return;
+            }
+
+            paged.CurrentPageIndex = PaginaActual;
+
+            btnAnterior.Enabled = !paged.IsFirstPage;
+            btnSiguiente.Enabled = !paged.IsLastPage;
+
+            lblPagina.Text = "Página " + (PaginaActual + 1) + " de " + paged.PageCount;
+
+            repClases.DataSource = paged;
+            repClases.DataBind();
+        }
+
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (PaginaActual > 0)
+                PaginaActual--;
+
+            mostrarClasesPaginadas((List<Clase>)Session["listaClasesFiltrada"]);
+        }
+
+        protected void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            PaginaActual++;
+
+            mostrarClasesPaginadas((List<Clase>)Session["listaClasesFiltrada"]);
         }
     }
 }

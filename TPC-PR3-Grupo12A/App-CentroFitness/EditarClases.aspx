@@ -164,6 +164,18 @@
 
                         </table>
 
+                        <div class="d-flex justify-content-center gap-2 mt-3">
+                            <asp:Button ID="btnAnterior" runat="server" Text="← Anterior"
+                                CssClass="btn btn-outline-secondary"
+                                OnClick="btnAnterior_Click" />
+
+                            <asp:Label ID="lblPagina" runat="server" CssClass="align-self-center fw-bold" />
+
+                            <asp:Button ID="btnSiguiente" runat="server" Text="Siguiente →"
+                                CssClass="btn btn-outline-secondary"
+                                OnClick="btnSiguiente_Click" />
+                        </div>
+
                     </div>
 
                 </div>

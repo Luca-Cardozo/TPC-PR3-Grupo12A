@@ -56,6 +56,8 @@ namespace App_CentroFitness
                 int idClaseOriginal = int.Parse(txtIdClase.Text);
 
                 ClaseNegocio claseNegocio = new ClaseNegocio();
+                ReservaNegocio reservaNegocio = new ReservaNegocio();
+                SuscripcionNegocio suscripcionNegocio = new SuscripcionNegocio();
 
                 Clase claseOriginal = claseNegocio.obtenerPorId(idClaseOriginal);
 
@@ -95,17 +97,18 @@ namespace App_CentroFitness
 
                 nuevaClase.Estado = EstadoClase.Vigente;
 
+                List<Reserva> reservas = reservaNegocio.listarVigentesPorClase(claseOriginal.IdClase);
+
+                foreach (Reserva reserva in reservas)
+                {
+                    suscripcionNegocio.validarClaseDentroDeSuscripcion(reserva.Alumno.IdUsuario, nuevaClase);
+                }
+
                 claseNegocio.agregar(nuevaClase);
 
-                ReservaNegocio reservaNegocio = new ReservaNegocio();
+                reservaNegocio.trasladarReservas(claseOriginal.IdClase, nuevaClase.IdClase);
 
-                reservaNegocio.trasladarReservas(
-                    claseOriginal.IdClase,
-                    nuevaClase.IdClase);
-
-                claseNegocio.cambiarEstadoClase(
-                    claseOriginal.IdClase,
-                    EstadoClase.Reprogramada);
+                claseNegocio.cambiarEstadoClase(claseOriginal.IdClase, EstadoClase.Reprogramada);
 
                 Response.Write("<script>alert('Clase reprogramada correctamente');window.location='EditarClases.aspx';</script>");
             }

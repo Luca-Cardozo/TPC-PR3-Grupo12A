@@ -71,7 +71,8 @@ namespace App_CentroFitness
             }
             catch (Exception ex)
             {
-                Response.Write("<script>alert('Error al guardar cambios: " + ex.Message + "');</script>");
+                lblMensaje.Text = ex.Message;
+                lblMensaje.Visible = true;
             }
         }
 
@@ -134,7 +135,8 @@ namespace App_CentroFitness
             }
             catch (Exception ex)
             {
-                Response.Write("<script>alert('Error al cargar reserva: " + ex.Message + "');</script>");
+                lblMensaje.Text = ex.Message;
+                lblMensaje.Visible = true;
             }
         }
 

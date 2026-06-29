@@ -17,7 +17,7 @@
                         </h4>
                     </div>
 
-                    <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-danger d-block text-center" />
+                    <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-danger d-block text-center" Visible="false" />
 
 
                     <div class="card-body">
@@ -57,7 +57,6 @@
                                 <asp:ListItem Text="Vigente" Value="1" />
                                 <asp:ListItem Text="Cancelada" Value="2" />
                                 <asp:ListItem Text="Finalizada" Value="3" />
-                                <asp:ListItem Text="Reprogramada" Value="4" />
                             </asp:DropDownList>
                         </div>
 

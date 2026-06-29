@@ -203,6 +203,14 @@ namespace Negocio
                         reactivar(reservaNueva.Alumno.IdUsuario, reservaNueva.Clase.IdClase);
                         return;
                     }
+
+                    if (estado == 3)
+                        throw new Exception("Ya participaste de esta clase.");
+
+                    if (estado == 4)
+                        throw new Exception("Ya tuviste una reserva reprogramada para esta clase. Elegí otra clase disponible.");
+
+                    throw new Exception("Ya existe una reserva previa para esta clase.");
                 }
 
                 datos.cerrarConexion();
