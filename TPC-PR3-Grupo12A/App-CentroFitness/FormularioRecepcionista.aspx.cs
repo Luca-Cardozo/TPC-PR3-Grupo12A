@@ -159,9 +159,11 @@ namespace App_CentroFitness
                 if (Request.QueryString["id"] != null)
                     idRecepcionista = int.Parse(Request.QueryString["id"]);
 
-                if (negocio.existeRecepcionista(dni, email, idRecepcionista))
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+                if (usuarioNegocio.existeUsuario(dni, email, idRecepcionista))
                 {
-                    lblError.Text = "Ya existe un recepcionista con ese DNI o email.";
+                    lblError.Text = "Ya existe un usuario con ese DNI o email.";
                     lblError.Visible = true;
                     return;
                 }

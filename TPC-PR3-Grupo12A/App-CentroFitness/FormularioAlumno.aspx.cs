@@ -171,9 +171,11 @@ namespace App_CentroFitness
                     idAlumno = int.Parse(Request.QueryString["id"]);
                 }
 
-                if (negocio.existeAlumno(dni, email, idAlumno))
+                UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+                if (usuarioNegocio.existeUsuario(dni, email, idAlumno))
                 {
-                    lblError.Text = "Ya existe un alumno con ese DNI o email.";
+                    lblError.Text = "Ya existe un usuario con ese DNI o email.";
                     lblError.Visible = true;
                     return;
                 }

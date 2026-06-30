@@ -107,8 +107,10 @@ namespace Negocio
 
         public void agregar(Instructor instructorNuevo)
         {
-            if (existeInstructor(instructorNuevo.DNI, instructorNuevo.Email))
-                throw new Exception("Ya existe ese instructor.");
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+            if (usuarioNegocio.existeUsuario(instructorNuevo.DNI, instructorNuevo.Email))
+                throw new Exception("Ya existe un usuario con ese DNI o email.");
 
             AccesoDatos datos = new AccesoDatos();
 
@@ -141,10 +143,11 @@ namespace Negocio
 
         public void modificar(Instructor instructorModificado)
         {
-            if (existeInstructor(instructorModificado.DNI, instructorModificado.Email, instructorModificado.IdUsuario))
-                throw new Exception("Ya existe ese instructor.");
-
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+            if (usuarioNegocio.existeUsuario(instructorModificado.DNI, instructorModificado.Email, instructorModificado.IdUsuario))
+                throw new Exception("Ya existe un usuario con ese DNI o email.");
+
             string emailAnterior = usuarioNegocio.obtenerEmailActual(instructorModificado.IdUsuario);
 
             AccesoDatos datos = new AccesoDatos();
@@ -276,40 +279,6 @@ namespace Negocio
             }
         }
 
-
-        public bool existeInstructor(string dni, string email, int? idExcluir = null)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                string consulta = "SELECT 1 FROM Usuarios WHERE (DNI = @DNI OR Email = @Email) AND Rol = 3";
-
-                // En el caso de modificar el instructor, se excluye el id del mismo
-                if (idExcluir.HasValue)
-                    consulta += " AND IdUsuario <> @IdUsuario";
-
-                datos.setearConsulta(consulta);
-                datos.setearParametro("@DNI", dni);
-                datos.setearParametro("@Email", email);
-
-                // En caso de modificación
-                if (idExcluir.HasValue)
-                    datos.setearParametro("@IdUsuario", idExcluir.Value);
-
-                datos.ejecutarLectura();
-
-                return datos.Lector.Read();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
 
         public void eliminarDisciplinasInstructor(int idInstructor)
         {

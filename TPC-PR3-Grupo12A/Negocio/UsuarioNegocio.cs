@@ -235,5 +235,38 @@ namespace Negocio
             service.armarCorreo(usuario.Email, "Cambio de contraseña - Centro Fitness", cuerpo);
             service.enviarEmail();
         }
+
+        public bool existeUsuario(string dni, string email, int? idExcluir = null)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "SELECT 1 FROM Usuarios WHERE (DNI = @DNI OR Email = @Email)";
+
+                if (idExcluir.HasValue)
+                    consulta += " AND IdUsuario <> @IdUsuario";
+
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@DNI", dni);
+                datos.setearParametro("@Email", email);
+
+                if (idExcluir.HasValue)
+                    datos.setearParametro("@IdUsuario", idExcluir.Value);
+
+                datos.ejecutarLectura();
+
+                return datos.Lector.Read();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

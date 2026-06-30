@@ -57,8 +57,10 @@ namespace Negocio
 
         public void agregar(Alumno alumnoNuevo)
         {
-            if (existeAlumno(alumnoNuevo.DNI, alumnoNuevo.Email))
-                throw new Exception("Ya existe un alumno con ese DNI o email.");
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+            if (usuarioNegocio.existeUsuario(alumnoNuevo.DNI, alumnoNuevo.Email))
+                throw new Exception("Ya existe un usuario con ese DNI o email.");
 
             AccesoDatos datos = new AccesoDatos();
 
@@ -94,10 +96,12 @@ namespace Negocio
 
         public void modificar(Alumno alumnoModificado)
         {
-            if (existeAlumno(alumnoModificado.DNI, alumnoModificado.Email, alumnoModificado.IdUsuario))
-                throw new Exception("Ya existe un alumno con ese DNI o email.");
-
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+            if (usuarioNegocio.existeUsuario(alumnoModificado.DNI, alumnoModificado.Email, alumnoModificado.IdUsuario))
+                throw new Exception("Ya existe un usuario con ese DNI o email.");
+
+
             string emailAnterior = usuarioNegocio.obtenerEmailActual(alumnoModificado.IdUsuario);
 
             AccesoDatos datos = new AccesoDatos();
@@ -200,37 +204,6 @@ namespace Negocio
             }
         }
 
-        public bool existeAlumno(string dni, string email, int? idExcluir = null)
-        {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                string consulta = "SELECT 1 FROM Usuarios WHERE (DNI = @DNI OR Email = @Email) AND Rol = 4";
-
-                if (idExcluir.HasValue)
-                    consulta += " AND IdUsuario <> @IdUsuario";
-
-                datos.setearConsulta(consulta);
-                datos.setearParametro("@DNI", dni);
-                datos.setearParametro("@Email", email);
-
-                if (idExcluir.HasValue)
-                    datos.setearParametro("@IdUsuario", idExcluir.Value);
-
-                datos.ejecutarLectura();
-
-                return datos.Lector.Read();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
 
         public void enviarMailSuscripcionActualizada(string email, Suscripcion suscripcion)
         {
