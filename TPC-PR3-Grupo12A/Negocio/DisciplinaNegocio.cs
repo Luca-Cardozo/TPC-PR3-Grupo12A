@@ -19,11 +19,12 @@ namespace Negocio
 
             try
             {
-                string consulta = "SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas ORDER BY Nombre";
+                string consulta = "SELECT IdDisciplina, Imagen, Nombre, Activa FROM Disciplinas ";
                 if (soloActivas)
                 {
-                    consulta += " WHERE Activa = 1";
+                    consulta += "WHERE Activa = 1 ";
                 }
+                consulta += "ORDER BY Nombre";
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
