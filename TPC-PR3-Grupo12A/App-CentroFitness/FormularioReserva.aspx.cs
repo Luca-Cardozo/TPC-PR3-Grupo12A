@@ -42,16 +42,37 @@ namespace App_CentroFitness
                     reserva.Asistencia = (EstadoAsistencia)int.Parse(ddlAsistencia.SelectedValue);
                 reserva.Observaciones = string.IsNullOrWhiteSpace(txtObservaciones.Text) ? null : txtObservaciones.Text.Trim();
 
-                if (reserva.Estado != Estado.Finalizada && reserva.Asistencia.HasValue)
+                if (reserva.Estado == Estado.Finalizada && !reserva.Asistencia.HasValue)
                 {
-                    throw new Exception("Solo se puede registrar asistencia en reservas finalizadas.");
+                    throw new Exception("Debe indicar si el alumno estuvo presente o ausente para finalizar la reserva.");
+                }
+
+                if (reserva.Estado != Estado.Finalizada)
+                {
+                    reserva.Asistencia = null;
                 }
 
                 ReservaNegocio negocio = new ReservaNegocio();
 
                 Reserva reservaActual = negocio.listar().Find(x => x.IdReserva == reserva.IdReserva);
 
+                if (reservaActual == null)
+                    throw new Exception("No se encontró la reserva.");
+
                 DateTime fechaHoraClase = reservaActual.Clase.Fecha.Date.AddHours(reservaActual.Clase.HoraInicio);
+
+                if (reservaActual.Estado == Estado.Finalizada)
+                {
+                    reserva.Estado = Estado.Finalizada;
+
+                    if (!reserva.Asistencia.HasValue)
+                        throw new Exception("Debe indicar si el alumno estuvo presente o ausente.");
+
+                    negocio.modificar(reserva);
+
+                    Response.Write("<script>alert('Asistencia corregida correctamente.');window.location='EditarReservas.aspx';</script>");
+                    return;
+                }
 
                 if (reserva.Estado == Estado.Finalizada && fechaHoraClase > DateTime.Now)
                 {
@@ -112,7 +133,14 @@ namespace App_CentroFitness
                 txtClase.Text = reserva.Clase.Disciplina.Nombre.ToString() + " - " + reserva.Clase.Instructor.Nombre.ToString() + " " + reserva.Clase.Instructor.Apellido.ToString();
                 txtFechaClase.Text = reserva.Clase.Fecha.ToString("dd/MM/yyyy");
                 txtHorario.Text = reserva.Clase.HoraInicio.ToString() + ":00 - " + reserva.Clase.HoraFin.ToString() + ":00";
-                ddlEstado.SelectedValue = ((int)reserva.Estado).ToString();
+                if (reserva.Estado == Estado.Vigente)
+                {
+                    ddlEstado.SelectedValue = ((int)Estado.Cancelada).ToString();
+                }
+                else if (reserva.Estado == Estado.Cancelada || reserva.Estado == Estado.Finalizada)
+                {
+                    ddlEstado.SelectedValue = ((int)reserva.Estado).ToString();
+                }
                 if (reserva.Asistencia == null)
                     ddlAsistencia.SelectedValue = "";
                 else
@@ -123,6 +151,20 @@ namespace App_CentroFitness
                 if (reserva.Estado == Estado.Vigente)
                 {
                     lblTitulo.Text = "Editar Reserva";
+                    ddlEstado.Enabled = true;
+                    ddlAsistencia.Enabled = true;
+                    txtObservaciones.Enabled = true;
+                    btnGuardar.Visible = true;
+                }
+                else if (reserva.Estado == Estado.Finalizada)
+                {
+                    lblTitulo.Text = "Corregir Asistencia";
+
+                    ddlEstado.Enabled = false;
+                    ddlAsistencia.Enabled = true;
+                    txtObservaciones.Enabled = true;
+
+                    btnGuardar.Visible = true;
                 }
                 else
                 {
@@ -134,8 +176,6 @@ namespace App_CentroFitness
 
                     btnGuardar.Visible = false;
                 }
-
-
 
             }
             catch (Exception ex)

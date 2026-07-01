@@ -68,6 +68,26 @@ namespace App_CentroFitness
             Usuario usuario = (Usuario)Session["usuario"];
             int idClase = int.Parse(ddlClases.SelectedValue);
 
+            ClaseNegocio claseNegocio = new ClaseNegocio();
+            Clase claseSeleccionada = claseNegocio.obtenerPorId(idClase);
+
+            DateTime fechaHoraClase = claseSeleccionada.Fecha.Date.AddHours(claseSeleccionada.HoraInicio);
+
+            if (fechaHoraClase > DateTime.Now)
+            {
+                lblInfoClase.Text = "La asistencia solo puede registrarse una vez que la clase haya comenzado.";
+                lblInfoClase.CssClass = "alert alert-warning d-block text-center";
+                lblInfoClase.Visible = true;
+
+                dgvAsistencia.DataSource = null;
+                dgvAsistencia.DataBind();
+
+                pnlProximasClases.Visible = false;
+                pnlAsistencia.Visible = false;
+
+                return;
+            }
+
             ReservaNegocio negocio = new ReservaNegocio();
             List<Reserva> reservas = negocio.listarVigentesPorInstructor(usuario.IdUsuario);
 
@@ -119,6 +139,16 @@ namespace App_CentroFitness
             {
                 ReservaNegocio negocio = new ReservaNegocio();
 
+                int idClase = int.Parse(ddlClases.SelectedValue);
+
+                ClaseNegocio claseNegocio = new ClaseNegocio();
+                Clase clase = claseNegocio.obtenerPorId(idClase);
+
+                DateTime fechaHoraClase = clase.Fecha.Date.AddHours(clase.HoraInicio);
+
+                if (fechaHoraClase > DateTime.Now)
+                    throw new Exception("No se puede registrar asistencia de una clase que todavía no comenzó.");
+
                 foreach (GridViewRow fila in dgvAsistencia.Rows)
                 {
                     int idReserva = (int)dgvAsistencia.DataKeys[fila.RowIndex].Value;
@@ -140,11 +170,8 @@ namespace App_CentroFitness
                     );
                 }
 
-                int idClase = int.Parse(ddlClases.SelectedValue);
-
                 if (dgvAsistencia.Rows.Count > 0)
                 {
-                    ClaseNegocio claseNegocio = new ClaseNegocio();
                     claseNegocio.finalizarClase(idClase);
                 }
 

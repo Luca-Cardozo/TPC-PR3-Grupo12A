@@ -370,556 +370,816 @@ GO
 -- =============================================
 INSERT INTO Planes (Descripcion, CantidadClases, DuracionMeses, Precio)
 VALUES
-('Pack 4 clases',   4,    30,  8000.00),   -- IdPlan 1
-('Pack 8 clases',   8,    30, 14000.00),   -- IdPlan 2
-('Pack 12 clases',  12,   30, 20000.00),   -- IdPlan 3
-('Pase Libre',      NULL, 30, 30000.00);   -- IdPlan 4
+('Pack 4 clases',   4,    1,  8000.00),   -- IdPlan 1
+('Pack 8 clases',   8,    1, 14000.00),   -- IdPlan 2
+('Pack 12 clases',  12,   1, 20000.00),   -- IdPlan 3
+('Pase Libre',      NULL, 1, 30000.00);   -- IdPlan 4
 
 GO
 
--- =============================================
--- Mapa de IDs (basado en el script de creación)
--- =============================================
--- INSTRUCTORES (IdUsuario 2-16)
---   2  = Ana García        → Pilates (1)
---   3  = Carlos Rodríguez  → Spinning (5)
---   4  = Valentina Pérez   → Pilates (1)
---   5  = Diego Fernández   → Funcional (3)
---   6  = Sebastián Díaz    → Stretching (4)
---   7  = Nicolás Romero    → Yoga (2)
---   8  = Agustín Morales   → Pilates (1)
---   9  = Tomás Castro      → Funcional (3)
---  10  = Martín López      → Funcional (3) + Spinning (5)
---  11  = Sofía Martínez    → Yoga (2) + Stretching (4)
---  12  = Camila Sánchez    → Pilates (1) + Stretching (4)
---  13  = Florencia Torres  → Spinning (5) + Funcional (3)
---  14  = Micaela Herrera   → Yoga (2) + Pilates (1)
---  15  = Julieta Vargas    → Zumba (6) + Salsa (8)
---  16  = Lucía González    → Zumba (6) + Bachata (7) + Salsa (8)
+USE CENTRO_FITNESS
+GO
+
+-- ============================================================
+-- MAPA DE IDs
+-- ============================================================
+-- INSTRUCTORES (IdUsuario 2–16)
+--   2  Ana García        → Pilates
+--   3  Carlos Rodríguez  → Spinning
+--   4  Valentina Pérez   → Pilates
+--   5  Diego Fernández   → Funcional
+--   6  Sebastián Díaz    → Stretching
+--   7  Nicolás Romero    → Yoga
+--   8  Agustín Morales   → Pilates
+--   9  Tomás Castro      → Funcional
+--  10  Martín López      → Funcional + Spinning
+--  11  Sofía Martínez    → Yoga + Stretching
+--  12  Camila Sánchez    → Pilates + Stretching
+--  13  Florencia Torres  → Spinning + Funcional
+--  14  Micaela Herrera   → Yoga + Pilates
+--  15  Julieta Vargas    → Zumba + Salsa
+--  16  Lucía González    → Zumba + Bachata + Salsa
 --
--- ALUMNOS (IdUsuario 17-41)
---   17 = Luciana Fernández
---   18 = Mateo García         (lesión rodilla)
---   19 = Camila López
---   20 = Facundo Martínez     (asmático)
---   21 = Valentina Rodríguez
---   22 = Ignacio Pérez        (operado espalda)
---   23 = Florencia González
---   24 = Tobías Sánchez
---   25 = Martina Romero       (hipertensión)
---   26 = Bruno Torres
---   27 = Agustina Díaz        (tendinitis hombro)
---   28 = Santiago Morales
---   29 = Julieta Herrera      (diabetes)
---   30 = Nicolás Castro
---   31 = Antonella Vargas
---   32 = Emiliano Ruiz        (fractura tobillo)
---   33 = Sofía Medina
---   34 = Lautaro Jiménez
---   35 = Rocío Suárez         (escoliosis)
---   36 = Tomás Álvarez
---   37 = Milagros Ramos
---   38 = Ezequiel Molina      (operado menisco)
---   39 = Pilar Ortega
---   40 = Maximiliano Silva    (alérgico penicilina)
---   41 = Catalina Reyes
+-- ALUMNOS (IdUsuario 17–41)
+--   17 Luciana Fernández
+--   18 Mateo García         (lesión rodilla)
+--   19 Camila López
+--   20 Facundo Martínez     (asmático)
+--   21 Valentina Rodríguez
+--   22 Ignacio Pérez        (operado espalda)
+--   23 Florencia González
+--   24 Tobías Sánchez
+--   25 Martina Romero       (hipertensión)
+--   26 Bruno Torres
+--   27 Agustina Díaz        (tendinitis hombro)
+--   28 Santiago Morales
+--   29 Julieta Herrera      (diabetes)
+--   30 Nicolás Castro
+--   31 Antonella Vargas
+--   32 Emiliano Ruiz        (fractura tobillo)
+--   33 Sofía Medina
+--   34 Lautaro Jiménez
+--   35 Rocío Suárez         (escoliosis)
+--   36 Tomás Álvarez
+--   37 Milagros Ramos
+--   38 Ezequiel Molina      (operado menisco)
+--   39 Pilar Ortega
+--   40 Maximiliano Silva    (alérgico penicilina)
+--   41 Catalina Reyes
 --
--- DISCIPLINAS
---   1=Pilates  2=Yoga  3=Funcional  4=Stretching
---   5=Spinning 6=Zumba 7=Bachata   8=Salsa
+-- GRUPOS DE SUSCRIPCIÓN
+--   MAYO  vencida  (sin reservas):  alumnos 37–41
+--   JUNIO vigente  (reservas 29/06 hasta 04/07): alumnos 17–26
+--   JULIO vigente  (reservas 01/07 hasta 04/08): alumnos 27–36
 --
--- PLANES
---   1=Pack 4   2=Pack 8   3=Pack 12   4=Pase Libre
--- =============================================
+-- DISCIPLINAS: 1=Pilates 2=Yoga 3=Funcional 4=Stretching
+--              5=Spinning 6=Zumba 7=Bachata 8=Salsa
+-- PLANES:      1=Pack4  2=Pack8  3=Pack12  4=Pase Libre
+-- ============================================================
 
 
--- =============================================
--- CLASES (29/06/2026 → 10/08/2026)
--- Restricción: un solo salón → único Fecha+HoraInicio
--- Cupos entre 5 y 8
--- Estado DEFAULT 1 (Vigente)
--- =============================================
+-- ============================================================
+-- 1. CLASES  (29/06/2026 → 10/08/2026)
+--    Restricción: un solo salón → Fecha+HoraInicio único
+--    Cupos entre 5 y 8  |  Estado DEFAULT 1 (Vigente)
+-- ============================================================
 
 INSERT INTO Clases (IdDisciplina, IdInstructor, Fecha, HoraInicio, CupoMaximo)
 VALUES
--- ── Lunes 29/06 ──────────────────────────────────────────────────────
-(1,  2,  '2026-06-29',  8, 6),  -- Pilates       - Ana García
-(2,  7,  '2026-06-29', 10, 5),  -- Yoga          - Nicolás Romero
-(3,  5,  '2026-06-29', 17, 8),  -- Funcional     - Diego Fernández
-(6, 15,  '2026-06-29', 19, 7),  -- Zumba         - Julieta Vargas
-
--- ── Martes 30/06 ─────────────────────────────────────────────────────
-(5,  3,  '2026-06-30',  9, 6),  -- Spinning      - Carlos Rodríguez
-(4,  6,  '2026-06-30', 11, 5),  -- Stretching    - Sebastián Díaz
-(1,  4,  '2026-06-30', 18, 7),  -- Pilates       - Valentina Pérez
-(2, 11,  '2026-06-30', 20, 6),  -- Yoga          - Sofía Martínez
-
--- ── Miércoles 01/07 ──────────────────────────────────────────────────
-(3,  9,  '2026-07-01',  8, 8),  -- Funcional     - Tomás Castro
-(1,  8,  '2026-07-01', 10, 6),  -- Pilates       - Agustín Morales
-(2, 14,  '2026-07-01', 17, 5),  -- Yoga          - Micaela Herrera
-(7, 16,  '2026-07-01', 19, 7),  -- Bachata       - Lucía González
-
--- ── Jueves 02/07 ─────────────────────────────────────────────────────
-(4, 11,  '2026-07-02',  9, 5),  -- Stretching    - Sofía Martínez
-(5, 10,  '2026-07-02', 11, 6),  -- Spinning      - Martín López
-(3, 13,  '2026-07-02', 18, 8),  -- Funcional     - Florencia Torres
-(8, 16,  '2026-07-02', 20, 7),  -- Salsa         - Lucía González
-
--- ── Viernes 03/07 ────────────────────────────────────────────────────
-(1, 12,  '2026-07-03',  8, 6),  -- Pilates       - Camila Sánchez
-(3,  5,  '2026-07-03', 10, 8),  -- Funcional     - Diego Fernández
-(4,  6,  '2026-07-03', 17, 5),  -- Stretching    - Sebastián Díaz
-(6, 16,  '2026-07-03', 19, 7),  -- Zumba         - Lucía González
-
--- ── Sábado 04/07 ─────────────────────────────────────────────────────
-(2,  7,  '2026-07-04',  9, 6),  -- Yoga          - Nicolás Romero
-(8, 15,  '2026-07-04', 11, 7),  -- Salsa         - Julieta Vargas
-
--- ── Lunes 07/07 ──────────────────────────────────────────────────────
-(1,  2,  '2026-07-07',  8, 6),  -- Pilates       - Ana García
-(3,  9,  '2026-07-07', 10, 8),  -- Funcional     - Tomás Castro
-(2,  7,  '2026-07-07', 17, 5),  -- Yoga          - Nicolás Romero
-(6, 15,  '2026-07-07', 19, 7),  -- Zumba         - Julieta Vargas
-
--- ── Martes 08/07 ─────────────────────────────────────────────────────
-(5, 13,  '2026-07-08',  9, 6),  -- Spinning      - Florencia Torres
-(1,  4,  '2026-07-08', 11, 5),  -- Pilates       - Valentina Pérez
-(4, 12,  '2026-07-08', 18, 6),  -- Stretching    - Camila Sánchez
-(7, 16,  '2026-07-08', 20, 7),  -- Bachata       - Lucía González
-
--- ── Miércoles 09/07 ──────────────────────────────────────────────────
-(2, 14,  '2026-07-09',  8, 5),  -- Yoga          - Micaela Herrera
-(3, 10,  '2026-07-09', 10, 8),  -- Funcional     - Martín López
-(1,  8,  '2026-07-09', 17, 6),  -- Pilates       - Agustín Morales
-(8, 16,  '2026-07-09', 19, 7),  -- Salsa         - Lucía González
-
--- ── Jueves 10/07 ─────────────────────────────────────────────────────
-(4, 11,  '2026-07-10',  9, 5),  -- Stretching    - Sofía Martínez
-(5,  3,  '2026-07-10', 11, 6),  -- Spinning      - Carlos Rodríguez
-(3,  5,  '2026-07-10', 18, 8),  -- Funcional     - Diego Fernández
-(6, 16,  '2026-07-10', 20, 7),  -- Zumba         - Lucía González
-
--- ── Viernes 11/07 ────────────────────────────────────────────────────
-(1,  2,  '2026-07-11',  8, 6),  -- Pilates       - Ana García
-(2, 11,  '2026-07-11', 10, 5),  -- Yoga          - Sofía Martínez
-(3, 13,  '2026-07-11', 17, 8),  -- Funcional     - Florencia Torres
-
--- ── Sábado 12/07 ─────────────────────────────────────────────────────
-(1,  4,  '2026-07-12',  9, 6),  -- Pilates       - Valentina Pérez
-(7, 16,  '2026-07-12', 11, 7),  -- Bachata       - Lucía González
-
--- ── Lunes 14/07 ──────────────────────────────────────────────────────
-(3,  9,  '2026-07-14',  8, 8),  -- Funcional     - Tomás Castro
-(1, 12,  '2026-07-14', 10, 6),  -- Pilates       - Camila Sánchez
-(2,  7,  '2026-07-14', 17, 5),  -- Yoga          - Nicolás Romero
-(6, 15,  '2026-07-14', 19, 7),  -- Zumba         - Julieta Vargas
-
--- ── Martes 15/07 ─────────────────────────────────────────────────────
-(5, 10,  '2026-07-15',  9, 6),  -- Spinning      - Martín López
-(4,  6,  '2026-07-15', 11, 5),  -- Stretching    - Sebastián Díaz
-(1, 14,  '2026-07-15', 18, 6),  -- Pilates       - Micaela Herrera
-
--- ── Miércoles 16/07 ──────────────────────────────────────────────────
-(2, 11,  '2026-07-16',  8, 5),  -- Yoga          - Sofía Martínez
-(3,  5,  '2026-07-16', 10, 8),  -- Funcional     - Diego Fernández
-(8, 16,  '2026-07-16', 17, 7),  -- Salsa         - Lucía González
-
--- ── Jueves 17/07 ─────────────────────────────────────────────────────
-(1,  8,  '2026-07-17',  9, 6),  -- Pilates       - Agustín Morales
-(5, 13,  '2026-07-17', 11, 6),  -- Spinning      - Florencia Torres
-(4, 12,  '2026-07-17', 18, 5),  -- Stretching    - Camila Sánchez
-
--- ── Viernes 18/07 ────────────────────────────────────────────────────
-(3,  9,  '2026-07-18',  8, 8),  -- Funcional     - Tomás Castro
-(1,  2,  '2026-07-18', 10, 6),  -- Pilates       - Ana García
-(6, 15,  '2026-07-18', 17, 7),  -- Zumba         - Julieta Vargas
-
--- ── Sábado 19/07 ─────────────────────────────────────────────────────
-(2, 14,  '2026-07-19',  9, 5),  -- Yoga          - Micaela Herrera
-(7, 16,  '2026-07-19', 11, 6),  -- Bachata       - Lucía González
-
--- ── Lunes 21/07 ──────────────────────────────────────────────────────
-(1,  4,  '2026-07-21',  8, 6),  -- Pilates       - Valentina Pérez
-(3, 10,  '2026-07-21', 10, 8),  -- Funcional     - Martín López
-(2,  7,  '2026-07-21', 17, 5),  -- Yoga          - Nicolás Romero
-(8, 16,  '2026-07-21', 19, 7),  -- Salsa         - Lucía González
-
--- ── Martes 22/07 ─────────────────────────────────────────────────────
-(4, 11,  '2026-07-22',  9, 5),  -- Stretching    - Sofía Martínez
-(5,  3,  '2026-07-22', 11, 6),  -- Spinning      - Carlos Rodríguez
-(1,  8,  '2026-07-22', 18, 6),  -- Pilates       - Agustín Morales
-
--- ── Miércoles 23/07 ──────────────────────────────────────────────────
-(3,  5,  '2026-07-23',  8, 8),  -- Funcional     - Diego Fernández
-(2, 14,  '2026-07-23', 10, 5),  -- Yoga          - Micaela Herrera
-(6, 15,  '2026-07-23', 17, 7),  -- Zumba         - Julieta Vargas
-
--- ── Jueves 24/07 ─────────────────────────────────────────────────────
-(1, 12,  '2026-07-24',  9, 6),  -- Pilates       - Camila Sánchez
-(3, 13,  '2026-07-24', 11, 8),  -- Funcional     - Florencia Torres
-(4,  6,  '2026-07-24', 18, 5),  -- Stretching    - Sebastián Díaz
-
--- ── Viernes 25/07 ────────────────────────────────────────────────────
-(1,  2,  '2026-07-25',  8, 6),  -- Pilates       - Ana García
-(5, 10,  '2026-07-25', 10, 6),  -- Spinning      - Martín López
-(2, 11,  '2026-07-25', 17, 5),  -- Yoga          - Sofía Martínez
-
--- ── Sábado 26/07 ─────────────────────────────────────────────────────
-(3,  9,  '2026-07-26',  9, 8),  -- Funcional     - Tomás Castro
-(7, 16,  '2026-07-26', 11, 6),  -- Bachata       - Lucía González
-
--- ── Lunes 28/07 ──────────────────────────────────────────────────────
-(1,  4,  '2026-07-28',  8, 6),  -- Pilates       - Valentina Pérez
-(2,  7,  '2026-07-28', 10, 5),  -- Yoga          - Nicolás Romero
-(3,  5,  '2026-07-28', 17, 8),  -- Funcional     - Diego Fernández
-(6, 16,  '2026-07-28', 19, 7),  -- Zumba         - Lucía González
-
--- ── Martes 29/07 ─────────────────────────────────────────────────────
-(4, 12,  '2026-07-29',  9, 5),  -- Stretching    - Camila Sánchez
-(5, 13,  '2026-07-29', 11, 6),  -- Spinning      - Florencia Torres
-(1,  8,  '2026-07-29', 18, 6),  -- Pilates       - Agustín Morales
-
--- ── Miércoles 30/07 ──────────────────────────────────────────────────
-(3, 10,  '2026-07-30',  8, 8),  -- Funcional     - Martín López
-(1, 14,  '2026-07-30', 10, 6),  -- Pilates       - Micaela Herrera
-(8, 15,  '2026-07-30', 17, 7),  -- Salsa         - Julieta Vargas
-
--- ── Jueves 31/07 ─────────────────────────────────────────────────────
-(2, 11,  '2026-07-31',  9, 5),  -- Yoga          - Sofía Martínez
-(4,  6,  '2026-07-31', 11, 5),  -- Stretching    - Sebastián Díaz
-(3,  9,  '2026-07-31', 18, 8),  -- Funcional     - Tomás Castro
-
--- ── Sábado 01/08 ─────────────────────────────────────────────────────
-(1,  2,  '2026-08-01',  9, 6),  -- Pilates       - Ana García
-(6, 16,  '2026-08-01', 11, 7),  -- Zumba         - Lucía González
-
--- ── Lunes 03/08 ──────────────────────────────────────────────────────
-(2, 14,  '2026-08-03',  8, 5),  -- Yoga          - Micaela Herrera
-(3,  5,  '2026-08-03', 10, 8),  -- Funcional     - Diego Fernández
-(1, 12,  '2026-08-03', 17, 6),  -- Pilates       - Camila Sánchez
-(7, 16,  '2026-08-03', 19, 6),  -- Bachata       - Lucía González
-
--- ── Martes 04/08 ─────────────────────────────────────────────────────
-(5,  3,  '2026-08-04',  9, 6),  -- Spinning      - Carlos Rodríguez
-(1,  4,  '2026-08-04', 11, 6),  -- Pilates       - Valentina Pérez
-(4, 11,  '2026-08-04', 18, 5),  -- Stretching    - Sofía Martínez
-
--- ── Miércoles 05/08 ──────────────────────────────────────────────────
-(3, 13,  '2026-08-05',  8, 8),  -- Funcional     - Florencia Torres
-(2,  7,  '2026-08-05', 10, 5),  -- Yoga          - Nicolás Romero
-(1,  8,  '2026-08-05', 17, 6),  -- Pilates       - Agustín Morales
-
--- ── Jueves 06/08 ─────────────────────────────────────────────────────
-(4,  6,  '2026-08-06',  9, 5),  -- Stretching    - Sebastián Díaz
-(5, 10,  '2026-08-06', 11, 6),  -- Spinning      - Martín López
-(3,  9,  '2026-08-06', 18, 8),  -- Funcional     - Tomás Castro
-
--- ── Viernes 07/08 ────────────────────────────────────────────────────
-(1,  2,  '2026-08-07',  8, 6),  -- Pilates       - Ana García
-(2, 14,  '2026-08-07', 10, 5),  -- Yoga          - Micaela Herrera
-(6, 15,  '2026-08-07', 17, 7),  -- Zumba         - Julieta Vargas
-
--- ── Sábado 08/08 ─────────────────────────────────────────────────────
-(3,  5,  '2026-08-08',  9, 8),  -- Funcional     - Diego Fernández
-(8, 16,  '2026-08-08', 11, 7),  -- Salsa         - Lucía González
-
--- ── Lunes 10/08 ──────────────────────────────────────────────────────
-(1,  4,  '2026-08-10',  8, 6),  -- Pilates       - Valentina Pérez
-(3, 10,  '2026-08-10', 10, 8),  -- Funcional     - Martín López
-(2, 11,  '2026-08-10', 17, 5),  -- Yoga          - Sofía Martínez
-(6, 16,  '2026-08-10', 19, 7);  -- Zumba         - Lucía González
+-- ── Lun 29/06 ────────────────────────────────────────────────────────
+(1,  2,  '2026-06-29',  8, 6),   -- Pilates      Ana García
+(2,  7,  '2026-06-29', 10, 5),   -- Yoga         Nicolás Romero
+(3,  5,  '2026-06-29', 17, 8),   -- Funcional    Diego Fernández
+(6, 15,  '2026-06-29', 19, 7),   -- Zumba        Julieta Vargas
+-- ── Mar 30/06 ────────────────────────────────────────────────────────
+(5,  3,  '2026-06-30',  9, 6),   -- Spinning     Carlos Rodríguez
+(4,  6,  '2026-06-30', 11, 5),   -- Stretching   Sebastián Díaz
+(1,  4,  '2026-06-30', 18, 7),   -- Pilates      Valentina Pérez
+(2, 11,  '2026-06-30', 20, 6),   -- Yoga         Sofía Martínez
+-- ── Mié 01/07 ────────────────────────────────────────────────────────
+(3,  9,  '2026-07-01',  8, 8),   -- Funcional    Tomás Castro
+(1,  8,  '2026-07-01', 10, 6),   -- Pilates      Agustín Morales
+(2, 14,  '2026-07-01', 17, 5),   -- Yoga         Micaela Herrera
+(7, 16,  '2026-07-01', 19, 7),   -- Bachata      Lucía González
+-- ── Jue 02/07 ────────────────────────────────────────────────────────
+(4, 11,  '2026-07-02',  9, 5),   -- Stretching   Sofía Martínez
+(5, 10,  '2026-07-02', 11, 6),   -- Spinning     Martín López
+(3, 13,  '2026-07-02', 18, 8),   -- Funcional    Florencia Torres
+(8, 16,  '2026-07-02', 20, 7),   -- Salsa        Lucía González
+-- ── Vie 03/07 ────────────────────────────────────────────────────────
+(1, 12,  '2026-07-03',  8, 6),   -- Pilates      Camila Sánchez
+(3,  5,  '2026-07-03', 10, 8),   -- Funcional    Diego Fernández
+(4,  6,  '2026-07-03', 17, 5),   -- Stretching   Sebastián Díaz
+(6, 16,  '2026-07-03', 19, 7),   -- Zumba        Lucía González
+-- ── Sáb 04/07 ────────────────────────────────────────────────────────
+(2,  7,  '2026-07-04',  9, 6),   -- Yoga         Nicolás Romero
+(8, 15,  '2026-07-04', 11, 7),   -- Salsa        Julieta Vargas
+-- ── Lun 07/07 ────────────────────────────────────────────────────────
+(1,  2,  '2026-07-07',  8, 6),   -- Pilates      Ana García
+(3,  9,  '2026-07-07', 10, 8),   -- Funcional    Tomás Castro
+(2,  7,  '2026-07-07', 17, 5),   -- Yoga         Nicolás Romero
+(6, 15,  '2026-07-07', 19, 7),   -- Zumba        Julieta Vargas
+-- ── Mar 08/07 ────────────────────────────────────────────────────────
+(5, 13,  '2026-07-08',  9, 6),   -- Spinning     Florencia Torres
+(1,  4,  '2026-07-08', 11, 5),   -- Pilates      Valentina Pérez
+(4, 12,  '2026-07-08', 18, 6),   -- Stretching   Camila Sánchez
+(7, 16,  '2026-07-08', 20, 7),   -- Bachata      Lucía González
+-- ── Mié 09/07 ────────────────────────────────────────────────────────
+(2, 14,  '2026-07-09',  8, 5),   -- Yoga         Micaela Herrera
+(3, 10,  '2026-07-09', 10, 8),   -- Funcional    Martín López
+(1,  8,  '2026-07-09', 17, 6),   -- Pilates      Agustín Morales
+(8, 16,  '2026-07-09', 19, 7),   -- Salsa        Lucía González
+-- ── Jue 10/07 ────────────────────────────────────────────────────────
+(4, 11,  '2026-07-10',  9, 5),   -- Stretching   Sofía Martínez
+(5,  3,  '2026-07-10', 11, 6),   -- Spinning     Carlos Rodríguez
+(3,  5,  '2026-07-10', 18, 8),   -- Funcional    Diego Fernández
+(6, 16,  '2026-07-10', 20, 7),   -- Zumba        Lucía González
+-- ── Vie 11/07 ────────────────────────────────────────────────────────
+(1,  2,  '2026-07-11',  8, 6),   -- Pilates      Ana García
+(2, 11,  '2026-07-11', 10, 5),   -- Yoga         Sofía Martínez
+(3, 13,  '2026-07-11', 17, 8),   -- Funcional    Florencia Torres
+-- ── Sáb 12/07 ────────────────────────────────────────────────────────
+(1,  4,  '2026-07-12',  9, 6),   -- Pilates      Valentina Pérez
+(7, 16,  '2026-07-12', 11, 7),   -- Bachata      Lucía González
+-- ── Lun 14/07 ────────────────────────────────────────────────────────
+(3,  9,  '2026-07-14',  8, 8),   -- Funcional    Tomás Castro
+(1, 12,  '2026-07-14', 10, 6),   -- Pilates      Camila Sánchez
+(2,  7,  '2026-07-14', 17, 5),   -- Yoga         Nicolás Romero
+(6, 15,  '2026-07-14', 19, 7),   -- Zumba        Julieta Vargas
+-- ── Mar 15/07 ────────────────────────────────────────────────────────
+(5, 10,  '2026-07-15',  9, 6),   -- Spinning     Martín López
+(4,  6,  '2026-07-15', 11, 5),   -- Stretching   Sebastián Díaz
+(1, 14,  '2026-07-15', 18, 6),   -- Pilates      Micaela Herrera
+-- ── Mié 16/07 ────────────────────────────────────────────────────────
+(2, 11,  '2026-07-16',  8, 5),   -- Yoga         Sofía Martínez
+(3,  5,  '2026-07-16', 10, 8),   -- Funcional    Diego Fernández
+(8, 16,  '2026-07-16', 17, 7),   -- Salsa        Lucía González
+-- ── Jue 17/07 ────────────────────────────────────────────────────────
+(1,  8,  '2026-07-17',  9, 6),   -- Pilates      Agustín Morales
+(5, 13,  '2026-07-17', 11, 6),   -- Spinning     Florencia Torres
+(4, 12,  '2026-07-17', 18, 5),   -- Stretching   Camila Sánchez
+-- ── Vie 18/07 ────────────────────────────────────────────────────────
+(3,  9,  '2026-07-18',  8, 8),   -- Funcional    Tomás Castro
+(1,  2,  '2026-07-18', 10, 6),   -- Pilates      Ana García
+(6, 15,  '2026-07-18', 17, 7),   -- Zumba        Julieta Vargas
+-- ── Sáb 19/07 ────────────────────────────────────────────────────────
+(2, 14,  '2026-07-19',  9, 5),   -- Yoga         Micaela Herrera
+(7, 16,  '2026-07-19', 11, 6),   -- Bachata      Lucía González
+-- ── Lun 21/07 ────────────────────────────────────────────────────────
+(1,  4,  '2026-07-21',  8, 6),   -- Pilates      Valentina Pérez
+(3, 10,  '2026-07-21', 10, 8),   -- Funcional    Martín López
+(2,  7,  '2026-07-21', 17, 5),   -- Yoga         Nicolás Romero
+(8, 16,  '2026-07-21', 19, 7),   -- Salsa        Lucía González
+-- ── Mar 22/07 ────────────────────────────────────────────────────────
+(4, 11,  '2026-07-22',  9, 5),   -- Stretching   Sofía Martínez
+(5,  3,  '2026-07-22', 11, 6),   -- Spinning     Carlos Rodríguez
+(1,  8,  '2026-07-22', 18, 6),   -- Pilates      Agustín Morales
+-- ── Mié 23/07 ────────────────────────────────────────────────────────
+(3,  5,  '2026-07-23',  8, 8),   -- Funcional    Diego Fernández
+(2, 14,  '2026-07-23', 10, 5),   -- Yoga         Micaela Herrera
+(6, 15,  '2026-07-23', 17, 7),   -- Zumba        Julieta Vargas
+-- ── Jue 24/07 ────────────────────────────────────────────────────────
+(1, 12,  '2026-07-24',  9, 6),   -- Pilates      Camila Sánchez
+(3, 13,  '2026-07-24', 11, 8),   -- Funcional    Florencia Torres
+(4,  6,  '2026-07-24', 18, 5),   -- Stretching   Sebastián Díaz
+-- ── Vie 25/07 ────────────────────────────────────────────────────────
+(1,  2,  '2026-07-25',  8, 6),   -- Pilates      Ana García
+(5, 10,  '2026-07-25', 10, 6),   -- Spinning     Martín López
+(2, 11,  '2026-07-25', 17, 5),   -- Yoga         Sofía Martínez
+-- ── Sáb 26/07 ────────────────────────────────────────────────────────
+(3,  9,  '2026-07-26',  9, 8),   -- Funcional    Tomás Castro
+(7, 16,  '2026-07-26', 11, 6),   -- Bachata      Lucía González
+-- ── Lun 28/07 ────────────────────────────────────────────────────────
+(1,  4,  '2026-07-28',  8, 6),   -- Pilates      Valentina Pérez
+(2,  7,  '2026-07-28', 10, 5),   -- Yoga         Nicolás Romero
+(3,  5,  '2026-07-28', 17, 8),   -- Funcional    Diego Fernández
+(6, 16,  '2026-07-28', 19, 7),   -- Zumba        Lucía González
+-- ── Mar 29/07 ────────────────────────────────────────────────────────
+(4, 12,  '2026-07-29',  9, 5),   -- Stretching   Camila Sánchez
+(5, 13,  '2026-07-29', 11, 6),   -- Spinning     Florencia Torres
+(1,  8,  '2026-07-29', 18, 6),   -- Pilates      Agustín Morales
+-- ── Mié 30/07 ────────────────────────────────────────────────────────
+(3, 10,  '2026-07-30',  8, 8),   -- Funcional    Martín López
+(1, 14,  '2026-07-30', 10, 6),   -- Pilates      Micaela Herrera
+(8, 15,  '2026-07-30', 17, 7),   -- Salsa        Julieta Vargas
+-- ── Jue 31/07 ────────────────────────────────────────────────────────
+(2, 11,  '2026-07-31',  9, 5),   -- Yoga         Sofía Martínez
+(4,  6,  '2026-07-31', 11, 5),   -- Stretching   Sebastián Díaz
+(3,  9,  '2026-07-31', 18, 8),   -- Funcional    Tomás Castro
+-- ── Sáb 01/08 ────────────────────────────────────────────────────────
+(1,  2,  '2026-08-01',  9, 6),   -- Pilates      Ana García
+(6, 16,  '2026-08-01', 11, 7),   -- Zumba        Lucía González
+-- ── Lun 03/08 ────────────────────────────────────────────────────────
+(2, 14,  '2026-08-03',  8, 5),   -- Yoga         Micaela Herrera
+(3,  5,  '2026-08-03', 10, 8),   -- Funcional    Diego Fernández
+(1, 12,  '2026-08-03', 17, 6),   -- Pilates      Camila Sánchez
+(7, 16,  '2026-08-03', 19, 6),   -- Bachata      Lucía González
+-- ── Mar 04/08 ────────────────────────────────────────────────────────
+(5,  3,  '2026-08-04',  9, 6),   -- Spinning     Carlos Rodríguez
+(1,  4,  '2026-08-04', 11, 6),   -- Pilates      Valentina Pérez
+(4, 11,  '2026-08-04', 18, 5),   -- Stretching   Sofía Martínez
+-- ── Mié 05/08 ────────────────────────────────────────────────────────
+(3, 13,  '2026-08-05',  8, 8),   -- Funcional    Florencia Torres
+(2,  7,  '2026-08-05', 10, 5),   -- Yoga         Nicolás Romero
+(1,  8,  '2026-08-05', 17, 6),   -- Pilates      Agustín Morales
+-- ── Jue 06/08 ────────────────────────────────────────────────────────
+(4,  6,  '2026-08-06',  9, 5),   -- Stretching   Sebastián Díaz
+(5, 10,  '2026-08-06', 11, 6),   -- Spinning     Martín López
+(3,  9,  '2026-08-06', 18, 8),   -- Funcional    Tomás Castro
+-- ── Vie 07/08 ────────────────────────────────────────────────────────
+(1,  2,  '2026-08-07',  8, 6),   -- Pilates      Ana García
+(2, 14,  '2026-08-07', 10, 5),   -- Yoga         Micaela Herrera
+(6, 15,  '2026-08-07', 17, 7),   -- Zumba        Julieta Vargas
+-- ── Sáb 08/08 ────────────────────────────────────────────────────────
+(3,  5,  '2026-08-08',  9, 8),   -- Funcional    Diego Fernández
+(8, 16,  '2026-08-08', 11, 7),   -- Salsa        Lucía González
+-- ── Lun 10/08 ────────────────────────────────────────────────────────
+(1,  4,  '2026-08-10',  8, 6),   -- Pilates      Valentina Pérez
+(3, 10,  '2026-08-10', 10, 8),   -- Funcional    Martín López
+(2, 11,  '2026-08-10', 17, 5),   -- Yoga         Sofía Martínez
+(6, 16,  '2026-08-10', 19, 7);   -- Zumba        Lucía González
 
 GO
 
 
--- =============================================
--- SUSCRIPCIONES
--- Alumnos 17-34 → suscripción JUNIO (vigente)
--- Alumnos 35-41 → suscripción MAYO  (vencida, no renovaron)
--- FechaUltimaActualizacion = primer día del mes del plan
--- =============================================
+-- ============================================================
+-- 2. SUSCRIPCIONES
+--
+--   MAYO  vencida  → alumnos 37–41  (FechaFin 31/05)
+--   JUNIO vigente  → alumnos 17–26  (FechaFin 30/06)
+--   JULIO vigente  → alumnos 27–36  (FechaFin 31/07)
+--
+-- ClasesConsumidas:
+--   Mayo  → consumo acumulado al vencimiento
+--   Junio → consumo parcial (estamos en el día 29)
+--   Julio → 0 (mes aún no comenzó)
+-- ============================================================
 
-INSERT INTO Suscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, ClasesConsumidas, FechaUltimaActualizacion)
+INSERT INTO Suscripciones
+    (IdUsuario, IdPlan, FechaInicio, FechaFin, ClasesConsumidas, FechaUltimaActualizacion)
 VALUES
--- ── Junio (01/06 – 30/06) ─────────────────────────────────────────────
-(17, 2, '2026-06-01', '2026-06-30',  6, '2026-06-01'),  -- Luciana Fdez    Pack 8
-(18, 1, '2026-06-01', '2026-06-30',  3, '2026-06-01'),  -- Mateo García    Pack 4
-(19, 3, '2026-06-01', '2026-06-30',  8, '2026-06-01'),  -- Camila López    Pack 12
-(20, 4, '2026-06-01', '2026-06-30', 11, '2026-06-01'),  -- Facundo Mart    Pase Libre
-(21, 2, '2026-06-01', '2026-06-30',  5, '2026-06-01'),  -- Valentina Rod   Pack 8
-(22, 1, '2026-06-01', '2026-06-30',  2, '2026-06-01'),  -- Ignacio Pérez   Pack 4
-(23, 3, '2026-06-01', '2026-06-30',  9, '2026-06-01'),  -- Florencia Gon   Pack 12
-(24, 4, '2026-06-01', '2026-06-30', 10, '2026-06-01'),  -- Tobías Sánch    Pase Libre
-(25, 2, '2026-06-01', '2026-06-30',  4, '2026-06-01'),  -- Martina Rome    Pack 8
-(26, 1, '2026-06-01', '2026-06-30',  4, '2026-06-01'),  -- Bruno Torres    Pack 4 (agotado)
-(27, 3, '2026-06-01', '2026-06-30',  7, '2026-06-01'),  -- Agustina Díaz   Pack 12
-(28, 2, '2026-06-01', '2026-06-30',  3, '2026-06-01'),  -- Santiago Mor    Pack 8
-(29, 4, '2026-06-01', '2026-06-30', 13, '2026-06-01'),  -- Julieta Herr    Pase Libre
-(30, 1, '2026-06-01', '2026-06-30',  1, '2026-06-01'),  -- Nicolás Cast    Pack 4
-(31, 3, '2026-06-01', '2026-06-30',  6, '2026-06-01'),  -- Antonella Var   Pack 12
-(32, 2, '2026-06-01', '2026-06-30',  5, '2026-06-01'),  -- Emiliano Ruiz   Pack 8
-(33, 1, '2026-06-01', '2026-06-30',  3, '2026-06-01'),  -- Sofía Medina    Pack 4
-(34, 3, '2026-06-01', '2026-06-30', 10, '2026-06-01'),  -- Lautaro Jimén   Pack 12
-
--- ── Mayo (01/05 – 31/05), vencidas ────────────────────────────────────
-(35, 1, '2026-05-01', '2026-05-31',  4, '2026-05-01'),  -- Rocío Suárez    Pack 4  (usó las 4)
-(36, 2, '2026-05-01', '2026-05-31',  7, '2026-05-01'),  -- Tomás Álvarez   Pack 8
-(37, 1, '2026-05-01', '2026-05-31',  3, '2026-05-01'),  -- Milagros Ramos  Pack 4
-(38, 3, '2026-05-01', '2026-05-31',  9, '2026-05-01'),  -- Ezequiel Mol    Pack 12
-(39, 4, '2026-05-01', '2026-05-31', 12, '2026-05-01'),  -- Pilar Ortega    Pase Libre
-(40, 2, '2026-05-01', '2026-05-31',  6, '2026-05-01'),  -- Maximiliano S   Pack 8
-(41, 1, '2026-05-01', '2026-05-31',  4, '2026-05-01');  -- Catalina Reyes  Pack 4  (usó las 4)
+-- ── JUNIO vigente (17–26) ─────────────────────────────────────────────
+(17, 2, '2026-06-01', '2026-06-30',  5, '2026-06-01'),  -- Luciana      Pack 8
+(18, 1, '2026-06-01', '2026-06-30',  3, '2026-06-01'),  -- Mateo        Pack 4
+(19, 3, '2026-06-01', '2026-06-30',  7, '2026-06-01'),  -- Camila       Pack 12
+(20, 4, '2026-06-01', '2026-06-30',  9, '2026-06-01'),  -- Facundo      Pase Libre
+(21, 2, '2026-06-01', '2026-06-30',  4, '2026-06-01'),  -- Valentina    Pack 8
+(22, 1, '2026-06-01', '2026-06-30',  2, '2026-06-01'),  -- Ignacio      Pack 4
+(23, 3, '2026-06-01', '2026-06-30',  8, '2026-06-01'),  -- Florencia    Pack 12
+(24, 4, '2026-06-01', '2026-06-30', 10, '2026-06-01'),  -- Tobías       Pase Libre
+(25, 2, '2026-06-01', '2026-06-30',  3, '2026-06-01'),  -- Martina      Pack 8
+(26, 1, '2026-06-01', '2026-06-30',  4, '2026-06-01'),  -- Bruno        Pack 4 (agotado)
+-- ── JULIO vigente (27–36) ─────────────────────────────────────────────
+(27, 2, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Agustina     Pack 8
+(28, 1, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Santiago     Pack 4
+(29, 3, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Julieta      Pack 12
+(30, 4, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Nicolás      Pase Libre
+(31, 2, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Antonella    Pack 8
+(32, 1, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Emiliano     Pack 4
+(33, 3, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Sofía        Pack 12
+(34, 4, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Lautaro      Pase Libre
+(35, 2, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Rocío        Pack 8
+(36, 1, '2026-07-01', '2026-07-31',  0, '2026-07-01'),  -- Tomás        Pack 4
+-- ── MAYO vencida (37–41) ──────────────────────────────────────────────
+(37, 1, '2026-05-01', '2026-05-31',  3, '2026-05-01'),  -- Milagros     Pack 4
+(38, 2, '2026-05-01', '2026-05-31',  7, '2026-05-01'),  -- Ezequiel     Pack 8
+(39, 3, '2026-05-01', '2026-05-31', 10, '2026-05-01'),  -- Pilar        Pack 12
+(40, 4, '2026-05-01', '2026-05-31', 12, '2026-05-01'),  -- Maximiliano  Pase Libre
+(41, 1, '2026-05-01', '2026-05-31',  4, '2026-05-01');  -- Catalina     Pack 4 (agotado)
 
 GO
 
 
--- =============================================
--- HISTORIAL SUSCRIPCIONES
--- TipoMovimiento: 1 = ALTA, 2 = ACTUALIZACIÓN
--- Alumnos 17, 18, 19, 20, 21, 22, 25, 27
---   → tuvieron suscripción en MAYO y renovaron en JUNIO
--- Alumnos 23, 24, 26, 28, 29, 30, 31, 32, 33, 34
---   → se dieron de alta directamente en JUNIO
--- Alumnos 35-41 → solo MAYO
--- =============================================
+-- ============================================================
+-- 3. HISTORIAL SUSCRIPCIONES
+--    TipoMovimiento: 1=ALTA  2=ACTUALIZACIÓN
+--
+--    Alumnos 17–20: tuvieron Mayo → renovaron Junio
+--    Alumnos 21–26: alta directa en Junio
+--    Alumnos 27–30: tuvieron Junio → renovaron Julio
+--    Alumnos 31–32: tuvieron Mayo → Junio → Julio
+--    Alumnos 33–36: alta directa en Julio
+--    Alumnos 37–41: solo Mayo (no renovaron)
+-- ============================================================
 
-INSERT INTO HistorialSuscripciones (IdUsuario, IdPlan, FechaInicio, FechaFin, FechaRegistro, TipoMovimiento)
+INSERT INTO HistorialSuscripciones
+    (IdUsuario, IdPlan, FechaInicio, FechaFin, FechaRegistro, TipoMovimiento)
 VALUES
--- ── Alumnos con Mayo + Junio ──────────────────────────────────────────
-(17, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Luciana    ALTA mayo
-(17, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Luciana    ACTUALIZACIÓN junio
-
-(18, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Mateo      ALTA mayo
-(18, 1, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Mateo      ACTUALIZACIÓN junio
-
-(19, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Camila     ALTA mayo
-(19, 3, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Camila     ACTUALIZACIÓN junio
-
-(20, 4, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Facundo    ALTA mayo
-(20, 4, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Facundo    ACTUALIZACIÓN junio
-
-(21, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Valentina  ALTA mayo
-(21, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Valentina  ACTUALIZACIÓN junio
-
-(22, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Ignacio    ALTA mayo
-(22, 1, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Ignacio    ACTUALIZACIÓN junio
-
-(25, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Martina    ALTA mayo
-(25, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Martina    ACTUALIZACIÓN junio
-
-(27, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Agustina   ALTA mayo
-(27, 3, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Agustina   ACTUALIZACIÓN junio
-
--- ── Alumnos solo Junio ────────────────────────────────────────────────
-(23, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Florencia  ALTA junio
-(24, 4, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Tobías     ALTA junio
-(26, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Bruno      ALTA junio
-(28, 2, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Santiago   ALTA junio
-(29, 4, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Julieta    ALTA junio
-(30, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Nicolás    ALTA junio
-(31, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Antonella  ALTA junio
-(32, 2, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Emiliano   ALTA junio
-(33, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Sofía      ALTA junio
-(34, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Lautaro    ALTA junio
-
--- ── Alumnos solo Mayo (vencidos) ──────────────────────────────────────
-(35, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Rocío      ALTA mayo
-(36, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Tomás      ALTA mayo
-(37, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Milagros   ALTA mayo
-(38, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Ezequiel   ALTA mayo
-(39, 4, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Pilar      ALTA mayo
-(40, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Maximiliano ALTA mayo
-(41, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1);  -- Catalina   ALTA mayo
+-- ── Alumnos con Mayo + Junio (17–20) ─────────────────────────────────
+(17, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Luciana   ALTA mayo   Pack 8
+(17, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Luciana   ACT. junio  Pack 8
+(18, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Mateo     ALTA mayo   Pack 4
+(18, 1, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Mateo     ACT. junio  Pack 4
+(19, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Camila    ALTA mayo   Pack 12
+(19, 3, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Camila    ACT. junio  Pack 12
+(20, 4, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Facundo   ALTA mayo   Pase Libre
+(20, 4, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Facundo   ACT. junio  Pase Libre
+-- ── Alta directa en Junio (21–26) ────────────────────────────────────
+(21, 2, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Valentina ALTA junio  Pack 8
+(22, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Ignacio   ALTA junio  Pack 4
+(23, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Florencia ALTA junio  Pack 12
+(24, 4, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Tobías    ALTA junio  Pase Libre
+(25, 2, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Martina   ALTA junio  Pack 8
+(26, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Bruno     ALTA junio  Pack 4
+-- ── Alumnos con Junio + Julio (27–30) ────────────────────────────────
+(27, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Agustina  ALTA junio  Pack 4
+(27, 2, '2026-07-01', '2026-07-31', '2026-07-01', 2),  -- Agustina  ACT. julio  Pack 8
+(28, 1, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Santiago  ALTA junio  Pack 4
+(28, 1, '2026-07-01', '2026-07-31', '2026-07-01', 2),  -- Santiago  ACT. julio  Pack 4
+(29, 3, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Julieta   ALTA junio  Pack 12
+(29, 3, '2026-07-01', '2026-07-31', '2026-07-01', 2),  -- Julieta   ACT. julio  Pack 12
+(30, 4, '2026-06-01', '2026-06-30', '2026-06-01', 1),  -- Nicolás   ALTA junio  Pase Libre
+(30, 4, '2026-07-01', '2026-07-31', '2026-07-01', 2),  -- Nicolás   ACT. julio  Pase Libre
+-- ── Alumnos con Mayo + Junio + Julio (31–32) ─────────────────────────
+(31, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Antonella ALTA mayo   Pack 8
+(31, 2, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Antonella ACT. junio  Pack 8
+(31, 2, '2026-07-01', '2026-07-31', '2026-07-01', 2),  -- Antonella ACT. julio  Pack 8
+(32, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Emiliano  ALTA mayo   Pack 4
+(32, 1, '2026-06-01', '2026-06-30', '2026-06-01', 2),  -- Emiliano  ACT. junio  Pack 4
+(32, 1, '2026-07-01', '2026-07-31', '2026-07-01', 2),  -- Emiliano  ACT. julio  Pack 4
+-- ── Alta directa en Julio (33–36) ────────────────────────────────────
+(33, 3, '2026-07-01', '2026-07-31', '2026-07-01', 1),  -- Sofía     ALTA julio  Pack 12
+(34, 4, '2026-07-01', '2026-07-31', '2026-07-01', 1),  -- Lautaro   ALTA julio  Pase Libre
+(35, 2, '2026-07-01', '2026-07-31', '2026-07-01', 1),  -- Rocío     ALTA julio  Pack 8
+(36, 1, '2026-07-01', '2026-07-31', '2026-07-01', 1),  -- Tomás     ALTA julio  Pack 4
+-- ── Solo Mayo, no renovaron (37–41) ──────────────────────────────────
+(37, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Milagros  ALTA mayo   Pack 4
+(38, 2, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Ezequiel  ALTA mayo   Pack 8
+(39, 3, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Pilar     ALTA mayo   Pack 12
+(40, 4, '2026-05-01', '2026-05-31', '2026-05-01', 1),  -- Maximiliano ALTA mayo Pase Libre
+(41, 1, '2026-05-01', '2026-05-31', '2026-05-01', 1);  -- Catalina  ALTA mayo   Pack 4
 
 GO
 
 
--- =============================================
--- RESERVAS
--- Solo alumnos con suscripción vigente (17-34)
--- Estado 1 = Vigente
--- Asistencia NULL (todas las clases son futuras)
--- Se referencian clases por Fecha+HoraInicio
---   (combinación única por restricción de salón)
--- Algunos registros incluyen observaciones
---   para alumnos con condiciones físicas
--- =============================================
+-- ============================================================
+-- 4. RESERVAS
+--    Estado 1 = Vigente  |  Asistencia = NULL (clases futuras)
+--
+--    REGLA DE PERÍODOS:
+--    ┌─────────────────────┬──────────────────────────────────┐
+--    │ Suscripción         │ Fechas válidas para reservas     │
+--    ├─────────────────────┼──────────────────────────────────┤
+--    │ Mayo  vencida 37–41 │ Sin reservas                     │
+--    │ Junio vigente 17–26 │ 29/06 hasta 04/07 inclusive      │
+--    │ Julio vigente 27–36 │ 01/07 hasta 04/08 inclusive      │
+--    └─────────────────────┴──────────────────────────────────┘
+--
+--    Las clases se referencian por Fecha+HoraInicio
+--    (único por restricción de salón único)
+-- ============================================================
 
--- ── Lunes 29/06 – Pilates 08h ─────────────────────────────────────────
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 17, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 18, 1, NULL, 'Lesión en rodilla derecha, trabajar con modificaciones'  FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 19, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 21, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=8;
+-- ════════════════════════════════════════════════════════════
+-- GRUPO JUNIO (alumnos 17–26): clases del 29/06 al 04/07
+-- ════════════════════════════════════════════════════════════
 
--- ── Lunes 29/06 – Yoga 10h ────────────────────────────────────────────
+-- ── 29/06 Pilates 8h ──────────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 20, 1, NULL, 'Asmático, lleva inhalador'                       FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 23, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 25, 1, NULL, 'Hipertensión controlada, monitorear esfuerzo'    FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=10;
+SELECT IdClase, 17, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 8;
 
--- ── Lunes 29/06 – Funcional 17h ───────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 24, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=17;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 26, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=17;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 28, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=17;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 30, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=17;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 32, 1, NULL, 'Fractura de tobillo en recuperación, sin saltos' FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=17;
+SELECT IdClase, 18, 1, NULL, 'Lesión en rodilla derecha, trabajar con modificaciones'
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 8;
 
--- ── Lunes 29/06 – Zumba 19h ───────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 22, 1, NULL, 'Operado de espalda, evitar impacto'              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=19;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 27, 1, NULL, 'Tendinitis en hombro izquierdo'                  FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=19;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 29, 1, NULL, 'Diabetes tipo 2, tiene glucómetro'               FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=19;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 31, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-29' AND HoraInicio=19;
+SELECT IdClase, 21, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 8;
 
--- ── Martes 30/06 – Spinning 9h ────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 17, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 19, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 33, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 34, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=9;
+SELECT IdClase, 23, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 8;
 
--- ── Martes 30/06 – Stretching 11h ─────────────────────────────────────
+-- ── 29/06 Yoga 10h ────────────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 21, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=11;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 25, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=11;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 28, 1, NULL, NULL                                              FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=11;
+SELECT IdClase, 19, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 10;
 
--- ── Martes 30/06 – Pilates 18h ────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 20, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=18;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 23, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=18;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 26, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=18;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 30, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-06-30' AND HoraInicio=18;
+SELECT IdClase, 20, 1, NULL, 'Asmático, lleva inhalador'
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 10;
 
--- ── Miércoles 01/07 – Funcional 8h ────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 18, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 22, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 27, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 31, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=8;
+SELECT IdClase, 25, 1, NULL, 'Hipertensión controlada, monitorear esfuerzo'
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 10;
 
--- ── Miércoles 01/07 – Pilates 10h ─────────────────────────────────────
+-- ── 29/06 Funcional 17h ───────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 17, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 24, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 29, 1, NULL, 'Diabetes tipo 2, tiene glucómetro' FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=10;
+SELECT IdClase, 22, 1, NULL, 'Operado de espalda, evitar impacto'
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 17;
 
--- ── Miércoles 01/07 – Yoga 17h ────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 19, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=17;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 32, 1, NULL, 'En recuperación de fractura de tobillo' FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=17;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 33, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-01' AND HoraInicio=17;
+SELECT IdClase, 24, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 17;
 
--- ── Jueves 02/07 – Stretching 9h ──────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 17, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 20, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 34, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=9;
+SELECT IdClase, 26, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 17;
 
--- ── Jueves 02/07 – Funcional 18h ──────────────────────────────────────
+-- ── 29/06 Zumba 19h ───────────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 21, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=18;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 23, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=18;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 25, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=18;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 28, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-02' AND HoraInicio=18;
+SELECT IdClase, 17, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 19;
 
--- ── Viernes 03/07 – Pilates 8h ────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 19, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-03' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 22, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-03' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 26, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-03' AND HoraInicio=8;
+SELECT IdClase, 23, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 19;
 
--- ── Sábado 04/07 – Yoga 9h ────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 18, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-04' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 24, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-04' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 27, 1, NULL, 'Tendinitis hombro izq., solo elongación suave' FROM Clases WHERE Fecha='2026-07-04' AND HoraInicio=9;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 30, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-04' AND HoraInicio=9;
+SELECT IdClase, 26, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-29' AND HoraInicio = 19;
 
--- ── Lunes 07/07 – Pilates 8h ──────────────────────────────────────────
+-- ── 30/06 Spinning 9h ─────────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 17, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 29, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 31, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=8;
+SELECT IdClase, 18, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 9;
 
--- ── Lunes 07/07 – Funcional 10h ───────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 20, 1, NULL, 'Asmático, lleva inhalador' FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 23, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 33, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=10;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 34, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-07' AND HoraInicio=10;
+SELECT IdClase, 20, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 9;
 
--- ── Martes 08/07 – Pilates 11h ────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 21, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-08' AND HoraInicio=11;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 25, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-08' AND HoraInicio=11;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 32, 1, NULL, 'Fractura tobillo, evitar impacto' FROM Clases WHERE Fecha='2026-07-08' AND HoraInicio=11;
+SELECT IdClase, 24, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 9;
 
--- ── Miércoles 09/07 – Yoga 8h ─────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 19, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-09' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 22, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-09' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 26, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-09' AND HoraInicio=8;
-INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 28, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-09' AND HoraInicio=8;
+SELECT IdClase, 25, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 9;
 
--- ── Jueves 10/07 – Stretching 9h ──────────────────────────────────────
+-- ── 30/06 Stretching 11h ──────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 17, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-10' AND HoraInicio=9;
+SELECT IdClase, 19, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 11;
+
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 24, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-10' AND HoraInicio=9;
+SELECT IdClase, 21, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 11;
+
+-- ── 30/06 Pilates 18h ─────────────────────────────────────────────────
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 29, 1, NULL, 'Diabetes tipo 2, tiene glucómetro' FROM Clases WHERE Fecha='2026-07-10' AND HoraInicio=9;
+SELECT IdClase, 22, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 18;
+
 INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
-SELECT IdClase, 30, 1, NULL, NULL  FROM Clases WHERE Fecha='2026-07-10' AND HoraInicio=9;
+SELECT IdClase, 23, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 18;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 26, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-06-30' AND HoraInicio = 18;
+
+-- ── 01/07 Pilates 10h ─────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 17, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 19, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 21, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 10;
+
+-- ── 01/07 Yoga 17h ────────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 20, 1, NULL, 'Asmático, lleva inhalador'
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 25, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 17;
+
+-- ── 02/07 Stretching 9h ───────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 18, 1, NULL, 'Lesión en rodilla derecha'
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 9;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 24, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 9;
+
+-- ── 02/07 Funcional 18h ───────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 22, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 23, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 26, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 18;
+
+-- ── 03/07 Pilates 8h ──────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 17, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 19, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 8;
+
+-- ── 03/07 Funcional 10h ───────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 20, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 21, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 25, 1, NULL, 'Hipertensión, clase de intensidad moderada'
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 10;
+
+-- ── 04/07 Yoga 9h (sábado, último día grupo junio) ───────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 22, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-04' AND HoraInicio = 9;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 24, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-04' AND HoraInicio = 9;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 26, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-04' AND HoraInicio = 9;
+
+-- ── 04/07 Salsa 11h ───────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 23, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-04' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 25, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-04' AND HoraInicio = 11;
+
+
+-- ════════════════════════════════════════════════════════════
+-- GRUPO JULIO (alumnos 27–36): clases del 01/07 al 04/08
+-- ════════════════════════════════════════════════════════════
+
+-- ── 01/07 Funcional 8h ────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, 'Tendinitis en hombro izquierdo, evitar carga'
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 28, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 30, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 33, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 8;
+
+-- ── 01/07 Bachata 19h ─────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 29, 1, NULL, 'Diabetes tipo 2, tiene glucómetro'
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 34, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 35, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-01' AND HoraInicio = 19;
+
+-- ── 02/07 Spinning 11h ────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 31, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 36, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 11;
+
+-- ── 02/07 Salsa 20h ───────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 28, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 20;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 29, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 20;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 35, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-02' AND HoraInicio = 20;
+
+-- ── 03/07 Stretching 17h ──────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 30, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 32, 1, NULL, 'Fractura de tobillo en recuperación, sin saltos'
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 33, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 17;
+
+-- ── 03/07 Zumba 19h ───────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 31, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 19;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 34, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 19;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 36, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-03' AND HoraInicio = 19;
+
+-- ── 07/07 Pilates 8h ──────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 29, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 33, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 8;
+
+-- ── 07/07 Funcional 10h ───────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 28, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 31, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 35, 1, NULL, 'Escoliosis leve, evitar torsiones bruscas'
+FROM Clases WHERE Fecha = '2026-07-07' AND HoraInicio = 10;
+
+-- ── 08/07 Pilates 11h ─────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 30, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 32, 1, NULL, 'Fractura tobillo, solo ejercicios de piso'
+FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 36, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-08' AND HoraInicio = 11;
+
+-- ── 09/07 Yoga 8h ─────────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-09' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 34, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-09' AND HoraInicio = 8;
+
+-- ── 10/07 Funcional 18h ───────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 28, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 29, 1, NULL, 'Diabetes tipo 2, tiene glucómetro'
+FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 33, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-10' AND HoraInicio = 18;
+
+-- ── 14/07 Yoga 17h ────────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 30, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-14' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 31, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-14' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 35, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-14' AND HoraInicio = 17;
+
+-- ── 16/07 Funcional 10h ───────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-16' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 32, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-16' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 36, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-16' AND HoraInicio = 10;
+
+-- ── 21/07 Pilates 8h ──────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 28, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-21' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 33, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-21' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 34, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-21' AND HoraInicio = 8;
+
+-- ── 23/07 Zumba 17h ───────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 29, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-23' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 31, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-23' AND HoraInicio = 17;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 35, 1, NULL, 'Escoliosis leve, movimientos controlados'
+FROM Clases WHERE Fecha = '2026-07-23' AND HoraInicio = 17;
+
+-- ── 28/07 Yoga 10h ────────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 30, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-28' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 36, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-28' AND HoraInicio = 10;
+
+-- ── 30/07 Pilates 10h ─────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-30' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 32, 1, NULL, 'Fractura tobillo, sin saltos ni impacto'
+FROM Clases WHERE Fecha = '2026-07-30' AND HoraInicio = 10;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 34, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-07-30' AND HoraInicio = 10;
+
+-- ── 01/08 Pilates 9h ──────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 28, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-01' AND HoraInicio = 9;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 31, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-01' AND HoraInicio = 9;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 33, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-01' AND HoraInicio = 9;
+
+-- ── 03/08 Yoga 8h ─────────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 29, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-03' AND HoraInicio = 8;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 35, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-03' AND HoraInicio = 8;
+
+-- ── 04/08 Spinning 9h (último día grupo julio) ────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 30, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-04' AND HoraInicio = 9;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 36, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-04' AND HoraInicio = 9;
+
+-- ── 04/08 Pilates 11h ─────────────────────────────────────────────────
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 27, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-04' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 32, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-04' AND HoraInicio = 11;
+
+INSERT INTO Reservas (IdClase, IdAlumno, Estado, Asistencia, Observaciones)
+SELECT IdClase, 34, 1, NULL, NULL
+FROM Clases WHERE Fecha = '2026-08-04' AND HoraInicio = 11;
 
 GO

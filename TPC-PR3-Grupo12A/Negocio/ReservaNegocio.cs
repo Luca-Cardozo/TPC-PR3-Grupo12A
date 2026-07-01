@@ -909,6 +909,32 @@ namespace Negocio
             email.enviarEmail();
         }
 
+        public bool tieneReservasVigentes(int idAlumno)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT 1 FROM Reservas R " +
+                    "INNER JOIN Clases C ON C.IdClase = R.IdClase " +
+                    "WHERE R.IdAlumno = @IdAlumno " +
+                    "AND R.Estado = @EstadoReserva " +
+                    "AND C.Estado = @EstadoClase");
+
+                datos.setearParametro("@IdAlumno", idAlumno);
+                datos.setearParametro("@EstadoReserva", (int)Estado.Vigente);
+                datos.setearParametro("@EstadoClase", (int)EstadoClase.Vigente);
+
+                datos.ejecutarLectura();
+
+                return datos.Lector.Read();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 
 }

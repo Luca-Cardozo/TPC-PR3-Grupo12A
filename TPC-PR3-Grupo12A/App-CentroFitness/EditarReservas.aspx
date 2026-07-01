@@ -80,13 +80,12 @@
                         </div>
                     </div>
                 </div>
-                </div>
 
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-4 d-grid">
-            <asp:Button ID="btnNuevaReserva" runat="server" Text="➕ Nueva reserva" CssClass="btn btn-success btn-lg p-3" OnClick="btnNuevaReserva_Click" />
-        </div>
-    </div>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-md-4 d-grid">
+                        <asp:Button ID="btnNuevaReserva" runat="server" Text="➕ Nueva reserva" CssClass="btn btn-success btn-lg p-3" OnClick="btnNuevaReserva_Click" />
+                    </div>
+                </div>
 
                 <div class="container mb-5">
                     <div class="row justify-content-center">
@@ -135,13 +134,21 @@
                                                     OnClick="btnReprogramar_Click"
                                                     Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Vigente %>' />
 
+                                                <asp:Button ID="btnCorregir"
+                                                    runat="server"
+                                                    Text="📝 Corregir asistencia"
+                                                    CssClass="btn btn-warning btn-sm"
+                                                    CommandArgument='<%# Eval("IdReserva") %>'
+                                                    OnClick="btnEditar_Click"
+                                                    Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Finalizada %>' />
+
                                                 <asp:Button ID="btnVer"
                                                     runat="server"
                                                     Text="👁 Ver"
                                                     CssClass="btn btn-secondary btn-sm"
                                                     CommandArgument='<%# Eval("IdReserva") %>'
                                                     OnClick="btnVer_Click"
-                                                    Visible='<%# (Dominio.Estado)Eval("Estado") != Dominio.Estado.Vigente %>' />
+                                                    Visible='<%# (Dominio.Estado)Eval("Estado") == Dominio.Estado.Cancelada || (Dominio.Estado)Eval("Estado") == Dominio.Estado.Reprogramada %>' />
 
                                             </div>
                                         </ItemTemplate>

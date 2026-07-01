@@ -54,7 +54,6 @@
                         <div class="mb-3">
                             <label class="form-label">Estado de la reserva</label>
                             <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select">
-                                <asp:ListItem Text="Vigente" Value="1" />
                                 <asp:ListItem Text="Cancelada" Value="2" />
                                 <asp:ListItem Text="Finalizada" Value="3" />
                             </asp:DropDownList>

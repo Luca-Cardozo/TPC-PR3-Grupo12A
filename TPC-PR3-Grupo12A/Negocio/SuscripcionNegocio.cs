@@ -169,7 +169,14 @@ namespace Negocio
 
             if (actual == null)
                 throw new Exception("El alumno no posee una suscripción cargada. Debe dar de alta una primero.");
-            
+
+            ReservaNegocio reservaNegocio = new ReservaNegocio();
+
+            if (reservaNegocio.tieneReservasVigentes(idUsuario))
+            {
+                throw new Exception("No se puede actualizar la suscripción porque el alumno tiene reservas vigentes pendientes.");
+            }
+
             //DateTime hoy = DateTime.Today;
 
             //if (mes == hoy.Month && anio == hoy.Year)
