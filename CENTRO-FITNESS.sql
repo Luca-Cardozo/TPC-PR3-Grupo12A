@@ -1183,3 +1183,8 @@ SELECT IdClase, 34, 1, NULL, NULL
 FROM Clases WHERE Fecha = '2026-08-04' AND HoraInicio = 11;
 
 GO
+
+
+UPDATE Planes
+SET DuracionMeses = 1;
+
