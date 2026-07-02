@@ -18,16 +18,9 @@ namespace App_CentroFitness
             bool paginaPublica = Page is Home || Page is Login || Page is Disciplinas 
                 || Page is Instructores || Page is AccesoDenegado || Page is Logout || Page is Contacto;
 
-            if (!paginaPublica && !Seguridad.sesionActiva(Session["usuario"]))
-            {
-                Response.Redirect("Login.aspx", false);
-                return;
-            }
-
             Usuario usuario = Seguridad.usuarioActual(Session);
-            bool logueado = usuario != null;
 
-            if (!paginaPublica && !logueado)
+            if (!paginaPublica && usuario == null)
             {
                 Response.Redirect("Login.aspx", false);
                 return;

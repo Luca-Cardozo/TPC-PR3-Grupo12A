@@ -31,17 +31,17 @@ namespace App_CentroFitness
                 Usuario usuario = negocio.login(txtEmail.Text, txtPassword.Text);
 
                 if (usuario != null)
-                {
-                    Session["Usuario"] = usuario;
+                {                  
 
                     if (!usuario.Activo)
                     {
                         lblError.Text = "No tiene acceso al sistema. Comuníquese con el administrador.";
+                        return;
                     }
-                    else
-                    {
-                        Response.Redirect("Home.aspx");
-                    }
+
+                    Session["usuario"] = usuario;
+                    Response.Redirect("Home.aspx");
+                    
                 }
                 else
                 {
